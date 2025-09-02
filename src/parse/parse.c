@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 12:24:43 by dximenes          #+#    #+#             */
-/*   Updated: 2025/09/02 14:14:56 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/09/02 15:05:18 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,14 @@
 void	parse(t_head *head, char *prompt)
 {
 	(void)head;
-	(void)prompt;
+	char	**values;
+	int		i;
+
+	values = ft_split(prompt, ' ');
+	i = 0;
+	while (values[i])
+	{
+		ft_putendl_fd(values[i], 1);
+		i++;
+	}
 }

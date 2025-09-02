@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:31:08 by dximenes          #+#    #+#             */
-/*   Updated: 2025/09/02 14:14:15 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/09/02 14:24:47 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@
 # include <stdlib.h>
 # include "libft/include/libft.h"
 
-typedef struct s_inputs
+typedef struct s_cmd
 {
-	char	**envp;
-}	t_inputs;
+	char	**args;
+	char	*path;
+}	t_cmd;
 
 typedef struct s_head
 {
+	t_cmd	*cmds;
 	char	**envp;
 }	t_head;
 
