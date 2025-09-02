@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   initializer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/17 16:33:50 by dximenes          #+#    #+#             */
-/*   Updated: 2025/09/02 11:45:06 by dximenes         ###   ########.fr       */
+/*   Created: 2025/09/02 12:00:28 by dximenes          #+#    #+#             */
+/*   Updated: 2025/09/02 12:20:28 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	minishell(t_head *head)
+void	initializer(t_head **head)
 {
-	char	*prompt;
-
-	(void)head;
-	while (1)
-	{
-		prompt = readline("minishell");
-	}
+	(*head) = malloc(sizeof(t_head));
+	if (!(*head))
+		return ;
+	ft_bzero(*head, sizeof(**head));
 }

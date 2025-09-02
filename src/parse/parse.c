@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/17 16:33:50 by dximenes          #+#    #+#             */
-/*   Updated: 2025/09/02 11:45:06 by dximenes         ###   ########.fr       */
+/*   Created: 2025/09/02 12:24:43 by dximenes          #+#    #+#             */
+/*   Updated: 2025/09/02 12:34:55 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	minishell(t_head *head)
+void	parse(t_head *head, int argc, char *argv[], char *envp[])
 {
-	char	*prompt;
-
 	(void)head;
-	while (1)
-	{
-		prompt = readline("minishell");
-	}
+	(void)argc;
+	(void)argv;
+	(void)envp;
 }
