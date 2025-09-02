@@ -7,7 +7,7 @@ void	initializer(t_head **head, int argc, char *argv[], char *envp[])
 	(void)argv;
 	(*head) = malloc(sizeof(t_head));
 	if (!(*head))
-		return ;
+		end(*head, errno, "head");
 	ft_bzero(*head, sizeof(**head));
 	(*head)->envp = envp;
 }

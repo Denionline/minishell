@@ -7,5 +7,5 @@ int	main(int argc, char *argv[], char *envp[])
 
 	initializer(&head, argc, argv, envp);
 	minishell(head);
-	// end(head, 0, "SUCESS");
+	end(head, 0, "SUCESS");
 }

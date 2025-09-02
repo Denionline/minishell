@@ -32,6 +32,7 @@ VPATH			+= ./
 VPATH			+= src/
 VPATH			+= src/aux
 VPATH			+= src/parse
+VPATH			+= src/verify
 
 LIBFT_PATH		= $(INC_PATH)/libft/
 
@@ -42,7 +43,9 @@ LIBFT_PATH		= $(INC_PATH)/libft/
 FILES			+= main
 FILES			+= initializer
 FILES			+= parse
+FILES			+= get_array_len
 FILES			+= minishell
+FILES			+= end
 
 SRCS			= $(addprefix ./, $(addsuffix .c, $(FILES)))
 OBJS			= $(addprefix $(BUILD_PATH), $(addsuffix .o, $(FILES)))

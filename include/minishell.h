@@ -4,6 +4,8 @@
 
 # include <readline/readline.h>
 # include <stdlib.h>
+# include <stdio.h>
+# include <errno.h>
 # include "libft/include/libft.h"
 
 typedef struct s_cmd
@@ -21,5 +23,11 @@ typedef struct s_head
 void	initializer(t_head **head, int argc, char *argv[], char *envp[]);
 void	parse(t_head *head, char *prompt);
 int		minishell(t_head *head);
+
+// aux/
+int		get_array_len(char **array);
+
+// verify/
+int	end(t_head *head, int status, char *description);
 
 #endif
