@@ -53,18 +53,4 @@ void	parse(t_head *head, char *prompt)
 		head->cmds[i] = get_command(head, values, &pos);
 		i++;
 	}
-	i = 0;
-	while (i < array_len)
-	{
-		printf("%dst command:", i + 1);
-		j = 0;
-		while (head->cmds[i].args[j])
-		{
-			printf(" %s", head->cmds[i].args[j]);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
 }
-// ls -l | grep foo && echo done
