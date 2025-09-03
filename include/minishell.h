@@ -12,6 +12,7 @@ typedef struct s_cmd
 {
 	char	**args;
 	char	*path;
+	char	*right_sig;
 }	t_cmd;
 
 typedef struct s_head
@@ -26,8 +27,9 @@ int		minishell(t_head *head);
 
 // aux/
 int		get_array_len(char **array);
+int		is_signal(char *value);
 
 // verify/
-int	end(t_head *head, int status, char *description);
+int		end(t_head *head, int status, char *description);
 
 #endif
