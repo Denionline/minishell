@@ -42,9 +42,10 @@ LIBFT_PATH		= $(INC_PATH)/libft/
 
 FILES			+= main
 FILES			+= initializer
+FILES			+= minishell
 FILES			+= parse
 FILES			+= get_array_len
-FILES			+= minishell
+FILES			+= is_signal
 FILES			+= end
 
 SRCS			= $(addprefix ./, $(addsuffix .c, $(FILES)))
