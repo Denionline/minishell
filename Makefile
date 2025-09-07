@@ -47,6 +47,7 @@ FILES			+= parse
 FILES			+= get_array_len
 FILES			+= is_signal
 FILES			+= end
+FILES			+= print_cmds
 
 SRCS			= $(addprefix ./, $(addsuffix .c, $(FILES)))
 OBJS			= $(addprefix $(BUILD_PATH), $(addsuffix .o, $(FILES)))
