@@ -31,6 +31,7 @@ BUILD_PATH		= .build/
 VPATH			+= ./
 VPATH			+= src/
 VPATH			+= src/aux
+VPATH			+= src/get
 VPATH			+= src/parse
 VPATH			+= src/verify
 
@@ -44,10 +45,10 @@ FILES			+= main
 FILES			+= initializer
 FILES			+= minishell
 FILES			+= parse
-FILES			+= get_array_len
 FILES			+= is_signal
 FILES			+= end
 FILES			+= print_cmds
+FILES			+= get_array_len
 
 SRCS			= $(addprefix ./, $(addsuffix .c, $(FILES)))
 OBJS			= $(addprefix $(BUILD_PATH), $(addsuffix .o, $(FILES)))
