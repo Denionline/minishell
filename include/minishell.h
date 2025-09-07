@@ -22,8 +22,9 @@ typedef struct s_head
 }	t_head;
 
 void	initializer(t_head **head, int argc, char *argv[], char *envp[]);
-void	parse(t_head *head, char *prompt);
 int		minishell(t_head *head);
+void	parse(t_head *head, char *prompt);
+void	print_cmds(t_head *head);
 
 // aux/
 int		get_array_len(char **array);
