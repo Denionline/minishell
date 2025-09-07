@@ -66,7 +66,7 @@ int	execute_with_pipe(t_btree *node)
 	pid[1] = child_process(node->right);
 	waitpid(pid[0], &status, 0);
 	waitpid(pid[1], &status, 0);
-	free_all_of_pid1_and_pid2(node); //function to free everything allocated for node
+	free_all_of_pid1_and_pid2(node, pid); //function to free everything allocated for node
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	return (1); //EXIT_FAILURE ou 1
