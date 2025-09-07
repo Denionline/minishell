@@ -77,7 +77,7 @@ start:
 	@printf "$(C_MAGENTA)===========Program [$(NAME)]===========$(C_STD)\n"
 
 $(NAME): $(BUILD_PATH) $(OBJS)
-	@$(CC) $(CFLAGS) -I$(INC_PATH) -lreadline $(OBJS) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) -I$(INC_PATH) $(OBJS) -lreadline -lncurses $(LIBFT) -o $(NAME)
 
 $(BUILD_PATH)%.o: %.c
 	@$(CC) $(CFLAGS) -I$(INC_PATH) -c $< -o $@
