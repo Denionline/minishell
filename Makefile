@@ -33,6 +33,7 @@ VPATH			+= src/
 VPATH			+= src/aux
 VPATH			+= src/parse
 VPATH			+= src/verify
+VPATH			+= src/execute
 
 LIBFT_PATH		= $(INC_PATH)/libft/
 
@@ -47,6 +48,7 @@ FILES			+= parse
 FILES			+= get_array_len
 FILES			+= is_signal
 FILES			+= end
+FILES			+= hierarchy
 
 SRCS			= $(addprefix ./, $(addsuffix .c, $(FILES)))
 OBJS			= $(addprefix $(BUILD_PATH), $(addsuffix .o, $(FILES)))
@@ -62,7 +64,7 @@ LIBFT_URL		= https://github.com/Denionline/libft.git
 # **************************************************************************** #
 
 CC				= cc
-CFLAGS			= -Werror -Wextra -Wall
+CFLAGS			= -Werror -Wextra -Wall -g
 MAKE			= make --no-print-directory
 RM				= rm -rf
 

@@ -6,6 +6,9 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <errno.h>
+# include <unistd.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include "libft/include/libft.h"
 
 typedef struct s_cmd
@@ -13,6 +16,7 @@ typedef struct s_cmd
 	char	**args;
 	char	*path;
 	char	*right_sig;
+	int	status;
 }	t_cmd;
 
 typedef struct s_head
@@ -31,5 +35,9 @@ int		is_signal(char *value);
 
 // verify/
 int		end(t_head *head, int status, char *description);
+
+//execute/
+void	hierarchy(t_head *head);
+void	execute(t_head *head, t_cmd cmd);
 
 #endif

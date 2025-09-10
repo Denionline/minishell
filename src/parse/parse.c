@@ -28,6 +28,7 @@ static t_cmd	get_command(t_head *head, char **values, int *pos)
 		(*pos)++;
 	}
 	command.args[i] = NULL;
+	command.right_sig = NULL;
 	if (values[*pos] && is_signal(values[*pos]))
 		command.right_sig = values[(*pos)++];
 	return (command);
@@ -39,7 +40,7 @@ void	parse(t_head *head, char *prompt)
 	int		array_len;
 	int		pos;
 	int		i;
-	int		j;
+//	int		j;
 	
 	values = ft_split(prompt, ' ');
 	array_len = get_array_len(values);
