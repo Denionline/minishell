@@ -34,6 +34,7 @@ VPATH			+= src/aux
 VPATH			+= src/parse
 VPATH			+= src/verify
 VPATH			+= src/execute
+VPATH			+= src/signal
 
 LIBFT_PATH		= $(INC_PATH)/libft/
 
@@ -48,7 +49,7 @@ FILES			+= parse
 FILES			+= get_array_len
 FILES			+= is_signal
 FILES			+= end
-FILES			+= hierarchy
+FILES			+= signal_handler
 
 SRCS			= $(addprefix ./, $(addsuffix .c, $(FILES)))
 OBJS			= $(addprefix $(BUILD_PATH), $(addsuffix .o, $(FILES)))

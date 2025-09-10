@@ -37,7 +37,8 @@ int		is_signal(char *value);
 int		end(t_head *head, int status, char *description);
 
 //execute/
-void	hierarchy(t_head *head);
-void	execute(t_head *head, t_cmd cmd);
+
+//signal/
+void	signal_handler(void);
 
 #endif
