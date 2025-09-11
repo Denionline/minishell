@@ -31,6 +31,7 @@ BUILD_PATH		= .build/
 VPATH			+= ./
 VPATH			+= src/
 VPATH			+= src/aux
+VPATH			+= src/get
 VPATH			+= src/parse
 VPATH			+= src/verify
 VPATH			+= src/execute
@@ -46,10 +47,11 @@ FILES			+= main
 FILES			+= initializer
 FILES			+= minishell
 FILES			+= parse
-FILES			+= get_array_len
 FILES			+= is_signal
 FILES			+= end
 FILES			+= signal_handler
+FILES			+= print_cmds
+FILES			+= get_array_len
 
 SRCS			= $(addprefix ./, $(addsuffix .c, $(FILES)))
 OBJS			= $(addprefix $(BUILD_PATH), $(addsuffix .o, $(FILES)))
@@ -80,7 +82,7 @@ start:
 	@printf "$(C_MAGENTA)===========Program [$(NAME)]===========$(C_STD)\n"
 
 $(NAME): $(BUILD_PATH) $(OBJS)
-	@$(CC) $(CFLAGS) -I$(INC_PATH) -lreadline $(OBJS) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) -I$(INC_PATH) $(OBJS) -lreadline -lncurses $(LIBFT) -o $(NAME)
 
 $(BUILD_PATH)%.o: %.c
 	@$(CC) $(CFLAGS) -I$(INC_PATH) -c $< -o $@

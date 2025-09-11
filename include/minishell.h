@@ -26,12 +26,18 @@ typedef struct s_head
 }	t_head;
 
 void	initializer(t_head **head, int argc, char *argv[], char *envp[]);
-void	parse(t_head *head, char *prompt);
 int		minishell(t_head *head);
+void	parse(t_head *head, char *prompt);
+void	print_cmds(t_head *head);
 
 // aux/
-int		get_array_len(char **array);
 int		is_signal(char *value);
+
+// aux/get/
+int		get_array_len(char **array);
+char	*get_valid_path(char **paths, char *command);
+char	**get_paths(char *env[]);
+t_cmd	get_cmd(t_head *head, char *command, char **paths);
 
 // verify/
 int		end(t_head *head, int status, char *description);

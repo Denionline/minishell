@@ -40,8 +40,7 @@ void	parse(t_head *head, char *prompt)
 	int		array_len;
 	int		pos;
 	int		i;
-//	int		j;
-	
+
 	values = ft_split(prompt, ' ');
 	array_len = get_array_len(values);
 	head->cmds = malloc(sizeof(t_cmd) * (array_len + 1));
