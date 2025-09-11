@@ -13,6 +13,7 @@ int	minishell(t_head *head)
 			break ;
 		parse(head, prompt);
 //		bin_tree(head);
+		// print(head);
 	}
 	return (0);
 }

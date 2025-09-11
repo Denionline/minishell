@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 19:15:51 by dximenes          #+#    #+#             */
-/*   Updated: 2025/09/07 19:15:58 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/09/10 16:43:27 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,4 @@ char	**get_paths(char *env[])
 		i++;
 	}
 	return (NULL);
-}
-
-t_cmd	get_cmd(t_head *head, char *command, char **paths)
-{
-	t_cmd	cmd;
-
-	cmd.args = ft_split(command, ' ');
-	cmd.path = get_valid_path(paths, cmd.args[0]);
-	if (!cmd.path)
-	{
-		clear_args(cmd.args);
-		end(head, 127, command);
-	}
-	return (cmd);
 }
