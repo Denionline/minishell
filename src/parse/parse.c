@@ -1,55 +1,94 @@
 
 #include "minishell.h"
 
-static int	get_size_args(char **values)
+static int	get_size_string_command(char *string)
 {
-	int	i;
-
+	int		i;
+	
 	i = 0;
-	while (values[i] && !is_signal(values[i]))
-	{
+	while (string[i] && !is_operator(string + i))
 		i++;
-	}
 	return (i);
 }
 
-static t_cmd	get_command(t_head *head, char **values, int *pos)
+static char	*get_string_command(char *string_command)
 {
-	t_cmd	command;
-	int		i;
+	const int	string_size = get_size_string_command(string_command);
+	char		*string;
+	int			i;
 
-	command.args = malloc(sizeof(char *) * get_size_args(values) + 1);
-	if (!command.args)
-		end(head, errno, "command.args");
+	string = ft_calloc(1, string_size + 1);
+	if (!string)
+		return (NULL);
 	i = 0;
-	while (values[*pos] && !is_signal(values[*pos]))
+	while (string_command[i] && !is_operator(string_command + i))
 	{
-		command.args[i++] = values[*pos];
-		(*pos)++;
+		string[i] = string_command[i];
+		i++;
 	}
-	command.args[i] = NULL;
-	if (values[*pos] && is_signal(values[*pos]))
-		command.right_sig = values[(*pos)++];
-	return (command);
+	string[i] = '\0';
+	return (string);
 }
 
-void	parse(t_head *head, char *prompt)
+static char	*get_command(t_head *head, char *prompt)
 {
-	char	**values;
-	int		array_len;
-	int		pos;
+	char	*string_command;
+	t_cmd	*cmd;
+
+	
+	string_command = get_string_command(prompt);
+	cmd->args = ft_strtok(string_command, "\'\"");
+	cmd->path = get_valid_path(head->paths, cmd->args[0]);
+	return (cmd);
+}
+
+static char	*get_signal(char *prompt, int len)
+{
+	char	*signal;
 	int		i;
 
-	values = ft_split(prompt, ' ');
-	array_len = get_array_len(values);
-	head->cmds = malloc(sizeof(t_cmd) * (array_len + 1));
-	if (!head->cmds)
-		end(head, errno, "head->cmds");
-	pos = 0;
+	signal = ft_calloc(1, len + 1);
+	if (!signal)
+		return (NULL);
 	i = 0;
-	while (i < array_len)
+	while (i < len)
 	{
-		head->cmds[i] = get_command(head, values, &pos);
+		signal[i] = prompt[i];
 		i++;
+	}
+	signal[i] = '\0';
+	return (signal);
+}
+
+// ls -l | echo "hello world" && cat
+void	parse(t_head *head, char *prompt)
+{
+	const int	len = ft_strlen(prompt);
+	t_token		*token_operator;
+	t_token		*token_command;
+	int			operator_size;
+	int			pos;
+	int			i;
+
+	head->paths = get_paths(head->envp);
+	i = 0;
+	while (prompt[i])
+	{
+		pos = len - i;
+		operator_size = is_operator(prompt + pos);
+		if (operator_size > 0)
+		{
+			pos++;
+			token_command = btree_create("cmd",
+				get_command(head, prompt),
+				NULL, NULL);
+			token_operator = btree_create(
+					get_signal(prompt + pos - operator_size, operator_size),
+					NULL, NULL,	token_command);
+			btree_add_last_left(&head->tokens, token_operator);
+			i += operator_size;
+		}
+		else
+			i += 1;
 	}
 }
