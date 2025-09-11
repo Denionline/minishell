@@ -28,6 +28,7 @@ static t_cmd	get_command(t_head *head, char **values, int *pos)
 		(*pos)++;
 	}
 	command.args[i] = NULL;
+	command.right_sig = NULL;
 	if (values[*pos] && is_signal(values[*pos]))
 		command.right_sig = values[(*pos)++];
 	return (command);

@@ -34,6 +34,8 @@ VPATH			+= src/aux
 VPATH			+= src/get
 VPATH			+= src/parse
 VPATH			+= src/verify
+VPATH			+= src/execute
+VPATH			+= src/signal
 
 LIBFT_PATH		= $(INC_PATH)/libft/
 
@@ -47,6 +49,7 @@ FILES			+= minishell
 FILES			+= parse
 FILES			+= is_signal
 FILES			+= end
+FILES			+= signal_handler
 FILES			+= print_cmds
 FILES			+= get_array_len
 
@@ -64,7 +67,7 @@ LIBFT_URL		= https://github.com/Denionline/libft.git
 # **************************************************************************** #
 
 CC				= cc
-CFLAGS			= -Werror -Wextra -Wall
+CFLAGS			= -Werror -Wextra -Wall -g
 MAKE			= make --no-print-directory
 RM				= rm -rf
 
