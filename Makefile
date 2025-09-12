@@ -47,13 +47,14 @@ LIBFT_PATH		= $(INC_PATH)/libft/
 FILES			+= main
 FILES			+= initializer
 FILES			+= minishell
-FILES			+= parse
-FILES			+= is_operator
 FILES			+= print
 FILES			+= end
 FILES			+= signal_handler
-FILES			+= get_array_len
+#parsing
+FILES			+= parse
+FILES			+= is_operator
 FILES			+= get
+FILES			+= get_cmd_args
 #binary_tree
 FILES			+= btree_create
 FILES			+= btree_add_last_left

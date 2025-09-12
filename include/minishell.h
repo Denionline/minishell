@@ -46,7 +46,7 @@ void	btree_add_last_left(t_token **root, t_token *new_token);
 void	btree_add_last_right(t_token **root, t_token *new_token);
 
 // aux/get/
-int		get_array_len(char **array);
+char	**get_cmd_args(char *prompt);
 char	*get_valid_path(char **paths, char *command);
 char	**get_paths(char *env[]);
 
