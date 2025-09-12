@@ -49,7 +49,7 @@ FILES			+= parse
 FILES			+= is_operator
 FILES			+= print
 FILES			+= end
-FILES			+= get_array_len
+FILES			+= get
 #binary_tree
 FILES			+= btree_create
 FILES			+= btree_add_last_left

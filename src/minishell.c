@@ -11,7 +11,7 @@ int	minishell(t_head *head)
 		if (!ft_strncmp("exit", prompt, 5))
 			break ;
 		parse(head, prompt);
-		print(head);
+		// print(head);
 	}
 	return (0);
 }

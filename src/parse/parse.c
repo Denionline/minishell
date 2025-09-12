@@ -1,43 +1,15 @@
 
 #include "minishell.h"
 
-static int	get_size_string_command(char *string)
+static t_cmd	*get_command(t_head *head, char *prompt)
 {
-	int		i;
-	
-	i = 0;
-	while (string[i] && !is_operator(string + i))
-		i++;
-	return (i);
-}
-
-static char	*get_string_command(char *string_command)
-{
-	const int	string_size = get_size_string_command(string_command);
-	char		*string;
-	int			i;
-
-	string = ft_calloc(1, string_size + 1);
-	if (!string)
-		return (NULL);
-	i = 0;
-	while (string_command[i] && !is_operator(string_command + i))
-	{
-		string[i] = string_command[i];
-		i++;
-	}
-	string[i] = '\0';
-	return (string);
-}
-
-static char	*get_command(t_head *head, char *prompt)
-{
-	char	*string_command;
 	t_cmd	*cmd;
 
-	
-	string_command = get_string_command(prompt);
-	cmd->args = ft_strtok(string_command, "\'\"");
+	cmd = ft_calloc(1, sizeof(t_cmd));
+	if (!cmd)
+		return (NULL);
+	cmd->args = get_args(prompt);
+	printf("%s\n", cmd->args[0]);
 	cmd->path = get_valid_path(head->paths, cmd->args[0]);
 	return (cmd);
 }
@@ -80,7 +52,7 @@ void	parse(t_head *head, char *prompt)
 		{
 			pos++;
 			token_command = btree_create("cmd",
-				get_command(head, prompt),
+				get_command(head, prompt + pos),
 				NULL, NULL);
 			token_operator = btree_create(
 					get_signal(prompt + pos - operator_size, operator_size),
