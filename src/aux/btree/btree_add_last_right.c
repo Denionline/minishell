@@ -14,8 +14,15 @@
 
 void	btree_add_last_right(t_token **root, t_token *new_token)
 {
-	if ((*root)->right)
-		btree_add_last_right(&(*root)->right, new_token);
-	if (!(*root)->right)
-		(*root)->right = new_token;
+	t_token	*temp;
+
+	if (!(*root))
+		(*root) = new_token;
+	else
+	{
+		temp = *root;
+		while (temp->right)
+			temp = temp->right;
+		temp->right = new_token;
+	}
 }
