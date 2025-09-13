@@ -38,7 +38,7 @@ void	parse(t_head *head, char *prompt);
 
 // aux/
 int		is_operator(char *value);
-void	print(t_head *head);
+void	print(t_token *token);
 
 // aux/btree/
 t_token	*btree_create(char *identifier, t_cmd *cmd, t_token *left, t_token *right);
