@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/13 11:16:20 by dximenes          #+#    #+#             */
+/*   Updated: 2025/09/13 15:24:26 by dximenes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -8,8 +19,7 @@ static t_cmd	*get_command(t_head *head, char *prompt)
 	cmd = ft_calloc(1, sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-	cmd->args = get_args(prompt);
-	printf("%s\n", cmd->args[0]);
+	cmd->args = get_cmd_args(prompt);
 	cmd->path = get_valid_path(head->paths, cmd->args[0]);
 	return (cmd);
 }
@@ -32,7 +42,6 @@ static char	*get_signal(char *prompt, int len)
 	return (signal);
 }
 
-// ls -l | echo "hello world" && cat
 void	parse(t_head *head, char *prompt)
 {
 	const int	len = ft_strlen(prompt);
@@ -51,16 +60,20 @@ void	parse(t_head *head, char *prompt)
 		if (operator_size > 0)
 		{
 			pos++;
-			token_command = btree_create("cmd",
+			token_command = btree_create(ft_strdup("cmd"),
 				get_command(head, prompt + pos),
 				NULL, NULL);
 			token_operator = btree_create(
-					get_signal(prompt + pos - operator_size, operator_size),
-					NULL, NULL,	token_command);
+				get_signal(prompt + pos - operator_size, operator_size),
+				NULL, NULL,	token_command);
 			btree_add_last_left(&head->tokens, token_operator);
 			i += operator_size;
+			}
+			else
+				i += 1;
 		}
-		else
-			i += 1;
-	}
+	token_command = btree_create(ft_strdup("cmd"),
+		get_command(head, prompt),
+		NULL, NULL);
+	btree_add_last_left(&head->tokens, token_command);
 }

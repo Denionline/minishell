@@ -6,44 +6,152 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 11:34:50 by dximenes          #+#    #+#             */
-/*   Updated: 2025/09/12 11:36:34 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/09/13 15:48:59 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	get_size_string_command(char *string)
+static char	*ft_strreplace(char *string, char search)
 {
+	char	*new_string;
+	int		j;
 	int		i;
-	
+
 	i = 0;
-	while (string[i] && !is_operator(string + i))
-		i++;
-	return (i);
+	j = 0;
+	while (string[j])
+	{
+		if (string[j] == search)
+			i++;
+		j++;
+	}
+	j -= i;
+	new_string = ft_calloc(j + 1, 1);
+	if (!new_string)
+		return (NULL);
+	j = 0;
+	i = 0;
+	while (string[i])
+	{
+		if (string[i] != search)
+			new_string[j++] = string[i];
+		i++; 
+	}
+	new_string[j] = '\0';
+	free(string);
+	return (new_string);
 }
 
-static char	*get_string_command(char *string_command)
+static char	**realloc_args(char **old_args, int new_len)
 {
-	const int	string_size = get_size_string_command(string_command);
-	char		*string;
-	int			i;
+	char	**new_args;
+	int		i;
 
-	string = ft_calloc(1, string_size + 1);
-	if (!string)
+	new_args = ft_calloc(new_len + 1, sizeof(char *));
+	if (!new_args)
+		return (NULL);
+	if (old_args)
+	{
+		i = 0;
+		while (old_args[i])
+		{
+			new_args[i] = old_args[i];
+			i++;
+		}
+		free(old_args);
+	}
+	return (new_args);
+}
+
+typedef struct s_quotes
+{
+	char	quote;
+	int		s;
+	int		d;
+}	t_quotes;
+
+static void	verify_quotes(t_quotes *quotes, char c)
+{
+	if (c == '\'')
+		quotes->s += 1;
+	if (c == '\"')
+		quotes->d += 1;
+	if (!quotes->quote)
+		quotes->quote = c;
+	else if (quotes->quote == c)
+		quotes->quote = '\0';
+}
+
+static int	is_main_quote_closed(t_quotes *quotes)
+{
+	if (!quotes->quote)
+		return (TRUE);
+	if (quotes->quote == '\'' && (quotes->s % 2) == 0)
+		return (TRUE);
+	if (quotes->quote == '\"' && (quotes->d % 2) == 0)
+		return (TRUE);
+	return (FALSE);
+}
+
+static char	*get_arg(char *string, t_quotes *quotes)
+{
+	char	quote;
+	char	*arg;
+	int		size;
+	int		i;
+
+	size = 0;
+	while (string[size])
+	{
+		if (quotes->quote)
+			quote = quotes->quote;
+		if (is_operator(string + size))
+			break ;
+		if (is_main_quote_closed(quotes) && ft_isspace(string[size]))
+			break ;
+		if (string[size] == '\'' || string[size] == '\"')
+			verify_quotes(quotes, string[size]);
+		size++;
+	}
+	arg = ft_calloc(size + 1, 1);
+	if (!arg)
 		return (NULL);
 	i = 0;
-	while (string_command[i] && !is_operator(string_command + i))
+	while (i < size)
 	{
-		string[i] = string_command[i];
+		arg[i] = string[i];
 		i++;
 	}
-	string[i] = '\0';
-	return (string);
+	arg[i] = '\0';
+	return (ft_strreplace(arg, quote));
 }
 
-char	**get_args(char *prompt)
+char	**get_cmd_args(char *prompt)
 {
-	char	*string_command;
+	t_quotes	quotes;
+	char		**args;
+	int			size_args;
+	int			i;
 
-	string_command = get_string_command(prompt);
+	ft_bzero(&quotes, sizeof(quotes));
+	if (ft_isspace(prompt[0]))
+		prompt++;
+	args = NULL;
+	size_args = 0;
+	i = 0;
+	while (prompt[i])
+	{
+		if (is_operator(prompt + i + 1))
+			break ;
+		if (!ft_isspace(prompt[i]) && (ft_isspace(prompt[i - 1]) || i == 0))
+		{
+			args = realloc_args(args, size_args + 1);
+			args[size_args] = get_arg(prompt + i, &quotes);
+			prompt += ft_strlen(args[size_args++]);
+			i = 0;
+		}
+		i++;
+	}
+	return (args);
 }
