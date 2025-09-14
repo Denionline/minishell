@@ -59,6 +59,9 @@ FILES			+= get_cmd_args
 FILES			+= btree_create
 FILES			+= btree_add_last_left
 FILES			+= btree_add_last_right
+#execute
+FILES			+= bin_tree
+
 
 SRCS			= $(addprefix ./, $(addsuffix .c, $(FILES)))
 OBJS			= $(addprefix $(BUILD_PATH), $(addsuffix .o, $(FILES)))
