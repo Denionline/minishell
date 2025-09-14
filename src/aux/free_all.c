@@ -14,9 +14,12 @@ void	free_db_str(char **db_str)
 	int	i;
 
 	i = 0;
-	while (db_str[i] != NULL)
+	while (db_str[i])
+	{
+		free(db_str[i]);
 		i++;
-	ft_free_mem(db_str, i); //essa funcao saiu do meu ft_split, o do Ximenes tem tambem?
+	}
+	free(db_str);
 }
 
 //function to free command struct

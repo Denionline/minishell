@@ -12,7 +12,7 @@ int	minishell(t_head *head)
 		if (!ft_strncmp("exit", prompt, 5))
 			break ;
 		parse(head, prompt);
-//		bin_tree(head);
+		//hierarchy_btree(head, head->root);
 		print(head->root);
 	}
 	return (0);
