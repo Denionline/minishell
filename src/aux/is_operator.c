@@ -3,22 +3,21 @@
 
 int	is_operator(char *value)
 {
-	if (!ft_strncmp("&&", value - 1, 2))
+	if (!value || !*value)
+		return (0);
+	if (value[0] == '|' && value[1] == '|')
+		return (OR);
+	if (value[0] != '|' && value[1] == '|' && value[2] != '|')
+		return (PIPE);
+	if (value[0] == '&' && value[1] == '&')
 		return (AND);
-	if (!ft_strncmp("|", value, 1))
-	{
-		if (!ft_strncmp("||", value - 1, 2))
-			return (OR);
-		if (ft_strncmp("|", value + 1, 1))
-			return (PIPE);
-	}
-	if (!ft_strncmp("<<", value - 1, 2))
+	if (value[0] == '<' && value[1] == '<')
 		return (DOUBLE_ARROW_LEFT);
-	if (!ft_strncmp(">>", value - 1, 2))
+	if (value[0] == '>' && value[1] == '>')
 		return (DOUBLE_ARROW_RIGHT);
-	if (!ft_strncmp("<", value, 1))
+	if (value[0] != '<' && value[1] == '<' && value[2] != '<')
 		return (ARROW_LEFT);
-	if (!ft_strncmp(">", value, 1))
+	if (value[0] != '>' && value[1] == '>' && value[2] != '>')
 		return (ARROW_RIGHT);
 	return (0);
 }

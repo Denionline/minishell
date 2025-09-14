@@ -7,11 +7,15 @@ static char	*ft_strreplace(char *string, char search)
 	int		j;
 	int		i;
 
+	if (!string)
+		return (NULL);
+	if (search == '\0')
+		return (string);
 	i = 0;
 	j = 0;
-	while (string[j])
+	while (string && string[j])
 	{
-		if (string[j] == search)
+		if (search && string[j] == search)
 			i++;
 		j++;
 	}
@@ -21,9 +25,9 @@ static char	*ft_strreplace(char *string, char search)
 		return (NULL);
 	j = 0;
 	i = 0;
-	while (string[i])
+	while (string && string[i])
 	{
-		if (string[i] != search)
+		if (search && string[i] != search)
 			new_string[j++] = string[i];
 		i++;
 	}
@@ -123,6 +127,8 @@ char	**get_cmd_args(char *prompt)
 	int			size_args;
 	int			i;
 
+	if (!prompt || !*prompt)
+		return (NULL);
 	ft_bzero(&quotes, sizeof(quotes));
 	if (ft_isspace(prompt[0]))
 		prompt++;
@@ -133,7 +139,7 @@ char	**get_cmd_args(char *prompt)
 	{
 		if (is_operator(prompt + i))
 			break ;
-		if (!ft_isspace(prompt[i]) && (ft_isspace(prompt[i - 1]) || i == 0))
+		if (!ft_isspace(prompt[i]) && (i == 0 || ft_isspace(prompt[i - 1])))
 		{
 			args = realloc_args(args, size_args + 1);
 			args[size_args] = get_arg(prompt + i, &quotes);
