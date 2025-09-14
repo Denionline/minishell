@@ -31,7 +31,7 @@ int		is_operator(char *value);
 void	print(t_btree *token);
 
 // aux/btree/
-t_btree	*btree_create(char *identifier, t_cmd *cmd, t_btree *left, t_btree *right);
+t_btree	*btree_create(int identifier, t_cmd *cmd, t_btree *left, t_btree *right);
 void	btree_add_last_left(t_btree **root, t_btree *new_token);
 void	btree_add_last_right(t_btree **root, t_btree *new_token);
 
