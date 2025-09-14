@@ -34,9 +34,15 @@ int	hierarchy_btree(t_head *head, t_btree *node)
 void	execute_with_pipe(t_head *head, t_btree *node)
 {
 	if (node->left->identifier == COMMAND)
+	{
+//		node->left->fd.out = -1;
 		execute(head, node->left);
+	}
 	if (node->right->identifier == COMMAND)
+	{
+//		node->right->fd.in = -1;
 		execute(head, node->right);
+	}
 }
 
 int	execute(t_head *head, t_btree *node)
@@ -70,7 +76,10 @@ pid_t	child_process(t_head *head, t_btree *node)
 	else if (pid == 0)
 	{
 		if (node->fd.out != -1)
+		{
 			dup2(node->fd.out, STDOUT_FILENO);
+//			close(node->fd.out);
+		}
 		else
 			dup2(fd[1], STDOUT_FILENO);
 		close_fd(fd);
@@ -80,7 +89,10 @@ pid_t	child_process(t_head *head, t_btree *node)
 	else
 	{
 		if (node->fd.in != -1)
+		{
 			dup2(node->fd.in, STDIN_FILENO);
+//			close(node->fd.in);
+		}
 		else
 			dup2(fd[0], STDIN_FILENO);
 		close_fd(fd);
