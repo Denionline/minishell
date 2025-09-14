@@ -15,7 +15,7 @@ typedef struct s_cmd
 
 typedef struct s_btree
 {
-	char			*identifier;
+	int			identifier;
 	t_cmd			*cmd;
 	struct s_btree	*left;
 	struct s_btree	*right;
