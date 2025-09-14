@@ -40,8 +40,7 @@ void	parse(t_head *head, char *prompt)
 				)
 			);
 		}
-		else
-			i += 1;
+		i += 1;
 	}
 	btree_add_last_left(&head->root,
 		btree_create(COMMAND,
