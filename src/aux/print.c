@@ -17,7 +17,7 @@ void	print(t_btree *token)
 	if (token->cmd)
 		print_command(token->cmd);
 	else
-		printf("%s\n", token->identifier);
+		printf("%d\n", token->identifier);
 	if (token->right)
 		print(token->right);
 }
