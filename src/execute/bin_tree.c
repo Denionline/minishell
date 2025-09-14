@@ -69,8 +69,8 @@ pid_t	child_process(t_head *head, t_btree *node)
 		free_all(NULL, NULL, pid, fd);
 	else if (pid == 0)
 	{
-		if (head->fd.out != -1)
-			dup2(head->fd.out, STDOUT_FILENO);
+		if (node->fd.out != -1)
+			dup2(node->fd.out, STDOUT_FILENO);
 		else
 			dup2(fd[1], STDOUT_FILENO);
 		close_fd(fd);
@@ -79,8 +79,8 @@ pid_t	child_process(t_head *head, t_btree *node)
 	}
 	else
 	{
-		if (head->fd.in != -1)
-			dup2(head->fd.in, STDIN_FILENO);
+		if (node->fd.in != -1)
+			dup2(node->fd.in, STDIN_FILENO);
 		else
 			dup2(fd[0], STDIN_FILENO);
 		close_fd(fd);
