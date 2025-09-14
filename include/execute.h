@@ -4,9 +4,18 @@
 
 # include "minishell.h"
 
-void	hierarchy_btree(t_head *head, t_btree *node);
+//execute
+int	hierarchy_btree(t_head *head, t_btree *node);
 void	execute_with_pipe(t_head *head, t_btree *node);
 int	execute(t_head *head, t_btree *node);
-pid_t	hild_process(t_head *head, t_btree *node);
+pid_t	child_process(t_head *head, t_btree *node);
+
+//free
+void	free_all(t_head *head, t_btree *node, pid_t pid, int *fd);
+void	free_btree(t_btree *node);
+void	free_node(t_btree *node);
+void	free_db_str(char **db_str);
+void	close_fd(int *fd);
+
 
 #endif

@@ -1,12 +1,12 @@
 
 #include "minishell.h"
 
-void	hierarchy_btree(t_head *head, t_btree *node)
+int	hierarchy_btree(t_head *head, t_btree *node)
 {
 	int	status;
 
 	if (node == NULL)
-		return ;
+		return (1);
 	else if (node->identifier == COMMAND)
 		execute(head, node);
 	else if (node->identifier == PIPE)
@@ -69,18 +69,18 @@ pid_t	child_process(t_head *head, t_btree *node)
 		free_all(NULL, NULL, pid, fd);
 	else if (pid == 0)
 	{
-		if (head->fd_out != -1)
-			dup2(head->fd_out, STDOUT_FILENO);
+		if (head->fd.out != -1)
+			dup2(head->fd.out, STDOUT_FILENO);
 		else
 			dup2(fd[1], STDOUT_FILENO);
 		close_fd(fd);
-		if (execve(node->cmds.path, node->cmds.args, head->envp) == -1)
+		if (execve(node->cmd->path, node->cmd->args, head->envp) == -1)
 			free_all(NULL, node, pid, NULL);
 	}
 	else
 	{
-		if (head->fd_in != -1)
-			dup2(head->fd_in, STDIN_FILENO);
+		if (head->fd.in != -1)
+			dup2(head->fd.in, STDIN_FILENO);
 		else
 			dup2(fd[0], STDIN_FILENO);
 		close_fd(fd);

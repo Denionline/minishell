@@ -23,13 +23,13 @@ void	free_db_str(char **db_str)
 }
 
 //function to free command struct
-void	free_node(btree *node)
+void	free_node(t_btree *node)
 {
-	if (node->cmds)
+	if (node->cmd)
 	{
-		free_db_str(cmds->args);
-		free(path);
-		free(cmds);
+		free_db_str(node->cmd->args);
+		free(node->cmd->path);
+		free(node->cmd);
 	}
 	free(node);
 }
@@ -50,8 +50,9 @@ void	free_all(t_head *head, t_btree *node, pid_t pid, int *fd)
 {
 	if (fd)
 		close_fd(fd);
-	if (pid) //eh relevante escrever isso aqui?
-		free(pid);
+	(void)pid;
+//	if (pid) //eh relevante escrever isso aqui?
+//		free(pid);
 	if (node)
 		free_node(node);
 	free(head);
