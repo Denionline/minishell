@@ -17,17 +17,17 @@ typedef struct s_cmd
 	char	*path;
 }	t_cmd;
 
-typedef struct s_token
+typedef struct s_btree
 {
 	char			*identifier;
 	t_cmd			*cmd;
-	struct s_token	*left;
-	struct s_token	*right;
-}	t_token;
+	struct s_btree	*left;
+	struct s_btree	*right;
+}	t_btree;
 
 typedef struct s_head
 {
-	t_token	*tokens;
+	t_btree	*root;
 	char	**paths;
 	char	**envp;
 }	t_head;
@@ -38,12 +38,12 @@ void	parse(t_head *head, char *prompt);
 
 // aux/
 int		is_operator(char *value);
-void	print(t_token *token);
+void	print(t_btree *token);
 
 // aux/btree/
-t_token	*btree_create(char *identifier, t_cmd *cmd, t_token *left, t_token *right);
-void	btree_add_last_left(t_token **root, t_token *new_token);
-void	btree_add_last_right(t_token **root, t_token *new_token);
+t_btree	*btree_create(char *identifier, t_cmd *cmd, t_btree *left, t_btree *right);
+void	btree_add_last_left(t_btree **root, t_btree *new_token);
+void	btree_add_last_right(t_btree **root, t_btree *new_token);
 
 // aux/get/
 char	**get_cmd_args(char *prompt);

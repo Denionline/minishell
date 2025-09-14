@@ -95,7 +95,7 @@ static char	*get_arg(char *string, t_quotes *quotes)
 	{
 		if (quotes->quote)
 			quote = quotes->quote;
-		if (is_operator(string + size))
+		if (is_main_quote_closed(quotes) && is_operator(string + size))
 			break ;
 		if (is_main_quote_closed(quotes) && ft_isspace(string[size]))
 			break ;

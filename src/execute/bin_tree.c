@@ -7,7 +7,7 @@ typedef struct s_cmd
 	char	*path;
 }		t_cmd;
 
-typedef struct s_btree //isso e o t_token da struct do Ximenes?
+typedef struct s_btree //isso e o t_btree da struct do Ximenes?
 {
 	char		*identifier;
 	t_cmd		*cmds; //se for operador, deixar essa struct NULL

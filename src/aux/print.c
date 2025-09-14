@@ -10,7 +10,7 @@ static void	print_command(t_cmd *cmd)
 	printf("\n");
 }
 
-void	print(t_token *token)
+void	print(t_btree *token)
 {
 	if (token->left)
 		print(token->left);

@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 11:16:20 by dximenes          #+#    #+#             */
-/*   Updated: 2025/09/13 15:24:26 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/09/14 11:17:32 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,29 @@ static t_cmd	*get_command(t_head *head, char *prompt)
 	return (cmd);
 }
 
-static char	*get_signal(char *prompt, int len)
+static char	*get_operator(char *prompt, int len)
 {
-	char	*signal;
+	char	*operator;
 	int		i;
 
-	signal = ft_calloc(1, len + 1);
-	if (!signal)
+	operator = ft_calloc(1, len + 1);
+	if (!operator)
 		return (NULL);
 	i = 0;
 	while (i < len)
 	{
-		signal[i] = prompt[i];
+		operator[i] = prompt[i];
 		i++;
 	}
-	signal[i] = '\0';
-	return (signal);
+	operator[i] = '\0';
+	return (operator);
 }
 
 void	parse(t_head *head, char *prompt)
 {
 	const int	len = ft_strlen(prompt);
-	t_token		*token_operator;
-	t_token		*token_command;
+	t_btree		*token_operator;
+	t_btree		*token_command;
 	int			operator_size;
 	int			pos;
 	int			i;
@@ -64,9 +64,9 @@ void	parse(t_head *head, char *prompt)
 				get_command(head, prompt + pos),
 				NULL, NULL);
 			token_operator = btree_create(
-				get_signal(prompt + pos - operator_size, operator_size),
+				get_operator(prompt + pos - operator_size, operator_size),
 				NULL, NULL,	token_command);
-			btree_add_last_left(&head->tokens, token_operator);
+			btree_add_last_left(&head->root, token_operator);
 			i += operator_size;
 			}
 			else
@@ -75,5 +75,5 @@ void	parse(t_head *head, char *prompt)
 	token_command = btree_create(ft_strdup("cmd"),
 		get_command(head, prompt),
 		NULL, NULL);
-	btree_add_last_left(&head->tokens, token_command);
+	btree_add_last_left(&head->root, token_command);
 }

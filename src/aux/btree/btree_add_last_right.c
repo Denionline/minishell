@@ -1,9 +1,9 @@
 
 #include "minishell.h"
 
-void	btree_add_last_right(t_token **root, t_token *new_token)
+void	btree_add_last_right(t_btree **root, t_btree *new_token)
 {
-	t_token	*temp;
+	t_btree	*temp;
 
 	if (!(*root))
 		(*root) = new_token;
