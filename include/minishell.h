@@ -10,31 +10,21 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include "libft/include/libft.h"
+# include "structs.h"
+# include "parser.h"
+# include "execute.h"
 
-typedef struct s_cmd
-{
-	char	**args;
-	char	*path;
-}	t_cmd;
-
-typedef struct s_btree
-{
-	char			*identifier;
-	t_cmd			*cmd;
-	struct s_btree	*left;
-	struct s_btree	*right;
-}	t_btree;
-
-typedef struct s_head
-{
-	t_btree	*root;
-	char	**paths;
-	char	**envp;
-}	t_head;
+# define COMMAND			42
+# define AND				11
+# define OR					10
+# define PIPE				101
+# define ARROW_LEFT			33
+# define DOUBLE_ARROW_LEFT	333
+# define ARROW_RIGHT		44
+# define DOUBLE_ARROW_RIGHT	444
 
 void	initializer(t_head **head, int argc, char *argv[], char *envp[]);
 int		minishell(t_head *head);
-void	parse(t_head *head, char *prompt);
 
 // aux/
 int		is_operator(char *value);
