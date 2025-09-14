@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_cmd_args.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/12 11:34:50 by dximenes          #+#    #+#             */
-/*   Updated: 2025/09/13 15:48:59 by dximenes         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -36,7 +25,7 @@ static char	*ft_strreplace(char *string, char search)
 	{
 		if (string[i] != search)
 			new_string[j++] = string[i];
-		i++; 
+		i++;
 	}
 	new_string[j] = '\0';
 	free(string);
