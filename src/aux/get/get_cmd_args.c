@@ -131,7 +131,7 @@ char	**get_cmd_args(char *prompt)
 	i = 0;
 	while (prompt[i])
 	{
-		if (is_operator(prompt + i + 1))
+		if (is_operator(prompt + i))
 			break ;
 		if (!ft_isspace(prompt[i]) && (ft_isspace(prompt[i - 1]) || i == 0))
 		{
