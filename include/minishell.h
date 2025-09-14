@@ -10,6 +10,14 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include "libft/include/libft.h"
+# include "parser.h"
+# include "execute.h"
+
+typedef struct s_fd
+{
+	int	in;
+	int	out;
+}	t_fd;
 
 typedef struct s_cmd
 {
@@ -30,11 +38,13 @@ typedef struct s_head
 	t_btree	*root;
 	char	**paths;
 	char	**envp;
+	int		exit_code;
+	t_fd	fd;
 }	t_head;
 
 void	initializer(t_head **head, int argc, char *argv[], char *envp[]);
 int		minishell(t_head *head);
-void	parse(t_head *head, char *prompt);
+
 
 // aux/
 int		is_operator(char *value);
