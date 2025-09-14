@@ -34,15 +34,9 @@ int	hierarchy_btree(t_head *head, t_btree *node)
 void	execute_with_pipe(t_head *head, t_btree *node)
 {
 	if (node->left->identifier == COMMAND)
-	{
-//		node->left->fd.out = -1;
 		execute(head, node->left);
-	}
 	if (node->right->identifier == COMMAND)
-	{
-//		node->right->fd.in = -1;
 		execute(head, node->right);
-	}
 }
 
 int	execute(t_head *head, t_btree *node)
