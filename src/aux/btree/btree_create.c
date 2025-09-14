@@ -1,7 +1,7 @@
 
 #include "minishell.h"
 
-t_btree	*btree_create(char *identifier, t_cmd *cmd, t_btree *left, t_btree *right)
+t_btree	*btree_create(int identifier, t_cmd *cmd, t_btree *left, t_btree *right)
 {
 	t_btree	*new_token;
 

@@ -13,28 +13,10 @@ static t_cmd	*get_command(t_head *head, char *prompt)
 	return (cmd);
 }
 
-static char	*get_operator(char *prompt, int len)
-{
-	char	*operator;
-	int		i;
-
-	operator = ft_calloc(1, len + 1);
-	if (!operator)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		operator[i] = prompt[i];
-		i++;
-	}
-	operator[i] = '\0';
-	return (operator);
-}
-
 void	parse(t_head *head, char *prompt)
 {
 	const int	len = ft_strlen(prompt);
-	int			operator_size;
+	int			operator;
 	int			pos;
 	int			i;
 
@@ -43,27 +25,26 @@ void	parse(t_head *head, char *prompt)
 	while (prompt[i])
 	{
 		pos = len - i;
-		operator_size = is_operator(prompt + pos);
-		if (operator_size > 0)
+		operator = is_operator(prompt + pos);
+		if (operator > 0)
 		{
 			pos++;
 			btree_add_last_left(&head->root,
 				btree_create(
-					get_operator(prompt + pos - operator_size, operator_size),
+					operator,
 					NULL, NULL,
-					btree_create(ft_strdup("cmd"),
+					btree_create(COMMAND,
 						get_command(head, prompt + pos),
 						NULL, NULL
 					)
 				)
 			);
-			i += operator_size;
-			}
-			else
-				i += 1;
 		}
+		else
+			i += 1;
+	}
 	btree_add_last_left(&head->root,
-		btree_create(ft_strdup("cmd"),
+		btree_create(COMMAND,
 			get_command(head, prompt),
 			NULL, NULL)
 	);
