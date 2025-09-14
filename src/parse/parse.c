@@ -34,8 +34,6 @@ static char	*get_operator(char *prompt, int len)
 void	parse(t_head *head, char *prompt)
 {
 	const int	len = ft_strlen(prompt);
-	t_btree		*token_operator;
-	t_btree		*token_command;
 	int			operator_size;
 	int			pos;
 	int			i;
@@ -49,20 +47,24 @@ void	parse(t_head *head, char *prompt)
 		if (operator_size > 0)
 		{
 			pos++;
-			token_command = btree_create(ft_strdup("cmd"),
-				get_command(head, prompt + pos),
-				NULL, NULL);
-			token_operator = btree_create(
-				get_operator(prompt + pos - operator_size, operator_size),
-				NULL, NULL,	token_command);
-			btree_add_last_left(&head->root, token_operator);
+			btree_add_last_left(&head->root,
+				btree_create(
+					get_operator(prompt + pos - operator_size, operator_size),
+					NULL, NULL,
+					btree_create(ft_strdup("cmd"),
+						get_command(head, prompt + pos),
+						NULL, NULL
+					)
+				)
+			);
 			i += operator_size;
 			}
 			else
 				i += 1;
 		}
-	token_command = btree_create(ft_strdup("cmd"),
-		get_command(head, prompt),
-		NULL, NULL);
-	btree_add_last_left(&head->root, token_command);
+	btree_add_last_left(&head->root,
+		btree_create(ft_strdup("cmd"),
+			get_command(head, prompt),
+			NULL, NULL)
+	);
 }
