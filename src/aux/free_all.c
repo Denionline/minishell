@@ -43,17 +43,14 @@ void	free_btree(t_btree *node)
 		if (node->right)
 			free_btree(node->right);
 	}
-	free(node);
+	free_node(node);
 }
 
-void	free_all(t_head *head, t_btree *node, pid_t pid, int *fd)
+void	free_all(t_head *head, t_btree *btree, int *fd)
 {
 	if (fd)
 		close_fd(fd);
-	(void)pid;
-//	if (pid) //eh relevante escrever isso aqui?
-//		free(pid);
-	if (node)
-		free_node(node);
+	if (btree)
+		free_btree(btree);
 	free(head);
 }
