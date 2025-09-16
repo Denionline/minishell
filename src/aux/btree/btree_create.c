@@ -13,5 +13,7 @@ t_btree	*btree_create(int identifier, t_cmd *cmd, t_btree *left, t_btree *right)
 	new_token->cmd = cmd;
 	new_token->left = left;
 	new_token->right = right;
+	new_token->fd.in = -22;
+	new_token->fd.out = -22;
 	return (new_token);
 }

@@ -28,6 +28,7 @@ int	hierarchy_btree(t_head *head, t_btree *node)
 		if (status != 0)
 			hierarchy_btree(head, node->right);
 	}
+//	free_all(NULL, head->root, NULL);
 	return (0);
 }
 
@@ -70,25 +71,15 @@ pid_t	child_process(t_head *head, t_btree *node)
 		close_fd(fd);
 	else if (pid == 0)
 	{
-		if (node->fd.out != -1)
-		{
-			dup2(node->fd.out, STDOUT_FILENO);
-//			close(node->fd.out);
-		}
-		else
+		if (node->fd.out == -22)
 			dup2(fd[1], STDOUT_FILENO);
 		close_fd(fd);
 		if (execve(node->cmd->path, node->cmd->args, head->envp) == -1)
-			free_node(node); //ou deveria ser free_all?
+			free_node(node);
 	}
 	else
 	{
-		if (node->fd.in != -1)
-		{
-			dup2(node->fd.in, STDIN_FILENO);
-//			close(node->fd.in);
-		}
-		else
+		if (node->fd.in == -22)
 			dup2(fd[0], STDIN_FILENO);
 		close_fd(fd);
 	}
