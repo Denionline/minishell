@@ -60,6 +60,7 @@ FILES			+= get_cmd_args
 FILES			+= btree_create
 FILES			+= btree_add_last_left
 FILES			+= btree_add_last_right
+FILES			+= btree_add_as_first
 #execute
 FILES			+= bin_tree
 
