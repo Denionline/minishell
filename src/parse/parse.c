@@ -13,6 +13,21 @@ static t_cmd	*get_command(t_head *head, char *prompt)
 	return (cmd);
 }
 
+static int	next_increase(int operator)
+{
+	if (operator == COMMAND)
+		return (2);
+	if (operator == AND)
+		return (2);
+	if (operator == OR)
+		return (2);
+	if (operator == DOUBLE_ARROW_LEFT)
+		return (2);
+	if (operator == DOUBLE_ARROW_RIGHT)
+		return (2);
+	return (1);
+}
+
 void	parse(t_head *head, char *prompt)
 {
 	const int	len = ft_strlen(prompt);
@@ -40,7 +55,7 @@ void	parse(t_head *head, char *prompt)
 				)
 			);
 		}
-		i += 1;
+		i += next_increase(operator);
 	}
 	btree_add_last_left(&head->root,
 		btree_create(COMMAND,
