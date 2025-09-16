@@ -3,3 +3,5 @@
 build/
 include/libft/
 minishell
+infile
+outfile
