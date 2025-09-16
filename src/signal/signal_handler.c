@@ -14,7 +14,7 @@ void	signal_handler(void)
 	}*/
 }
 
-void	ft_handle_ctrl_c(sig)
+void	ft_handle_ctrl_c(int sig)
 {
 	//free all from head, but not head
 	//exit_status = 130; //tem que liberar esse sinal, que e SIGINT
