@@ -84,7 +84,6 @@ static void	set_fd_file(t_btree *node, char *prompt, int operator, int file_size
 		node->fd.out = open(file_name, O_CREAT | O_WRONLY | O_TRUNC);
 	else if (operator == ARROW_LEFT)
 		node->fd.in = open(file_name, O_RDONLY);
-	
 }
 
 void	parse(t_head *head, char *prompt)

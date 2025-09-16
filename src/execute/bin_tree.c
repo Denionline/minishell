@@ -37,6 +37,7 @@ void	execute_with_pipe(t_head *head, t_btree *node)
 		execute(head, node->left);
 	if (node->right->identifier == COMMAND)
 		execute(head, node->right);
+	free_node(node);
 }
 
 int	execute(t_head *head, t_btree *node)
@@ -48,7 +49,7 @@ int	execute(t_head *head, t_btree *node)
 	exit_code = 0;
 	pid = child_process(head, node);
 	waitpid(pid, &status, 0);
-	free_all(NULL, node, pid, NULL);
+	free_node(node);
 	if (WIFEXITED(status))
 		exit_code = (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))	
@@ -66,7 +67,7 @@ pid_t	child_process(t_head *head, t_btree *node)
 		close_fd(fd);
 	pid = fork();
 	if (pid == -1)
-		free_all(NULL, NULL, pid, fd);
+		close_fd(fd);
 	else if (pid == 0)
 	{
 		if (node->fd.out != -1)
@@ -78,7 +79,7 @@ pid_t	child_process(t_head *head, t_btree *node)
 			dup2(fd[1], STDOUT_FILENO);
 		close_fd(fd);
 		if (execve(node->cmd->path, node->cmd->args, head->envp) == -1)
-			free_all(NULL, node, pid, NULL);
+			free_node(node); //ou deveria ser free_all?
 	}
 	else
 	{
