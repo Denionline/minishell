@@ -57,13 +57,6 @@ static char	**realloc_args(char **old_args, int new_len)
 	return (new_args);
 }
 
-typedef struct s_quotes
-{
-	char	quote;
-	int		s;
-	int		d;
-}	t_quotes;
-
 static void	verify_quotes(t_quotes *quotes, char c)
 {
 	if (c == '\'')
