@@ -1,6 +1,39 @@
 
 #include "minishell.h"
 
+static int	get_size_file(char *prompt, int op_size)
+{
+	int	size;
+
+	size = op_size;
+	while (ft_isspace(prompt[size]))
+		size += 1;
+	while (prompt[size])
+	{
+		if (ft_isspace(prompt[size]))
+			break ;
+		size++;
+	}
+	return (size);
+}
+
+static int	next_increase(int operator, char *prompt)
+{
+	if (operator == AND)
+		return (operator_size(operator));
+	if (operator == OR)
+		return (operator_size(operator));
+	if (operator == DOUBLE_ARROW_LEFT)
+		return (operator_size(operator));
+	if (operator == DOUBLE_ARROW_RIGHT)
+		return (get_size_file(prompt, operator_size(operator)));
+	if (operator == ARROW_RIGHT)
+		return (get_size_file(prompt, operator_size(operator)));
+	if (operator == ARROW_LEFT)
+		return (get_size_file(prompt, operator_size(operator)));
+	return (1);
+}
+
 static char	*ft_strreplace(char *string, char search)
 {
 	char	*new_string;
@@ -118,6 +151,7 @@ char	**get_cmd_args(char *prompt)
 	t_quotes	quotes;
 	char		**args;
 	int			size_args;
+	int			operator;
 	int			i;
 
 	if (!prompt || !*prompt)
@@ -130,8 +164,11 @@ char	**get_cmd_args(char *prompt)
 	i = 0;
 	while (prompt[i])
 	{
-		if (is_operator(prompt + i))
+		operator = is_operator(prompt + i);
+		if (operator)
 			break ;
+		if (operator == DOUBLE_ARROW_RIGHT || operator == ARROW_RIGHT)
+			prompt += next_increase(operator, prompt + i);
 		if (!ft_isspace(prompt[i]) && (i == 0 || ft_isspace(prompt[i - 1])))
 		{
 			args = realloc_args(args, size_args + 1);
