@@ -9,6 +9,8 @@ static t_cmd	*get_command(t_head *head, char *prompt)
 	if (!cmd)
 		return (NULL);
 	cmd->args = get_cmd_args(prompt);
+	if (!cmd->args)
+		return (NULL);
 	cmd->path = get_valid_path(head->paths, cmd->args[0]);
 	if (!cmd->path)
 		return (NULL);
