@@ -9,7 +9,11 @@ static t_cmd	*get_command(t_head *head, char *prompt)
 	if (!cmd)
 		return (NULL);
 	cmd->args = get_cmd_args(prompt);
+	if (!cmd->args)
+		return (NULL);
 	cmd->path = get_valid_path(head->paths, cmd->args[0]);
+	if (!cmd->path)
+		return (NULL);
 	return (cmd);
 }
 
@@ -88,8 +92,9 @@ static void	set_fd_file(t_btree *node, char *prompt, int operator, int file_size
 
 void	parse(t_head *head, char *prompt)
 {
-	t_btree		*node_command;
 	t_btree		*node_operator;
+	t_btree		*node_command;
+	t_cmd		*command;
 	int			operator;
 	int			op_size;
 	int			i;
@@ -112,10 +117,11 @@ void	parse(t_head *head, char *prompt)
 			node_command = NULL;
 			op_size = next_increase(operator, prompt + i);
 			if (operator != ARROW_RIGHT && operator != DOUBLE_ARROW_RIGHT)
-				node_command = btree_create(COMMAND,
-					get_command(head, prompt + op_size + i),
-					NULL, NULL
-				);
+			{
+				command = get_command(head, prompt + op_size + i);
+				if (command != NULL)
+					node_command = btree_create(COMMAND, command, NULL, NULL);
+			}
 			node_operator = btree_create(
 				operator,
 				NULL, NULL,
