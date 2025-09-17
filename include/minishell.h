@@ -9,6 +9,7 @@
 # include <unistd.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <readline/history.h>
 # include "libft/include/libft.h"
 # include "structs.h"
 # include "parser.h"
