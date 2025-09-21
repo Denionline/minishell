@@ -62,7 +62,8 @@ FILES			+= btree_add_last_left
 FILES			+= btree_add_last_right
 FILES			+= btree_add_as_first
 #execute
-FILES			+= bin_tree
+FILES			+= execute
+FILES			+= execute_utils
 
 
 SRCS			= $(addprefix ./, $(addsuffix .c, $(FILES)))

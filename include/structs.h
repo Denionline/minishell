@@ -29,6 +29,9 @@ typedef struct s_head
 	char	**envp;
 	int		exit_code;
 	t_fd	fd;
+	int	n_cmds;
+	pid_t	*pid;
+	int	index;
 }	t_head;
 
 #endif
