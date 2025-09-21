@@ -9,15 +9,18 @@ int	minishell(t_head *head)
 	{
 //		signal_handler();
 		prompt = readline("\001\033[1;92m\002minishell\001\033[1;94m\002> \001\033[0;39m\002");
+		if (!prompt)
+			break ;
+		if (!(*prompt))
+			continue ;
 		if (!ft_strncmp("exit", prompt, 5))
 			break ;
-		if (prompt)
-			add_history(prompt);
-		
+		add_history(prompt);
 		parse(head, prompt);
 		execute_manager(head);
 		head->root = NULL;
-		//print(head->root);
+		// print(head->root);
+		free(prompt);
 	}
 	return (0);
 }
