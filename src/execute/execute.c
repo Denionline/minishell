@@ -13,25 +13,27 @@ void	execute_manager(t_head *head)
 
 int	hierarchy_btree(t_head *head, t_btree *node)
 {
-	int	status;
+//	int	status;
 
 	if (node == NULL)
 		return (0);
 	else if (node->identifier == COMMAND)
 		execute(head, node);
-	else if (node->identifier == PIPE)
-	{	
-		if (node->left->identifier == COMMAND)
-		{
-			execute(head, node->left);
-			if (node->right->identifier == COMMAND)
-				execute(head, node->right);
-			free_node(node);
-		}
-		else
-			hierarchy_btree(head, node->left);
+	else if (node->left->identifier == PIPE)
+		hierarchy_btree(head, node->left);
+	if (node->left && node->left->identifier == COMMAND)
+	{
+		execute(head, node->left);
+		if (node->right->identifier == COMMAND)
+			execute(head, node->right);
+//		free_node(node);
 	}
-	else if (node->identifier == AND)
+	if (node->right && node->right->identifier == COMMAND)
+	{
+		execute(head, node->right);
+//		free_node(node->right);
+	}
+/*	else if (node->identifier == AND)
 	{
 		status = hierarchy_btree(head, node->left);
 		if (status == 0)
@@ -42,7 +44,7 @@ int	hierarchy_btree(t_head *head, t_btree *node)
 		status = hierarchy_btree(head, node->left);
 		if (status != 0)
 			hierarchy_btree(head, node->right);
-	}
+	}*/
 	return (head->exit_code);
 }
 
@@ -51,7 +53,6 @@ int	execute(t_head *head, t_btree *node)
 	int	status;
 
 	head->pid[head->index] = child_process(head, node);
-//	wait_list(head);
 	waitpid(head->pid[head->index], &status, 0);
 	if (head->index == (head->n_cmds -1))
 	{
@@ -60,6 +61,8 @@ int	execute(t_head *head, t_btree *node)
 		else if (WIFSIGNALED(status))
 			head->exit_code = WTERMSIG(status) + 128;
 	}
+	close(node->fd.in);
+	close(node->fd.out);
 	free_node(node);
 	head->index++;
 //	printf("exit_code = %d\n", head->exit_code);
