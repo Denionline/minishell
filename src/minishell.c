@@ -16,8 +16,9 @@ int	minishell(t_head *head)
 		
 		parse(head, prompt);
 		execute_manager(head);
-		head->root = NULL;
+		//head->root = NULL;
 		//print(head->root);
+		reset_all(head);
 	}
 	return (0);
 }
