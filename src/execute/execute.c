@@ -22,12 +22,14 @@ int	hierarchy_btree(t_head *head, t_btree *node)
 	else if (node->identifier == PIPE)
 	{	
 		if (node->left->identifier == COMMAND)
-			execute(head, node->left); //execute node->left
-		else if (node->right->identifier == COMMAND)
-			execute(head, node->right); 
+		{
+			execute(head, node->left);
+			if (node->right->identifier == COMMAND)
+				execute(head, node->right);
+			free_node(node);
+		}
 		else
 			hierarchy_btree(head, node->left);
-		free_node(node);
 	}
 	else if (node->identifier == AND)
 	{
@@ -66,25 +68,15 @@ int	execute(t_head *head, t_btree *node)
 //	printf("exit_code = %d\n", head->exit_code);
 	return (head->exit_code);
 }
-/*
-void	execute_with_pipe(t_head *head, t_btree *node)
-{
-	head->pid[head->index] = child_process(head, node->left);
-	free_node(node->left);
-	head->pid[head->index] = child_process(head, node->right);
-	free_node(node->right);
-	free_node(node);
-//	wait_list(head);
-}*/
 
 pid_t	child_process(t_head *head, t_btree *node)
 {
 	int	fd[2];
 	pid_t	pid;
 
-	fd_organizer(head, node, fd);
 	if (pipe(fd) == -1)
 		close_fd(fd);
+	fd_organizer(head, node, NULL);
 	pid = fork();
 	if (pid == -1)
 		close_fd(fd);
