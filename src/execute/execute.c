@@ -49,10 +49,7 @@ int	hierarchy_btree(t_head *head, t_btree *node)
 int	execute(t_head *head, t_btree *node)
 {
 	int	status;
-//	int	i;
 
-//	i = head->index;
-	
 	head->pid[head->index] = child_process(head, node);
 //	wait_list(head);
 	waitpid(head->pid[head->index], &status, 0);

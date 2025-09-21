@@ -28,7 +28,7 @@ typedef struct s_head
 	char	**paths;
 	char	**envp;
 	int		exit_code;
-	t_fd	fd;
+//	t_fd	fd;
 	int	n_cmds;
 	pid_t	*pid;
 	int	index;

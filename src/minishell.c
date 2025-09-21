@@ -21,5 +21,7 @@ int	minishell(t_head *head)
 		head->root = NULL;
 		// print(head->root);
 		free(prompt);
+//		reset_all(head, prompt);
+	}
 	return (0);
 }
