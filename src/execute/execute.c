@@ -46,21 +46,24 @@ int	hierarchy_btree(t_head *head, t_btree *node)
 
 int	execute(t_head *head, t_btree *node)
 {
-//	int	status;
+	int	status;
 //	int	i;
 
 //	i = head->index;
+	
 	head->pid[head->index] = child_process(head, node);
-	wait_list(head);
-/*	waitpid(head->pid[head->index], &status, 0);
-	free_node(node);
+//	wait_list(head);
+	waitpid(head->pid[head->index], &status, 0);
 	if (head->index == (head->n_cmds -1))
 	{
 		if (WIFEXITED(status))
 			head->exit_code = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
 			head->exit_code = WTERMSIG(status) + 128;
-	}*/
+	}
+	free_node(node);
+	head->index++;
+//	printf("exit_code = %d\n", head->exit_code);
 	return (head->exit_code);
 }
 /*
@@ -99,7 +102,6 @@ pid_t	child_process(t_head *head, t_btree *node)
 			dup2(fd[0], STDIN_FILENO);
 		close_fd(fd);
 	}
-	head->index++;
 	return (pid);
 }
 

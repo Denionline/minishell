@@ -29,7 +29,11 @@ void	fd_organizer(t_head *head, t_btree *node, int *fd)
 		node->fd.out = STDOUT_FILENO;
 	}
 //	else if (head->index == 0)
-//		node->fd.in = STDIN_FILENO;	
+//		node->fd.in = STDIN_FILENO;
 	else if (head->index == (head->n_cmds - 1))
 		node->fd.out = STDOUT_FILENO;
+/*lse
+	{
+		dup2(fd[0], )
+	}*/
 }
