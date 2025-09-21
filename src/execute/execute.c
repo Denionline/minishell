@@ -3,12 +3,16 @@
 
 void	execute_manager(t_head *head)
 {
+	head->fd.in = dup(STDIN_FILENO);
+	head->fd.out = dup(STDOUT_FILENO);
 	head->n_cmds = count_cmds(head->root, 0);
 	head->pid = malloc(sizeof(pid_t) * head->n_cmds);
 	if (!head->pid)
 		return ;
 	head->index = 0;
 	hierarchy_btree(head, head->root);
+	dup2(head->fd.in, STDIN_FILENO);
+	dup2(head->fd.out, STDOUT_FILENO);
 }
 
 int	hierarchy_btree(t_head *head, t_btree *node)
@@ -19,7 +23,7 @@ int	hierarchy_btree(t_head *head, t_btree *node)
 		return (0);
 	else if (node->identifier == COMMAND)
 		execute(head, node);
-	else if (node->left->identifier == PIPE)
+	else if (node->left && node->left->identifier == PIPE)
 		hierarchy_btree(head, node->left);
 	if (node->left && node->left->identifier == COMMAND)
 	{
@@ -61,8 +65,6 @@ int	execute(t_head *head, t_btree *node)
 		else if (WIFSIGNALED(status))
 			head->exit_code = WTERMSIG(status) + 128;
 	}
-	close(node->fd.in);
-	close(node->fd.out);
 	free_node(node);
 	head->index++;
 //	printf("exit_code = %d\n", head->exit_code);
@@ -76,7 +78,7 @@ pid_t	child_process(t_head *head, t_btree *node)
 
 	if (pipe(fd) == -1)
 		close_fd(fd);
-	fd_organizer(head, node, NULL);
+	fd_organizer(head, node, fd);
 	pid = fork();
 	if (pid == -1)
 		close_fd(fd);
