@@ -14,7 +14,13 @@ typedef struct s_quotes
 
 void	parse(t_head *head, char *prompt);
 
-int	operator_size(int operator);
+// parse/aux/get/
+char	*get_string_argument(char *string);
+char	*get_file_name(char *prompt, int op_size, int file_size);
+int		get_next_increase(int operator, char *prompt);
+
+int		operator_size(int operator);
+// aux/btree/
 void	btree_add_as_first(t_btree **root, t_btree *new_node);
 
 #endif

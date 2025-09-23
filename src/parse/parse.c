@@ -17,64 +17,6 @@ static t_cmd	*get_command(t_head *head, char *prompt)
 	return (cmd);
 }
 
-static int	get_size_file(char *prompt, int op_size)
-{
-	int	size;
-
-	size = op_size;
-	while (ft_isspace(prompt[size]))
-		size += 1;
-	while (prompt[size])
-	{
-		if (ft_isspace(prompt[size]))
-			break ;
-		size++;
-	}
-	return (size);
-}
-
-static int	next_increase(int operator, char *prompt)
-{
-	if (operator == AND)
-		return (operator_size(operator));
-	if (operator == OR)
-		return (operator_size(operator));
-	if (operator == DOUBLE_ARROW_LEFT)
-		return (operator_size(operator));
-	if (operator == DOUBLE_ARROW_RIGHT)
-		return (get_size_file(prompt, operator_size(operator)));
-	if (operator == ARROW_RIGHT)
-		return (get_size_file(prompt, operator_size(operator)));
-	if (operator == ARROW_LEFT)
-		return (get_size_file(prompt, operator_size(operator)));
-	return (1);
-}
-
-static char	*get_file_name(char *prompt, int op_size, int file_size)
-{
-	char	*file_name;
-	int		i;
-
-	prompt += op_size;
-	file_size -= op_size;
-	while (ft_isspace(prompt[0]))
-	{
-		file_size -= 1;
-		prompt++;
-	}
-	file_name = ft_calloc(file_size + 1, 1);
-	if (!file_name)
-		return (NULL);
-	i = 0;
-	while (i < file_size)
-	{
-		file_name[i] = prompt[i];
-		i++;
-	}
-	file_name[i] = '\0';
-	return (file_name);
-}
-
 static void	set_fd_file(t_btree *node, char *prompt, int operator, int file_size)
 {
 	char	*file_name;
@@ -115,7 +57,7 @@ void	parse(t_head *head, char *prompt)
 		if (operator)
 		{
 			node_command = NULL;
-			op_size = next_increase(operator, prompt + i);
+			op_size = get_next_increase(operator, prompt + i);
 			if (operator != ARROW_RIGHT && operator != DOUBLE_ARROW_RIGHT)
 			{
 				command = get_command(head, prompt + op_size + i);
@@ -130,10 +72,9 @@ void	parse(t_head *head, char *prompt)
 			if (operator == ARROW_LEFT || operator == ARROW_RIGHT || operator == DOUBLE_ARROW_RIGHT)
 				set_fd_file(node_operator, prompt + i, operator, op_size);
 			btree_add_as_first(&head->root, node_operator);
-			i += op_size;
+			i += op_size - 1;
 		}
-		else
-			i += 1;
+		i += 1;
 	}
 }
 

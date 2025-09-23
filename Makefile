@@ -34,6 +34,8 @@ VPATH			+= src/aux
 VPATH			+= src/aux/get
 VPATH			+= src/aux/btree
 VPATH			+= src/parse
+VPATH			+= src/parse/aux
+VPATH			+= src/parse/aux/get
 VPATH			+= src/verify
 VPATH			+= src/execute
 VPATH			+= src/signal
@@ -54,8 +56,11 @@ FILES			+= free_all
 #parsing
 FILES			+= parse
 FILES			+= is_operator
-FILES			+= get
+FILES			+= get_paths
 FILES			+= get_cmd_args
+FILES			+= get_string_argument
+FILES			+= get_file_name
+FILES			+= get_next_increase
 #binary_tree
 FILES			+= btree_create
 FILES			+= btree_add_last_left

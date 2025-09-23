@@ -3,8 +3,10 @@
 
 typedef struct s_fd
 {
-	int	in;
-	int	out;
+	char	*infile_name;
+	char	*outfile_name;
+	int		in;
+	int		out;
 }	t_fd;
 
 typedef struct s_cmd
