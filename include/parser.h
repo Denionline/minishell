@@ -16,7 +16,6 @@ void	parse(t_head *head, char *prompt);
 
 // parse/aux/get/
 char	*get_string_argument(char *string);
-char	*get_file_name(char *prompt, int op_size, int file_size);
 int		get_next_increase(int operator, char *prompt);
 
 int		operator_size(int operator);

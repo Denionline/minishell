@@ -17,19 +17,29 @@ static t_cmd	*get_command(t_head *head, char *prompt)
 	return (cmd);
 }
 
-static void	set_fd_file(t_btree *node, char *prompt, int operator, int file_size)
+static void	set_fd_file(t_files *files, char *prompt, int operator)
 {
 	char	*file_name;
 
-	file_name = get_file_name(prompt, operator_size(operator), file_size);
+	prompt += operator_size(operator);
+	while (ft_isspace(*prompt))
+		prompt++;
+	file_name = get_string_argument(prompt);
 	if (!file_name)
 		return ;
-	if (operator == DOUBLE_ARROW_RIGHT)
-		node->fd.out = open(file_name, O_CREAT | O_WRONLY | O_APPEND);
-	else if (operator == ARROW_RIGHT)
-		node->fd.out = open(file_name, O_CREAT | O_WRONLY | O_TRUNC);
+	if (operator == DOUBLE_ARROW_RIGHT || operator == ARROW_RIGHT)
+	{
+		files->out.name = file_name;
+		if (operator == DOUBLE_ARROW_RIGHT)
+			files->out.flags = O_CREAT | O_WRONLY | O_APPEND;
+		else if (operator == ARROW_RIGHT)
+			files->out.flags = O_CREAT | O_WRONLY | O_TRUNC;
+	}
 	else if (operator == ARROW_LEFT)
-		node->fd.in = open(file_name, O_RDONLY);
+	{
+		files->in.name = file_name;
+		files->in.flags = O_RDONLY;
+	}
 }
 
 void	parse(t_head *head, char *prompt)
@@ -64,13 +74,13 @@ void	parse(t_head *head, char *prompt)
 				if (command != NULL)
 					node_command = btree_create(COMMAND, command, NULL, NULL);
 			}
+			if (operator == ARROW_LEFT || operator == ARROW_RIGHT || operator == DOUBLE_ARROW_RIGHT)
+				set_fd_file(&node_command->files, prompt + i, operator);
 			node_operator = btree_create(
 				operator,
 				NULL, NULL,
 				node_command
 			);
-			if (operator == ARROW_LEFT || operator == ARROW_RIGHT || operator == DOUBLE_ARROW_RIGHT)
-				set_fd_file(node_operator, prompt + i, operator, op_size);
 			btree_add_as_first(&head->root, node_operator);
 			i += op_size - 1;
 		}

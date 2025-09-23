@@ -59,7 +59,6 @@ FILES			+= is_operator
 FILES			+= get_paths
 FILES			+= get_cmd_args
 FILES			+= get_string_argument
-FILES			+= get_file_name
 FILES			+= get_next_increase
 #binary_tree
 FILES			+= btree_create
