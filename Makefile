@@ -51,7 +51,6 @@ FILES			+= print
 FILES			+= end
 FILES			+= signal_handler
 FILES			+= free_all
-FILES			+= reset_all
 #parsing
 FILES			+= parse
 FILES			+= is_operator

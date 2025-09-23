@@ -19,7 +19,6 @@ void	free_btree(t_btree *node);
 void	free_node(t_btree *node);
 void	free_db_str(char **db_str);
 void	close_fd(int *fd);
-void    reset_all(t_head *head, char *prompt);
 
 
 #endif

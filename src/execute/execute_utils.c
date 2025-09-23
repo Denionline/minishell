@@ -25,12 +25,11 @@ void	fd_organizer(t_head *head, t_btree *node, int *fd)
 	(void)fd;
 	if (head->n_cmds == 1)
 	{
-		node->fd.in = dup(STDIN_FILENO);
-		node->fd.out = dup(STDOUT_FILENO);
+		node->fd.in = STDIN_FILENO;
+		node->fd.out = STDOUT_FILENO;
 	}
-// se usa isso, o terminal fica aberto e nunca sai	
 //	else if (head->index == 0)
-//		node->fd.in = dup(STDIN_FILENO);
+//		node->fd.in = STDIN_FILENO;	
 	else if (head->index == (head->n_cmds - 1))
-		node->fd.out = dup(STDOUT_FILENO);
+		node->fd.out = STDOUT_FILENO;
 }
