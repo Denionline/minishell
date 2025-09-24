@@ -12,6 +12,18 @@ typedef struct s_quotes
 	int		d;
 }	t_quotes;
 
+typedef struct s_parse
+{
+	t_btree		*node_operator;
+	t_btree		*node_command;
+	t_cmd		*command;
+	char		*file_name;
+	int			file_size;
+	int			operator;
+	int			op_size;
+	int			pos;
+}	t_parse;
+
 void	parse(t_head *head, char *prompt);
 
 // parse/aux/
