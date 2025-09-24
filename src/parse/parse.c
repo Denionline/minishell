@@ -1,32 +1,8 @@
 
 #include "minishell.h"
 
-static t_cmd	*get_command(t_head *head, char *prompt)
+static void	set_fd_file(t_files *files, char *file_name, int operator)
 {
-	t_cmd	*cmd;
-
-	cmd = ft_calloc(1, sizeof(t_cmd));
-	if (!cmd)
-		return (NULL);
-	cmd->args = get_cmd_args(prompt);
-	if (!cmd->args)
-		return (NULL);
-	cmd->path = get_valid_path(head->paths, cmd->args[0]);
-	if (!cmd->path)
-		return (NULL);
-	return (cmd);
-}
-
-static void	set_fd_file(t_files *files, char *prompt, int operator)
-{
-	char	*file_name;
-
-	prompt += operator_size(operator);
-	while (ft_isspace(*prompt))
-		prompt++;
-	file_name = get_string_argument(prompt);
-	if (!file_name)
-		return ;
 	if (operator == DOUBLE_ARROW_RIGHT || operator == ARROW_RIGHT)
 	{
 		files->out.name = file_name;
@@ -42,49 +18,63 @@ static void	set_fd_file(t_files *files, char *prompt, int operator)
 	}
 }
 
+static void	arrows_momment(t_parse *parse, char *prompt)
+{
+	if (ft_isspace(prompt[parse->pos]))
+		parse->pos++;
+	parse->op_size = get_next_increase(parse->operator);
+	if (ft_isspace(prompt[parse->op_size + parse->pos]))
+		parse->pos++;
+	parse->file_name = get_string_argument(prompt + parse->op_size + parse->pos);
+	parse->file_size = ft_strlen(parse->file_name);
+	if (parse->file_name[0] == '\'' || parse->file_name[0] == '\"')
+		parse->file_name = ft_strremove(parse->file_name, parse->file_name[0]);
+}
+
 void	parse(t_head *head, char *prompt)
 {
-	t_btree		*node_operator;
-	t_btree		*node_command;
-	t_cmd		*command;
-	int			operator;
-	int			op_size;
-	int			i;
+	t_parse parse;
 
+	ft_bzero(&parse, sizeof(parse));
 	head->paths = get_paths(head->envp);
-	i = 0;
-	while (prompt[i])
+	while (prompt[parse.pos])
 	{
-		operator = is_operator(prompt + i);
-		if (!head->root && !operator && !ft_isspace(prompt[i]))
+		parse.operator = is_operator(prompt + parse.pos);
+		if (!head->root && !parse.operator && !ft_isspace(prompt[parse.pos]))
 		{
-			node_command = btree_create(COMMAND,
-				get_command(head, prompt + i),
-				NULL, NULL
-			);
-			btree_add_as_first(&head->root, node_command);
+			parse.command = get_command(head, prompt + parse.pos);
+			parse.node_command = btree_create(COMMAND, parse.command, NULL, NULL);
+			btree_add_as_first(&head->root, parse.node_command);
 		}
-		if (operator)
+		if (parse.operator)
 		{
-			node_command = NULL;
-			op_size = get_next_increase(operator, prompt + i);
-			if (operator != ARROW_RIGHT && operator != DOUBLE_ARROW_RIGHT)
+			parse.file_size = 0;
+			if (is_arrow_operator(parse.operator))
+				arrows_momment(&parse, prompt);
+			if (parse.operator != ARROW_RIGHT && parse.operator != DOUBLE_ARROW_RIGHT)
 			{
-				command = get_command(head, prompt + op_size + i);
-				if (command != NULL)
-					node_command = btree_create(COMMAND, command, NULL, NULL);
+				if (ft_isspace(prompt[parse.file_size + parse.op_size + parse.pos]))
+					parse.pos++;
+				parse.command = get_command(head, prompt + parse.file_size + parse.op_size + parse.pos);
+				parse.node_command = btree_create(COMMAND, parse.command, NULL, NULL);
 			}
-			if (operator == ARROW_LEFT || operator == ARROW_RIGHT || operator == DOUBLE_ARROW_RIGHT)
-				set_fd_file(&node_command->files, prompt + i, operator);
-			node_operator = btree_create(
-				operator,
-				NULL, NULL,
-				node_command
-			);
-			btree_add_as_first(&head->root, node_operator);
-			i += op_size - 1;
+			if (is_arrow_operator(parse.operator))
+			{
+				set_fd_file(&parse.node_command->files, parse.file_name, parse.operator);
+				btree_add_as_first(&head->root, parse.node_command);
+			}
+			else
+			{
+				parse.node_operator = btree_create(
+					parse.operator,
+					NULL, NULL,
+					parse.node_command
+				);
+				btree_add_as_first(&head->root, parse.node_operator);
+			}
+			parse.pos += parse.file_size + parse.op_size - 1;
 		}
-		i += 1;
+		parse.pos += 1;
 	}
 }
 
