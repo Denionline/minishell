@@ -37,7 +37,7 @@ void	btree_add_last_left(t_btree **root, t_btree *new_token);
 void	btree_add_last_right(t_btree **root, t_btree *new_token);
 
 // aux/get/
-char	**get_cmd_args(char *prompt);
+t_cmd	*get_command(t_head *head, char *prompt);
 char	*get_valid_path(char **paths, char *command);
 char	**get_paths(char *env[]);
 
