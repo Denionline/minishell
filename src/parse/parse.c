@@ -59,6 +59,19 @@ static void	handle_first_command(t_head *head, char *prompt, t_files *files)
 	ft_bzero(files, sizeof(*files));
 }
 
+static void	arrows_momment(t_parse *parse, char *prompt)
+{
+	if (ft_isspace(prompt[parse->pos]))
+		parse->pos++;
+	parse->op_size = get_next_increase(parse->operator);
+	if (ft_isspace(prompt[parse->op_size + parse->pos]))
+		parse->pos++;
+	parse->file_name = get_string_argument(prompt + parse->op_size + parse->pos);
+	parse->file_size = ft_strlen(parse->file_name);
+	if (parse->file_name[0] == '\'' || parse->file_name[0] == '\"')
+		parse->file_name = ft_strremove(parse->file_name, parse->file_name[0]);
+}
+
 void	parse(t_head *head, char *prompt)
 {
 	t_files	files;
