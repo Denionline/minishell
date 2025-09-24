@@ -57,7 +57,7 @@ FILES			+= free_all
 FILES			+= parse
 FILES			+= is_operator
 FILES			+= get_paths
-FILES			+= get_cmd_args
+FILES			+= get_command
 FILES			+= get_string_argument
 FILES			+= get_next_increase
 #binary_tree

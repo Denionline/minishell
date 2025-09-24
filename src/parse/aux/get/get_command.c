@@ -22,7 +22,7 @@ static char	**realloc_args(char **old_args, int new_len)
 	return (new_args);
 }
 
-char	**get_cmd_args(char *prompt)
+static char	**get_cmd_args(char *prompt)
 {
 	char		**args;
 	int			size_args;
@@ -31,8 +31,6 @@ char	**get_cmd_args(char *prompt)
 
 	if (!prompt || !*prompt)
 		return (NULL);
-	if (ft_isspace(prompt[0]))
-		prompt++;
 	args = NULL;
 	size_args = 0;
 	i = 0;
@@ -40,7 +38,7 @@ char	**get_cmd_args(char *prompt)
 	{
 		operator = is_operator(prompt + i);
 		if (operator == DOUBLE_ARROW_RIGHT || operator == ARROW_RIGHT)
-			prompt += get_next_increase(operator, prompt + i);
+			prompt += get_next_increase(operator);
 		else if (operator)
 			break ;
 		if (!ft_isspace(prompt[i]) && (i == 0 || ft_isspace(prompt[i - 1])))
@@ -53,4 +51,20 @@ char	**get_cmd_args(char *prompt)
 		i++;
 	}
 	return (args);
+}
+
+t_cmd	*get_command(t_head *head, char *prompt)
+{
+	t_cmd	*cmd;
+
+	cmd = ft_calloc(1, sizeof(t_cmd));
+	if (!cmd)
+		return (NULL);
+	cmd->args = get_cmd_args(prompt);
+	if (!cmd->args)
+		return (NULL);
+	cmd->path = get_valid_path(head->paths, cmd->args[0]);
+	if (!cmd->path)
+		return (NULL);
+	return (cmd);
 }
