@@ -3,6 +3,7 @@
 # define EXECUTE_H
 
 # include "minishell.h"
+# include <fcntl.h>
 
 //execute
 int	hierarchy_btree(t_head *head, t_btree *node);
@@ -20,5 +21,6 @@ void	free_node(t_btree *node);
 void	free_db_str(char **db_str);
 void	close_fd(int *fd);
 
+void    init_infile(char *name, t_head *head);
 
 #endif
