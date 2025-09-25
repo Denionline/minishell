@@ -30,8 +30,10 @@ void	free_node(t_btree *node)
 		free_db_str(node->cmd->args);
 		free(node->cmd->path);
 		free(node->cmd);
+//		node->cmd = NULL;
 	}
-	free(node);
+//	free(node);
+//	node = NULL;
 }
 
 //function to free the binary tree
@@ -44,6 +46,7 @@ void	free_btree(t_btree *node)
 			free_btree(node->right);
 	}
 	free_node(node);
+//	node = NULL;
 }
 
 void	free_all(t_head *head, t_btree *btree, int *fd)

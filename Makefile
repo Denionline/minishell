@@ -70,6 +70,7 @@ FILES			+= btree_set_file_last_cmd
 #execute
 FILES			+= execute
 FILES			+= execute_utils
+FILES			+= infile
 
 
 SRCS			= $(addprefix ./, $(addsuffix .c, $(FILES)))
@@ -127,3 +128,18 @@ get_libft:
 	@echo "Cloning Libft"
 	@git clone $(LIBFT_URL) $(LIBFT_PATH)
 	@printf "$(C_GREEN)libft$(C_STD) successfully downloaded\n"
+
+val: $(NAME)
+	@echo "{" > readline.supp
+	@echo "	leak readline" >> readline.supp
+	@echo "	Memcheck:Leak" >> readline.supp
+	@echo "..." >> readline.supp
+	@echo "	fun:readline" >> readline.supp
+	@echo "}" >> readline.supp
+	@echo "{" >> readline.supp
+	@echo "	leak add_history" >> readline.supp
+	@echo "	Memcheck:Leak" >> readline.supp
+	@echo "..." >> readline.supp
+	@echo "	fun:add_history" >> readline.supp
+	@echo "}" >> readline.supp
+	@valgrind ./$(NAME)
