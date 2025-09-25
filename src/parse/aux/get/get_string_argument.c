@@ -35,7 +35,7 @@ char	*get_string_argument(char *string)
 	size = 0;
 	while (string[size])
 	{
-		if (is_main_quote_closed(&quotes) && is_operator(string + size))
+		if (is_main_quote_closed(&quotes) && get_operator(string + size))
 			break ;
 		if (is_main_quote_closed(&quotes) && ft_isspace(string[size]))
 			break ;

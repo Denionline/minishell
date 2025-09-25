@@ -19,10 +19,10 @@ static void	print_command(t_btree *node)
 	for (int i = 0; node->cmd->args[i]; i++) {
 		printf(" arg[%d]: %s", i, node->cmd->args[i]);
 	}
-	if (node->files.out.name)
-		printf(" file (out) associated [%s]", node->files.in.name);
-	else if (node->files.in.name)
-		printf(" file (in) associated [%s]", node->files.in.name);
+	if (node->files.out.exists)
+		printf(" (out) associated [%s]", node->files.out.name);
+	else if (node->files.in.exists)
+		printf(" (in) associated [%s]", node->files.in.name);
 	printf("\n");
 }
 
