@@ -1,7 +1,7 @@
 
 #include "minishell.h"
 
-int	operator_size(int operator)
+int	get_operator_size(int operator)
 {
 	if (operator == 0)
 		return (0);
@@ -29,7 +29,7 @@ int	is_arrow_operator(int operator)
 	return (FALSE);
 }
 
-int	is_operator(char *value)
+int	get_operator(char *value)
 {
 	if (!ft_strncmp("&&", value, 2))
 		return (AND);

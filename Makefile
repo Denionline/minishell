@@ -1,4 +1,4 @@
-
+	
 # **************************************************************************** #
 #                                    Colors                                    #
 # **************************************************************************** #
@@ -55,16 +55,18 @@ FILES			+= signal_handler
 FILES			+= free_all
 #parsing
 FILES			+= parse
-FILES			+= is_operator
+FILES			+= get_operator
 FILES			+= get_paths
 FILES			+= get_command
 FILES			+= get_string_argument
-FILES			+= get_next_increase
+FILES			+= handle_file
 #binary_tree
 FILES			+= btree_create
 FILES			+= btree_add_last_left
 FILES			+= btree_add_last_right
 FILES			+= btree_add_as_first
+FILES			+= btree_set_file_first_cmd
+FILES			+= btree_set_file_last_cmd
 #execute
 FILES			+= execute
 FILES			+= execute_utils

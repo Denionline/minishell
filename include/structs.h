@@ -5,6 +5,7 @@ typedef struct s_file
 {
 	char	*name;
 	int		flags;
+	int		exists;
 }	t_file;
 
 typedef struct s_files

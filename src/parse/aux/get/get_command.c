@@ -22,35 +22,32 @@ static char	**realloc_args(char **old_args, int new_len)
 	return (new_args);
 }
 
-static char	**get_cmd_args(char *prompt)
+static void	set_cmd_args(t_cmd *cmd, char *prompt)
 {
-	char		**args;
-	int			size_args;
-	int			operator;
-	int			i;
+	int	size_args;
+	int	op;
+	int	i;
 
 	if (!prompt || !*prompt)
-		return (NULL);
-	args = NULL;
+		return ;
 	size_args = 0;
 	i = 0;
 	while (prompt[i])
 	{
-		operator = is_operator(prompt + i);
-		if (operator == DOUBLE_ARROW_RIGHT || operator == ARROW_RIGHT)
-			prompt += get_next_increase(operator);
-		else if (operator)
+		op = get_operator(prompt + i);
+		if (is_arrow_operator(op))
+			prompt += handle_file(0, prompt + i, op, FALSE);
+		else if (op)
 			break ;
 		if (!ft_isspace(prompt[i]) && (i == 0 || ft_isspace(prompt[i - 1])))
 		{
-			args = realloc_args(args, size_args + 1);
-			args[size_args] = get_string_argument(prompt + i);
-			prompt += ft_strlen(args[size_args++]);
+			cmd->args = realloc_args(cmd->args, size_args + 1);
+			cmd->args[size_args] = get_string_argument(prompt + i);
+			prompt += ft_strlen(cmd->args[size_args++]) + i;
 			i = 0;
 		}
 		i++;
 	}
-	return (args);
 }
 
 t_cmd	*get_command(t_head *head, char *prompt)
@@ -60,7 +57,7 @@ t_cmd	*get_command(t_head *head, char *prompt)
 	cmd = ft_calloc(1, sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-	cmd->args = get_cmd_args(prompt);
+	set_cmd_args(cmd, prompt);
 	if (!cmd->args)
 		return (NULL);
 	cmd->path = get_valid_path(head->paths, cmd->args[0]);
@@ -68,3 +65,6 @@ t_cmd	*get_command(t_head *head, char *prompt)
 		return (NULL);
 	return (cmd);
 }
+
+
+// echo hello > outfile world > outfile1 ne
