@@ -12,5 +12,7 @@ t_btree	*btree_create(int identifier, t_cmd *cmd, t_btree *left, t_btree *right)
 	new_token->cmd = cmd;
 	new_token->left = left;
 	new_token->right = right;
+	new_token->files.in.fd = -1;
+	new_token->files.out.fd = -1;
 	return (new_token);
 }
