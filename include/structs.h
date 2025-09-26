@@ -6,6 +6,7 @@ typedef struct s_file
 	char	*name;
 	int		flags;
 	int		exists;
+	int		fd;
 }	t_file;
 
 typedef struct s_files
@@ -36,6 +37,7 @@ typedef struct s_head
 	char	**envp;
 	int		exit_code;
 	int		n_cmds;
+	t_file	file;
 	pid_t	*pid;
 	int	index;
 }	t_head;
