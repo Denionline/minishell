@@ -8,23 +8,36 @@ static void	reset_files(t_files *files)
 	files->out.fd = -1;
 }
 
-static int	out_pending(t_files *files)
+static int	is_file_pending(t_files *files)
 {
+	if (files->in.exists)
+		return (TRUE);
 	if (files->out.exists)
 		return (TRUE);
 	return (FALSE);
 }
 
-static int	in_pending(t_files *files)
+static void	add_node_on_tree(t_head *head, int op, char *prompt)
 {
-	if (files->in.exists)
-		return (TRUE);
-	return (FALSE);
+	t_btree	*node_command;
+	t_cmd	*cmd;
+
+	cmd = get_command(head, prompt);
+	if (!cmd)
+		return ;
+	node_command = btree_create(COMMAND, cmd, NULL, NULL);
+	if (op)
+		btree_add_as_first(&head->root,
+			btree_create(op, NULL, NULL, node_command)
+		);
+	else
+		btree_add_as_first(&head->root,
+			node_command
+		);
 }
 
 static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 {
-	t_btree	*node_command;
 	int		pos;
 
 	if (is_arrow_operator(op))
@@ -32,37 +45,19 @@ static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 	pos = get_operator_size(op);
 	while (ft_isspace(prompt[pos]))
 		pos++;
-	node_command = btree_create(COMMAND,
-		get_command(head, prompt + pos), NULL, NULL
-	);
-	if (in_pending(files))
-		node_command->files = (*files);
-	btree_add_as_first(&head->root,
-		btree_create(op, NULL, NULL, node_command)
-	);
+	add_node_on_tree(head, op, prompt + pos);
+	if (is_file_pending(files))
+		btree_set_file_last_cmd(&head->root, (*files));
 	reset_files(files);
 	return (pos);
 }
 
 static void	handle_first_command(t_head *head, char *prompt, t_files *files)
 {
-	t_btree	*node_command;
-
-	if (out_pending(files))
+	if (!head->root)
+		add_node_on_tree(head, 0, prompt);
+	if (is_file_pending(files))
 		btree_set_file_last_cmd(&head->root, (*files));
-	else if (in_pending(files))
-		btree_set_file_last_cmd(&head->root, (*files));
-	else
-	{
-		node_command = btree_create(COMMAND,
-			get_command(head, prompt), NULL, NULL
-		);
-		if (in_pending(files))
-			node_command->files = (*files);
-		btree_add_as_first(&head->root,
-			node_command
-		);
-	}
 	reset_files(files);
 }
 
@@ -80,9 +75,10 @@ void	parse(t_head *head, char *prompt)
 		operator = get_operator(prompt + i);
 		if (operator)
 			i += handle_operator(head, prompt + i, operator, &files);
-		if (!ft_isspace(prompt[i]))
-			if (!head->root || in_pending(&files) || out_pending(&files))
-				handle_first_command(head, prompt + i, &files);
+		if (!head->root || is_file_pending(&files))
+			handle_first_command(head, prompt + i, &files);
+		while (!ft_isspace(prompt[i]))
+			i++;
 		i += !operator;
 	}
 }
