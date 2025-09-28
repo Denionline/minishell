@@ -65,7 +65,7 @@ int	execute(t_head *head, t_btree *node)
 		else if (WIFSIGNALED(status))
 			head->exit_code = WTERMSIG(status) + 128;
 	}
-//	free_node(node);
+	free_node(node);
 	head->index++;
 	return (head->exit_code);
 }

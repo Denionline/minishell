@@ -32,7 +32,7 @@ void	free_node(t_btree *node)
 		free(node->cmd);
 //		node->cmd = NULL;
 	}
-//	free(node);
+	free(node);
 //	node = NULL;
 }
 
