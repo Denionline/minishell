@@ -21,7 +21,7 @@ static void	print_command(t_btree *node)
 	}
 	if (node->files.out.exists)
 		printf(" (out) associated [%s]", node->files.out.name);
-	else if (node->files.in.exists)
+	if (node->files.in.exists)
 		printf(" (in) associated [%s]", node->files.in.name);
 	printf("\n");
 }

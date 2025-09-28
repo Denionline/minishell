@@ -1,4 +1,3 @@
-
 #ifndef PARSER_H
 # define PARSER_H
 
@@ -25,7 +24,6 @@ int		get_operator_size(int operator);
 int		is_arrow_operator(int operator);
 // aux/btree/
 void	btree_add_as_first(t_btree **root, t_btree *new_node);
-void	btree_set_file_first_cmd(t_btree **root, t_files files);
-void	btree_set_file_last_cmd(t_btree **root, t_files files);
+void	btree_set_file_last_cmd(t_btree **root, t_files *files);
 
 #endif

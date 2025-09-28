@@ -1,13 +1,6 @@
 
 #include "minishell.h"
 
-static void	reset_files(t_files *files)
-{
-	ft_bzero(files, sizeof(*files));
-	files->in.fd = -1;
-	files->out.fd = -1;
-}
-
 static int	is_file_pending(t_files *files)
 {
 	if (files->in.exists)
@@ -47,8 +40,7 @@ static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 		pos++;
 	add_node_on_tree(head, op, prompt + pos);
 	if (is_file_pending(files))
-		btree_set_file_last_cmd(&head->root, (*files));
-	reset_files(files);
+		btree_set_file_last_cmd(&head->root, files);
 	return (pos);
 }
 
@@ -57,8 +49,7 @@ static void	handle_first_command(t_head *head, char *prompt, t_files *files)
 	if (!head->root)
 		add_node_on_tree(head, 0, prompt);
 	if (is_file_pending(files))
-		btree_set_file_last_cmd(&head->root, (*files));
-	reset_files(files);
+		btree_set_file_last_cmd(&head->root, files);
 }
 
 void	parse(t_head *head, char *prompt)
@@ -68,7 +59,9 @@ void	parse(t_head *head, char *prompt)
 	int		i;
 	
 	head->paths = get_paths(head->envp);
-	reset_files(&files);
+	ft_bzero(&files, sizeof(files));
+	files.in.fd = -1;
+	files.out.fd = -1;
 	i = 0;
 	while (prompt[i])
 	{

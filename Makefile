@@ -65,7 +65,6 @@ FILES			+= btree_create
 FILES			+= btree_add_last_left
 FILES			+= btree_add_last_right
 FILES			+= btree_add_as_first
-FILES			+= btree_set_file_first_cmd
 FILES			+= btree_set_file_last_cmd
 #execute
 FILES			+= execute
@@ -101,7 +100,7 @@ start:
 	@printf "$(C_MAGENTA)===========Program [$(NAME)]===========$(C_STD)\n"
 
 $(NAME): $(BUILD_PATH) $(OBJS)
-	@$(CC) $(CFLAGS) -I$(INC_PATH) $(OBJS) -lreadline -lncurses $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) -I$(INC_PATH) $(OBJS) -lreadline $(LIBFT) -o $(NAME)
 
 $(BUILD_PATH)%.o: %.c
 	@$(CC) $(CFLAGS) -I$(INC_PATH) -c $< -o $@
