@@ -23,7 +23,7 @@ int	count_cmds(t_btree *node, int j)
 void	fd_organizer(t_head *head, t_btree *node, int *fd)
 {
 	(void)fd;
-	if (head->n_cmds == 1 && node->files.in.exists == 0)
+	if (head->n_cmds == 1 && !node->files.in.exists)
 		node->files.in.fd = STDIN_FILENO;
 	else if (node->files.in.exists == 1)
 	{
@@ -31,9 +31,7 @@ void	fd_organizer(t_head *head, t_btree *node, int *fd)
 		dup2(node->files.in.fd, STDIN_FILENO);
 		close(node->files.in.fd);
 	}
-/*	else if (head->index == 0)
-		node->fd.in = STDIN_FILENO;*/
-	if (head->index == (head->n_cmds - 1))
+	if (head->index == (head->n_cmds - 1) && !node->files.out.exists)
 		node->files.out.fd = STDOUT_FILENO;
 	else if (node->files.out.exists == 1)
 	{

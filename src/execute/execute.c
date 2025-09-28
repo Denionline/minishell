@@ -37,18 +37,18 @@ int	hierarchy_btree(t_head *head, t_btree *node)
 		execute(head, node->right);
 //		free_node(node->right);
 	}
-/*	else if (node->identifier == AND)
+	else if (node->identifier == AND)
 	{
-		status = hierarchy_btree(head, node->left);
-		if (status == 0)
+		head->exit_code = hierarchy_btree(head, node->left);
+		if (head->exit_code == 0)
 			hierarchy_btree(head, node->right);
 	}
 	else if (node->identifier == OR)
 	{
-		status = hierarchy_btree(head, node->left);
-		if (status != 0)
+		head->exit_code = hierarchy_btree(head, node->left);
+		if (head->exit_code != 0)
 			hierarchy_btree(head, node->right);
-	}*/
+	}
 	return (head->exit_code);
 }
 
@@ -84,7 +84,10 @@ pid_t	child_process(t_head *head, t_btree *node)
 	else if (pid == 0)
 	{
 		if (node->files.out.fd == -1)
+		{
 			dup2(fd[1], STDOUT_FILENO);
+			printf("esta saindo entrada do primeiro comando pelo pipe\n");
+		}
 		close_fd(fd);
 		if (execve(node->cmd->path, node->cmd->args, head->envp) == -1)
 			free_node(node);
