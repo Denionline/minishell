@@ -65,7 +65,7 @@ int	execute(t_head *head, t_btree *node)
 		else if (WIFSIGNALED(status))
 			head->exit_code = WTERMSIG(status) + 128;
 	}
-	free_node(node);
+//	free_node(node);
 	head->index++;
 	return (head->exit_code);
 }
@@ -98,6 +98,7 @@ pid_t	child_process(t_head *head, t_btree *node)
 	return (pid);
 }
 
+/*
 int	wait_list(t_head *head)
 {
 	int	i;
@@ -117,4 +118,4 @@ int	wait_list(t_head *head)
 		i++;
 	}
 	return (head->exit_code);
-}
+}*/
