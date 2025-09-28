@@ -3,7 +3,7 @@
 
 int	count_cmds(t_btree *node, int j)
 {
-	static int i;
+	static int	i;
 
 	if (!node)
 		return (0);

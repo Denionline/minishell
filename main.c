@@ -8,4 +8,5 @@ int	main(int argc, char *argv[], char *envp[])
 	initializer(&head, argc, argv, envp);
 	minishell(head);
 	end(head, 0, "SUCESS");
+//	free_all(head, head->root, NULL);
 }

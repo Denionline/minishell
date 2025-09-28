@@ -17,8 +17,6 @@ void	execute_manager(t_head *head)
 
 int	hierarchy_btree(t_head *head, t_btree *node)
 {
-//	int	status;
-
 	if (node == NULL)
 		return (0);
 	else if (node->identifier == COMMAND)
@@ -30,20 +28,17 @@ int	hierarchy_btree(t_head *head, t_btree *node)
 		execute(head, node->left);
 		if (node->right->identifier == COMMAND)
 			execute(head, node->right);
-//		free_node(node);
+		node = NULL;
 	}
-	if (node->right && node->right->identifier == COMMAND)
-	{
+	if (node && node->right && node->right->identifier == COMMAND)
 		execute(head, node->right);
-//		free_node(node->right);
-	}
-	else if (node->identifier == AND)
+	else if (node && node->identifier == AND)
 	{
 		head->exit_code = hierarchy_btree(head, node->left);
 		if (head->exit_code == 0)
 			hierarchy_btree(head, node->right);
 	}
-	else if (node->identifier == OR)
+	else if (node && node->identifier == OR)
 	{
 		head->exit_code = hierarchy_btree(head, node->left);
 		if (head->exit_code != 0)
@@ -65,14 +60,15 @@ int	execute(t_head *head, t_btree *node)
 		else if (WIFSIGNALED(status))
 			head->exit_code = WTERMSIG(status) + 128;
 	}
-	free_node(node);
+	node = NULL;
+//	free_node(node);
 	head->index++;
 	return (head->exit_code);
 }
 
 pid_t	child_process(t_head *head, t_btree *node)
 {
-	int	fd[2];
+	int		fd[2];
 	pid_t	pid;
 
 	if (pipe(fd) == -1)
@@ -84,10 +80,7 @@ pid_t	child_process(t_head *head, t_btree *node)
 	else if (pid == 0)
 	{
 		if (node->files.out.fd == -1)
-		{
 			dup2(fd[1], STDOUT_FILENO);
-			printf("esta saindo entrada do primeiro comando pelo pipe\n");
-		}
 		close_fd(fd);
 		if (execve(node->cmd->path, node->cmd->args, head->envp) == -1)
 			free_node(node);
