@@ -43,6 +43,8 @@ static void	set_cmd_args(t_cmd *cmd, char *prompt)
 		{
 			cmd->args = realloc_args(cmd->args, size_args + 1);
 			cmd->args[size_args] = get_string_argument(prompt + i);
+			if (cmd->args[size_args][0] == '\'' || cmd->args[size_args][0] == '\"')
+			cmd->args[size_args] = ft_strremove(cmd->args[size_args], cmd->args[size_args][0]);
 			prompt += ft_strlen(cmd->args[size_args++]) + i;
 			i = 0;
 		}

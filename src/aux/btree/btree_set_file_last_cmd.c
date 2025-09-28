@@ -10,17 +10,18 @@ static void	set_or_replace_file(t_file *to_change, t_file *source)
 	to_change->exists = source->exists;
 	to_change->flags = source->flags;
 	to_change->fd = source->fd;
+	ft_bzero(source, sizeof(*source));
 }
 
-static void	check_to_change(t_btree **node, t_files *files)
+static void	check_to_change(t_btree **node, t_files **files)
 {
-	if (files->in.exists)
-		set_or_replace_file(&(*node)->files.in, &files->in);
-	if (files->out.exists)
-		set_or_replace_file(&(*node)->files.out, &files->out);
+	if ((*files)->in.exists)
+		set_or_replace_file(&(*node)->files.in, &(*files)->in);
+	if ((*files)->out.exists)
+		set_or_replace_file(&(*node)->files.out, &(*files)->out);
 }
 
-void	btree_set_file_last_cmd(t_btree **root, t_files *files)
+void	btree_set_file_last_cmd(t_btree **root, t_files **files)
 {
 	if (*root)
 	{

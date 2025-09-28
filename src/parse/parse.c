@@ -40,7 +40,7 @@ static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 		pos++;
 	add_node_on_tree(head, op, prompt + pos);
 	if (is_file_pending(files))
-		btree_set_file_last_cmd(&head->root, files);
+		btree_set_file_last_cmd(&head->root, &files);
 	return (pos);
 }
 
@@ -49,7 +49,7 @@ static void	handle_first_command(t_head *head, char *prompt, t_files *files)
 	if (!head->root)
 		add_node_on_tree(head, 0, prompt);
 	if (is_file_pending(files))
-		btree_set_file_last_cmd(&head->root, files);
+		btree_set_file_last_cmd(&head->root, &files);
 }
 
 void	parse(t_head *head, char *prompt)
