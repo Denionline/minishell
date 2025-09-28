@@ -23,24 +23,14 @@ int	count_cmds(t_btree *node, int j)
 void	fd_organizer(t_head *head, t_btree *node, int *fd)
 {
 	(void)fd;
-	node->fd.in = -1;
-	node->fd.out = -1;
-	if (head->n_cmds == 1 && node->fd.in == -1)
-		node->fd.in = STDIN_FILENO;
-		//nao precisa de dup2, pq so uso esssa variavel para evitar pipe_fd
-	else if (node->fd.in != -1)
-		dup2(node->fd.in, STDIN_FILENO);
-		//aqui precisa do dup2 para redirecionar o fd certo como STDIN
+	if (head->n_cmds == 1 && node->files.in.fd == -1)
+		node->files.in.fd = STDIN_FILENO;
+	else if (node->files.in.fd != -1)
+		dup2(node->files.in.fd, STDIN_FILENO);
 /*	else if (head->index == 0)
-	{
-		node->fd.in = STDIN_FILENO;
-
-	}*/
+		node->fd.in = STDIN_FILENO;*/
 	if (head->index == (head->n_cmds - 1))
-		node->fd.out = STDOUT_FILENO;
-	else if (node->fd.out != -1)
-		dup2(node->fd.out, STDOUT_FILENO);
-	//modelo novo:
-	//	node->files->out.fd != -1
-	//ou	node->files->in.fd != -1
+		node->files.out.fd = STDOUT_FILENO;
+	else if (node->files.out.fd != -1)
+		dup2(node->files.out.fd, STDOUT_FILENO);
 }
