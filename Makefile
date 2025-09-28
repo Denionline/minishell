@@ -70,7 +70,6 @@ FILES			+= btree_set_file_last_cmd
 #execute
 FILES			+= execute
 FILES			+= execute_utils
-FILES			+= infile
 
 
 SRCS			= $(addprefix ./, $(addsuffix .c, $(FILES)))

@@ -1,12 +1,6 @@
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-typedef struct	s_fd
-{
-	int	in;
-	int	out;
-}		t_fd;
-
 typedef struct s_file
 {
 	char	*name;
@@ -34,7 +28,6 @@ typedef struct s_btree
 	t_files			files;
 	struct s_btree	*left;
 	struct s_btree	*right;
-	t_fd	fd;
 }	t_btree;
 
 typedef struct s_head
@@ -44,9 +37,8 @@ typedef struct s_head
 	char	**envp;
 	int		exit_code;
 	int		n_cmds;
-	t_file	file;
+	t_files	files;
 	pid_t	*pid;
-	t_fd	fd;
 	int	index;
 }	t_head;
 
