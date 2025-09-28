@@ -3,16 +3,16 @@
 
 void	execute_manager(t_head *head)
 {
-	head->fd.in = dup(STDIN_FILENO);
-	head->fd.out = dup(STDOUT_FILENO);
+	head->files.in.fd = dup(STDIN_FILENO);
+	head->files.out.fd = dup(STDOUT_FILENO);
 	head->n_cmds = count_cmds(head->root, 0);
 	head->pid = malloc(sizeof(pid_t) * head->n_cmds);
 	if (!head->pid)
 		return ;
 	head->index = 0;
 	hierarchy_btree(head, head->root);
-	dup2(head->fd.in, STDIN_FILENO);
-	dup2(head->fd.out, STDOUT_FILENO);
+	dup2(head->files.in.fd, STDIN_FILENO);
+	dup2(head->files.out.fd, STDOUT_FILENO);
 }
 
 int	hierarchy_btree(t_head *head, t_btree *node)
@@ -83,7 +83,7 @@ pid_t	child_process(t_head *head, t_btree *node)
 		close_fd(fd);
 	else if (pid == 0)
 	{
-		if (node->fd.out == -1)
+		if (node->files.out.fd == -1)
 			dup2(fd[1], STDOUT_FILENO);
 		close_fd(fd);
 		if (execve(node->cmd->path, node->cmd->args, head->envp) == -1)
@@ -91,31 +91,9 @@ pid_t	child_process(t_head *head, t_btree *node)
 	}
 	else
 	{
-		if (node->fd.in == -1)
+		if (node->files.in.fd == -1)
 			dup2(fd[0], STDIN_FILENO);
 		close_fd(fd);
 	}
 	return (pid);
 }
-
-/*
-int	wait_list(t_head *head)
-{
-	int	i;
-	int	status;
-
-	i = head->index - 1;
-	while (i < head->n_cmds)
-	{
-		waitpid(head->pid[i], &status, 0);
-		if (i == (head->n_cmds -1))
-		{
-			if (WIFEXITED(status))
-				head->exit_code = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				head->exit_code = WTERMSIG(status) + 128;
-		}
-		i++;
-	}
-	return (head->exit_code);
-}*/
