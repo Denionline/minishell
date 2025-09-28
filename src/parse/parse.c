@@ -77,8 +77,6 @@ void	parse(t_head *head, char *prompt)
 			i += handle_operator(head, prompt + i, operator, &files);
 		if (!head->root || is_file_pending(&files))
 			handle_first_command(head, prompt + i, &files);
-		while (!ft_isspace(prompt[i]))
-			i++;
 		i += !operator;
 	}
 }
