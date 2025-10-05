@@ -14,6 +14,19 @@ void	signal_handler(void)
 	}*/
 }
 
+//nao sei se precisa dessa, seria para add a main
+void	signal_tty(void)
+{
+	signal(SIGTTIN, SIG_IGN);
+	signal(SIGTTOU, SIG_IGN);
+}
+
+//se nao fizer a signal_tty, nao precisa dessa, seria para a child
+void	signal_child(void)
+{
+	signal(SIGTTIN, SIG_DFL);
+	signal(SIGTTOU, SIG_DFL);	
+}
 void	ft_handle_ctrl_c(int sig)
 {
 	//free all from head, but not head

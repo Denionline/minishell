@@ -35,7 +35,8 @@ void	fd_organizer(t_head *head, t_btree *node, int *fd)
 		node->files.out.fd = STDOUT_FILENO;
 	else if (node->files.out.exists == 1)
 	{
-		node->files.out.fd = open(node->files.out.name, node->files.out.flags, 0644);
+		node->files.out.fd = open(node->files.out.name,
+				node->files.out.flags, 0644);
 		dup2(node->files.out.fd, STDOUT_FILENO);
 		close(node->files.out.fd);
 	}

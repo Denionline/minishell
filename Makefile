@@ -39,6 +39,7 @@ VPATH			+= src/parse/aux/get
 VPATH			+= src/verify
 VPATH			+= src/execute
 VPATH			+= src/signal
+VPATH			+= src/functions
 
 LIBFT_PATH		= $(INC_PATH)/libft/
 
@@ -69,6 +70,10 @@ FILES			+= btree_set_file_last_cmd
 #execute
 FILES			+= execute
 FILES			+= execute_utils
+FILES			+= builtin
+#built-in
+FILES			+= ft_pwd
+FILES			+= ft_cd
 
 
 SRCS			= $(addprefix ./, $(addsuffix .c, $(FILES)))
@@ -127,17 +132,4 @@ get_libft:
 	@git clone $(LIBFT_URL) $(LIBFT_PATH)
 	@printf "$(C_GREEN)libft$(C_STD) successfully downloaded\n"
 
-val: $(NAME)
-	@echo "{" > readline.supp
-	@echo "	leak readline" >> readline.supp
-	@echo "	Memcheck:Leak" >> readline.supp
-	@echo "..." >> readline.supp
-	@echo "	fun:readline" >> readline.supp
-	@echo "}" >> readline.supp
-	@echo "{" >> readline.supp
-	@echo "	leak add_history" >> readline.supp
-	@echo "	Memcheck:Leak" >> readline.supp
-	@echo "..." >> readline.supp
-	@echo "	fun:add_history" >> readline.supp
-	@echo "}" >> readline.supp
-	@valgrind ./$(NAME)
+#valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --trace-children=yes
