@@ -73,6 +73,7 @@ FILES			+= execute_utils
 FILES			+= builtin
 #built-in
 FILES			+= ft_pwd
+FILES			+= ft_cd
 
 
 SRCS			= $(addprefix ./, $(addsuffix .c, $(FILES)))

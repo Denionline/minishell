@@ -78,7 +78,6 @@ void	ft_execute(t_head *head, t_btree *node)
 		free_node(node);
 }
 
-
 pid_t	child_process(t_head *head, t_btree *node)
 {
 	int		fd[2];
@@ -91,17 +90,13 @@ pid_t	child_process(t_head *head, t_btree *node)
 	if (pid == -1)
 		close_fd(fd);
 	else if (pid == 0)
-	{	
+	{
 		close(head->files.in.fd);
 		close(head->files.out.fd);
 		if (node->files.out.fd == -1)
 			dup2(fd[1], STDOUT_FILENO);
 		close_fd(fd);
 		ft_execute(head, node);
-/*		if (ft_builtin(node) == 0)
-			head->exit_code = 0;
-		else if (execve(node->cmd->path, node->cmd->args, head->envp) == -1)
-			free_node(node);*/
 	}
 	else
 	{
