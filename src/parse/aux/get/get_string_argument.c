@@ -16,6 +16,7 @@ static int	is_tohandle_backslash(char *c, char quote)
 		return (1);
 	if (*c == 'n')
 		return (1);
+	return (0);
 }
 
 static void	verify_quotes(t_quotes *quotes, char c)
@@ -65,23 +66,50 @@ static int	get_string_argument_size(char *string)
 	return (size - jumps);
 }
 
-char	*get_string_argument(char *string)
+static char	*join_var(char *string, char **envp, int *var_len)
 {
+	char	*new_string;
+	char	*variable;
+	char	*prefix;
+	char	*temp;
+	int		size;
+
+	string += 1;
+	temp = get_string_argument(string, NULL);
+	prefix = ft_strjoin(temp, "=");
+	free(temp);
+	variable = get_var_path(prefix, envp);
+	free(prefix);
+	size = ft_strlen(variable);
+	new_string = ft_strjoin(string - size, variable);
+	free(variable);
+	*var_len += size;
+	return (new_string);
+}
+
+char	*get_string_argument(char *string, char **envp)
+{
+	int		string_size;
+	char	*string_argument;
+	int		var_lengths;
+	int		pos;
 	
-	const int	string_size = get_string_argument_size(string);
-	char		*string_argument;
-	int			i;
-	
+	string_size = get_string_argument_size(string);
+	if (!envp && (string[string_size - 1] == '\'' || string[string_size - 1] == '\"'))
+		string_size -= 1;
 	string_argument = ft_calloc(string_size + 1, 1);
 	if (!string_argument)
 		return (NULL);
-	i = 0;
-	while (i < string_size)
+	var_lengths = 0;
+	pos = 0;
+	while (pos < string_size + var_lengths)
 	{
-		if (!is_tohandle_backslash(string + i, string[0]))
-			string_argument[i] = string[i];
-		i++;
+		if (envp && string[pos] == '$' && string[pos - 1] != '\\')
+			string_argument = join_var(string, envp, &var_lengths);
+		else if (!is_tohandle_backslash(string + pos, string[0]) || pos == string_size - 1)
+			string_argument[pos] = string[pos];
+		pos += (1 + var_lengths);
 	}
-	string_argument[i] = '\0';
+	string_argument[pos] = '\0';
 	return (string_argument);
 }

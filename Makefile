@@ -61,6 +61,7 @@ FILES			+= get_paths
 FILES			+= get_command
 FILES			+= get_string_argument
 FILES			+= handle_file
+FILES			+= get_var_path
 #binary_tree
 FILES			+= btree_create
 FILES			+= btree_add_last_left
