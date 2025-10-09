@@ -105,7 +105,7 @@ char	*get_string_argument(char *string, char **envp)
 	while (pos < string_size + var_lengths)
 	{
 		if (envp && string[pos] == '$' && string[pos - 1] != '\\')
-			string_argument = join_var(string, envp, &var_lengths);
+			string_argument = join_var(string , envp, &var_lengths);
 		else if (!is_tohandle_backslash(string + pos, string[0]) || pos == string_size - 1)
 			string_argument[pos] = string[pos];
 		pos += (1 + var_lengths);
