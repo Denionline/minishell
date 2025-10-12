@@ -1,6 +1,14 @@
 
 #include "minishell.h"
 
+typedef struct s_arg {
+	char	*string;
+	int		lstring;
+	int		lvariables;
+	int		pos;
+	int		i;
+}	t_arg;
+
 static int	is_tohandle_backslash(char *c, char quote)
 {
 	if (*c != '\\' || quote == '\'')
@@ -42,7 +50,7 @@ static int	is_main_quote_closed(t_quotes *quotes)
 	return (FALSE);
 }
 
-static int	get_string_argument_size(char *string)
+static int	get_string_argument_size(char *string, char **envp)
 {
 	t_quotes	quotes;
 	int			size;
@@ -63,10 +71,12 @@ static int	get_string_argument_size(char *string)
 			verify_quotes(&quotes, string[size]);
 		size += 1;
 	}
+	if (!envp && (string[size] == '\'' || string[size] == '\"'))
+		size -= 1;
 	return (size - jumps);
 }
 
-static char	*join_var(char *string, char **envp, int *var_len)
+static char	*join_var(t_arg *arg, char *string,char **envp)
 {
 	char	*new_string;
 	char	*variable;
@@ -74,42 +84,37 @@ static char	*join_var(char *string, char **envp, int *var_len)
 	char	*temp;
 	int		size;
 
-	string += 1;
-	temp = get_string_argument(string, NULL);
+	temp = get_string_argument(string + 1, NULL);
+	arg->i += ft_strlen(temp);
 	prefix = ft_strjoin(temp, "=");
 	free(temp);
 	variable = get_var_path(prefix, envp);
 	free(prefix);
 	size = ft_strlen(variable);
-	new_string = ft_strjoin(string - size, variable);
+	new_string = ft_strjoin(arg->string, variable);
+	free(arg->string);
 	free(variable);
-	*var_len += size;
+	arg->lvariables += size;
 	return (new_string);
 }
 
 char	*get_string_argument(char *string, char **envp)
 {
-	int		string_size;
-	char	*string_argument;
-	int		var_lengths;
-	int		pos;
+	t_arg	arg;
 	
-	string_size = get_string_argument_size(string);
-	if (!envp && (string[string_size - 1] == '\'' || string[string_size - 1] == '\"'))
-		string_size -= 1;
-	string_argument = ft_calloc(string_size + 1, 1);
-	if (!string_argument)
+	ft_bzero(&arg, sizeof(arg));
+	arg.lstring = get_string_argument_size(string, envp);
+	arg.string = ft_calloc(arg.lstring + 1, 1);
+	if (!arg.string)
 		return (NULL);
-	var_lengths = 0;
-	pos = 0;
-	while (pos < string_size + var_lengths)
+	while (arg.pos < arg.lstring + arg.lvariables)
 	{
-		if (envp && string[pos] == '$' && string[pos - 1] != '\\')
-			string_argument = join_var(string , envp, &var_lengths);
-		else if (!is_tohandle_backslash(string + pos, string[0]) || pos == string_size - 1)
-			string_argument[pos] = string[pos];
-		pos += (1 + var_lengths);
+		if (envp && string[arg.i] == '$' && string[arg.i] != '\\')
+			arg.string = join_var(&arg, string + arg.i, envp);
+		else if (!is_tohandle_backslash(string + arg.i, string[0]) || arg.i == arg.lstring - 1)
+			arg.string[arg.pos] = string[arg.i];
+		arg.pos = (++arg.i + arg.lvariables);
 	}
-	string_argument[pos] = '\0';
-	return (string_argument);
+	arg.string[arg.pos] = '\0';
+	return (arg.string);
 }
