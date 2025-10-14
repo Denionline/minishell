@@ -2,6 +2,7 @@
 #include "minishell.h"
 
 typedef struct s_arg {
+	int		current_size;
 	char	*string;
 	int		lstring;
 	int		lvariables;
@@ -76,26 +77,49 @@ static int	get_string_argument_size(char *string, char **envp)
 	return (size - jumps);
 }
 
+static char	*set_rest_space(t_arg *arg, char *string)
+{
+	const int	lstring = ft_strlen(string);
+	const int	new_size = lstring + (arg->lstring - arg->i);
+	char		*new_string;
+	int			i;
+
+	new_string = ft_calloc(new_size + 1, 1);
+	if (!new_string)
+		return (NULL);
+	i = 0;
+	while (i < lstring)
+	{
+		new_string[i] = string[i];
+		i++;
+	}
+	new_string[new_size - 1] = '\0';
+	free(string);
+	return (new_string);
+}
+// echo "hi$SHELL haha"
 static char	*join_var(t_arg *arg, char *string,char **envp)
 {
 	char	*new_string;
-	char	*variable;
+	char	*variable_value;
+	char	*variable_name;
 	char	*prefix;
-	char	*temp;
+	int		variable_name_size;
 	int		size;
 
-	temp = get_string_argument(string + 1, NULL);
-	arg->i += ft_strlen(temp);
-	prefix = ft_strjoin(temp, "=");
-	free(temp);
-	variable = get_var_path(prefix, envp);
+	variable_name = get_string_argument(string + 1, NULL);
+	variable_name_size = ft_strlen(variable_name);
+	prefix = ft_strjoin(variable_name, "=");
+	free(variable_name);
+	variable_value = get_var_path(prefix, envp);
 	free(prefix);
-	size = ft_strlen(variable);
-	new_string = ft_strjoin(arg->string, variable);
+	size = ft_strlen(variable_value) - 1;
+	new_string = ft_strjoin(arg->string, variable_value);
 	free(arg->string);
-	free(variable);
-	arg->lvariables += size;
-	return (new_string);
+	free(variable_value);
+	arg->i += variable_name_size;
+	arg->lvariables += size - variable_name_size;
+	return (set_rest_space(arg, new_string));
 }
 
 char	*get_string_argument(char *string, char **envp)
@@ -113,6 +137,7 @@ char	*get_string_argument(char *string, char **envp)
 			arg.string = join_var(&arg, string + arg.i, envp);
 		else if (!is_tohandle_backslash(string + arg.i, string[0]) || arg.i == arg.lstring - 1)
 			arg.string[arg.pos] = string[arg.i];
+		arg.current_size = ft_strlen(arg.string);
 		arg.pos = (++arg.i + arg.lvariables);
 	}
 	arg.string[arg.pos] = '\0';
