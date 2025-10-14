@@ -20,7 +20,7 @@ static int	set_file_values(t_file *file, int flags, char *string, int to_change)
 
 int	handle_file(t_head *head, t_files *files, char *prompt, int op)
 {
-	char	*string_argument;
+	char	*string;
 	int		to_change;
 	int		pos;
 
@@ -30,22 +30,22 @@ int	handle_file(t_head *head, t_files *files, char *prompt, int op)
 	pos = get_operator_size(op);
 	while (ft_isspace(prompt[pos]))
 		pos++;
-	string_argument = get_string_argument(prompt + pos, head->envp);
+	string = string_argument(prompt + pos, head->envp);
 	if (op == ARROW_LEFT)
 		pos += set_file_values(&files->in,
-			O_RDONLY, string_argument, to_change
+			O_RDONLY, string, to_change
 		);
 	else if (op == DOUBLE_ARROW_LEFT)
 		pos += set_file_values(&files->in,
-			-1, string_argument, to_change
+			-1, string, to_change
 		);
 	else if (op == ARROW_RIGHT)
 		pos += set_file_values(&files->out,
-			O_CREAT | O_WRONLY | O_TRUNC, string_argument, to_change
+			O_CREAT | O_WRONLY | O_TRUNC, string, to_change
 		);
 	else if (op == DOUBLE_ARROW_RIGHT)
 		pos += set_file_values(&files->out,
-			O_CREAT | O_WRONLY | O_APPEND, string_argument, to_change
+			O_CREAT | O_WRONLY | O_APPEND, string, to_change
 		);
 	return (pos);
 }
