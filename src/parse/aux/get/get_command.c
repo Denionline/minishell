@@ -22,7 +22,7 @@ static char	**realloc_args(char **old_args, int new_len)
 	return (new_args);
 }
 
-static void	set_cmd_args(t_cmd *cmd, char *prompt)
+static void	set_cmd_args(t_head *head, t_cmd *cmd, char *prompt)
 {
 	int	size_args;
 	int	op;
@@ -36,15 +36,13 @@ static void	set_cmd_args(t_cmd *cmd, char *prompt)
 	{
 		op = get_operator(prompt + i);
 		if (is_arrow_operator(op))
-			prompt += handle_file(0, prompt + i, op, FALSE);
+			prompt += handle_file(head, 0, prompt + i, op);
 		else if (op)
 			break ;
 		if (!ft_isspace(prompt[i]) && (i == 0 || ft_isspace(prompt[i - 1])))
 		{
 			cmd->args = realloc_args(cmd->args, size_args + 1);
-			cmd->args[size_args] = get_string_argument(prompt + i);
-			if (cmd->args[size_args][0] == '\'' || cmd->args[size_args][0] == '\"')
-			cmd->args[size_args] = ft_strremove(cmd->args[size_args], cmd->args[size_args][0]);
+			cmd->args[size_args] = string_argument(prompt + i, head->envp);
 			prompt += ft_strlen(cmd->args[size_args++]) + i;
 			i = 0;
 		}
@@ -59,7 +57,7 @@ t_cmd	*get_command(t_head *head, char *prompt)
 	cmd = ft_calloc(1, sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-	set_cmd_args(cmd, prompt);
+	set_cmd_args(head, cmd, prompt);
 	if (!cmd->args)
 		return (NULL);
 	cmd->path = get_valid_path(head->paths, cmd->args[0]);

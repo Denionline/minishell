@@ -34,7 +34,7 @@ static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 	int		pos;
 
 	if (is_arrow_operator(op))
-		return (handle_file(files, prompt, op, TRUE));
+		return (handle_file(head, files, prompt, op));
 	pos = get_operator_size(op);
 	while (ft_isspace(prompt[pos]))
 		pos++;
@@ -57,8 +57,8 @@ void	parse(t_head *head, char *prompt)
 	t_files	files;
 	int		operator;
 	int		i;
-	
-	head->paths = get_paths(head->envp);
+
+	head->paths = ft_split(get_var_path("PATH=", head->envp), ':');
 	ft_bzero(&files, sizeof(files));
 	files.in.fd = -1;
 	files.out.fd = -1;

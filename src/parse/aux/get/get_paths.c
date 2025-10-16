@@ -21,18 +21,3 @@ char	*get_valid_path(char **paths, char *command)
 	return (NULL);
 }
 
-char	**get_paths(char *env[])
-{
-	const char	*prefix = "PATH=";
-	const int	lprefix = ft_strlen(prefix);
-	int			i;
-
-	i = 0;
-	while (env[i])
-	{
-		if (!ft_strncmp(env[i], prefix, lprefix))
-			return (ft_split(env[i] + lprefix, ':'));
-		i++;
-	}
-	return (NULL);
-}
