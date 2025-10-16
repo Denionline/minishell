@@ -31,6 +31,8 @@ int		get_operator(char *value);
 void	print(t_btree *token);
 int		get_operator_size(int operator);
 int		is_arrow_operator(int operator);
+int		verify_quotes(t_quotes *quotes, char c);
+int		is_main_quote_closed(t_quotes *quotes);
 
 // parse/aux/string_argument/
 char	*string_argument(char *string, char **envp);

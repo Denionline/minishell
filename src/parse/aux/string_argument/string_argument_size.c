@@ -14,7 +14,7 @@ static int variable_size(char *string, char **envp, int i, int j)
 	name = ft_calloc(name_len + 1, 1);
 	if (!name)
 		return (-1);
-	ft_memcpy(name, string + i + 1, name_len);
+	ft_memcpy(name, string + 1, name_len);
 	prefix = ft_strjoin(name, "=");
 	free(name);
 	if (prefix)
@@ -34,51 +34,41 @@ int	string_argument_size(char *string, char **envp)
 {
 	t_quotes	quotes;
 	int			size;
-	int			j;
+	int			jumps;
 	int			i;
+	int			j;
 
-	i = -1;
-	size = 0;
 	ft_bzero(&quotes, sizeof(quotes));
-	while (string[++i])
+	jumps = 0;
+	size = 0;
+	i = 0;
+	while (string[i])
 	{
 		if (is_tohandle_backslash(string + i, quotes.quote))
-		{
-			size += 1;
-			if (string[i + 1])
-				i += 1;
-			continue ;
-		}
+			jumps += 1;
+		if (is_main_quote_closed(&quotes) && get_operator(string + i))
+			break ;
+		if (is_main_quote_closed(&quotes) && ft_isspace(string[i]))
+			break ;
 		if (string[i] == '\'' || string[i] == '\"')
 		{
-			if (string[i] != quotes.quote)
+			if (!verify_quotes(&quotes, string[i]))
 				size++;
-			if (!quotes.quote)
-				quotes.quote = string[i];
-			else if (quotes.quote == string[i])
-				quotes.quote = '\0';
+			i++;
 			continue ;
 		}
-		if (!quotes.quote && get_operator(string + i))
-			break ;
-		if (!quotes.quote && ft_isspace(string[i]))
-			break ;
 		if (string[i] == '$' && envp && quotes.quote != '\'')
 		{
-			if (string[i + 1] && string[i + 1] == '?' && ++i && ++size)
-				continue ;
-			if (!string[i + 1] && ++size)
-				continue ;
-			if (!is_var_char(string[i + 1]) && ++size)
-				continue ;
 			j = i + 1;
 			while (string[j] && is_var_char(string[j]))
 				j++;
-			size += variable_size(string, envp, i, j);
-			i = j;
-			continue ;
+			size += variable_size(string + i, envp, i, j) - 1;
+			i = j - 1;
 		}
-		size++;
+		size += 1;
+		i++;
 	}
-	return (size);
+	if (!envp && (string[i] == '\'' || string[i] == '\"'))
+		size -= 1;
+	return (size - jumps);
 }

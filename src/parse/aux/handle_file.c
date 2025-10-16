@@ -10,8 +10,6 @@ static int	set_file_values(t_file *file, int flags, char *string, int to_change)
 		file->exists = TRUE;
 		file->flags = flags;
 		file->name = ft_strdup(string);
-		if (file->name[0] == '\'' || file->name[0] == '\"')
-			file->name = ft_strremove(file->name, file->name[0]);
 	}
 	complete_size = ft_strlen(string);
 	free(string);
