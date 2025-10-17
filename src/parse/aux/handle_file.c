@@ -28,7 +28,7 @@ int	handle_file(t_head *head, t_files *files, char *prompt, int op)
 	pos = get_operator_size(op);
 	while (ft_isspace(prompt[pos]))
 		pos++;
-	string = string_argument(prompt + pos, head->envp);
+	string = string_argument(prompt + pos, head->envp, NULL);
 	if (op == ARROW_LEFT)
 		pos += set_file_values(&files->in,
 			O_RDONLY, string, to_change

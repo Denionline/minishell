@@ -4,21 +4,21 @@
 # include <fcntl.h>
 # include "minishell.h"
 
-typedef struct s_arg {
-	int		current_size;
-	char	*string;
-	int		lstring;
-	int		lvariables;
-	int		pos;
-	int		i;
-}	t_arg;
-
 typedef struct s_quotes
 {
 	char	quote;
 	int		s;
 	int		d;
 }	t_quotes;
+
+typedef struct s_arg {
+	t_quotes	quotes;
+	int			current_size;
+	char		*string;
+	int			lstring;
+	int			pos;
+	int			i;
+}	t_arg;
 
 void	parse(t_head *head, char *prompt);
 
@@ -35,7 +35,7 @@ int		verify_quotes(t_quotes *quotes, char c);
 int		is_main_quote_closed(t_quotes *quotes);
 
 // parse/aux/string_argument/
-char	*string_argument(char *string, char **envp);
+char	*string_argument(char *string, char **envp, int *len);
 int		string_argument_size(char *string, char **envp);
 // parse/aux/string_argument/aux/
 int		is_tohandle_backslash(char *c, char quote);
