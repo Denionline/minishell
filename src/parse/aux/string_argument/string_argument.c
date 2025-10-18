@@ -70,7 +70,8 @@ char	*string_argument(char *string, char **envp, int *len)
 			arg.string[arg.pos++] = string[arg.i];
 	}
 	arg.string[arg.pos] = '\0';
-	*len += arg.i;
+	if (len)
+		*len += arg.i;
 	return (arg.string);
 }
 //  echo 'hel' $SHELL 'lo'

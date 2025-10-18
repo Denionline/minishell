@@ -7,9 +7,14 @@ static int	set_file_values(t_file *file, int flags, char *string, int to_change)
 
 	if (to_change)
 	{
-		file->exists = TRUE;
-		file->flags = flags;
-		file->name = ft_strdup(string);
+		if (flags < 0)
+			*file = heredoc(string);
+		else
+		{
+			file->exists = TRUE;
+			file->flags = flags;
+			file->name = ft_strdup(string);
+		}
 	}
 	complete_size = ft_strlen(string);
 	free(string);

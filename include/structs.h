@@ -39,7 +39,7 @@ typedef struct s_head
 	int		n_cmds;
 	t_files	files;
 	pid_t	*pid;
-	int	index;
+	int		index;
 }	t_head;
 
 #endif
