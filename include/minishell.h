@@ -11,7 +11,6 @@
 # include <sys/wait.h>
 # include <readline/history.h>
 # include "libft/include/libft.h"
-# include "get_next_line/include/get_next_line.h"
 # include "structs.h"
 # include "parser.h"
 # include "execute.h"
