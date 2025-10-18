@@ -1,11 +1,13 @@
 
 #include "minishell.h"
 
-static int	is_to_handle_variable(t_arg *arg, char *s, char quote, char **envp)
+static int	is_to_handle_variable(t_arg *arg, char *s, char **envp, int expand)
 {
+	if (!expand)
+		return (FALSE);
 	if (!envp)
 		return (FALSE);
-	if (s[arg->i] == '$' && quote != '\'')
+	if (s[arg->i] == '$' && arg->quotes.quote != '\'')
 	{
 		if (!s[arg->i + 1])
 			return (FALSE);
@@ -43,12 +45,12 @@ static int	variable(t_arg *arg, char *string, char **envp)
 	return (free(name), free(prefix), free(variable), var_size + arg->i);
 }
 
-char	*string_argument(char *string, char **envp, int *len)
+char	*string_argument(char *string, char **envp, int *len, int to_expand)
 {
 	t_arg	arg;
 
 	ft_bzero(&arg, sizeof(arg));
-	arg.lstring = string_argument_size(string, envp);
+	arg.lstring = string_argument_size(string, envp, to_expand, !len);
 	arg.string = ft_calloc(arg.lstring + 1, 1);
 	if (!arg.string)
 		return (NULL);
@@ -58,13 +60,13 @@ char	*string_argument(char *string, char **envp, int *len)
 		if (is_tohandle_backslash(string + arg.i, arg.quotes.quote))
 			arg.i++;
 		if (string[arg.i] == '\'' || string[arg.i] == '\"')
-			if (!verify_quotes(&arg.quotes, string[arg.i]))
+			if (!verify_quotes(&arg.quotes, string[arg.i], !len))
 				continue ;
 		if (is_main_quote_closed(&arg.quotes) && get_operator(string + arg.i))
 			break ;
 		if (is_main_quote_closed(&arg.quotes) && ft_isspace(string[arg.i]))
 			break ;
-		if (is_to_handle_variable(&arg, string, arg.quotes.quote, envp))
+		if (is_to_handle_variable(&arg, string, envp, to_expand))
 			arg.i = variable(&arg, string, envp);
 		else
 			arg.string[arg.pos++] = string[arg.i];

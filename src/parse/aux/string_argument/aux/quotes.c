@@ -12,17 +12,17 @@ int	is_main_quote_closed(t_quotes *quotes)
 	return (FALSE);
 }
 
-int	verify_quotes(t_quotes *quotes, char c)
+int	verify_quotes(t_quotes *quotes, char c, int is_heredoc)
 {
 	int	verify;
 
 	verify = 1;
-	if (!quotes->quote)
+	if (!quotes->quote && !is_heredoc)
 	{
 		quotes->quote = c;
 		verify = 0;
 	}
-	else if (quotes->quote == c)
+	else if (quotes->quote == c && !is_heredoc)
 	{
 		quotes->quote = '\0';
 		verify = 0;

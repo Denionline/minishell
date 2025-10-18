@@ -21,7 +21,7 @@ typedef struct s_arg {
 }	t_arg;
 
 void	parse(t_head *head, char *prompt);
-t_file	heredoc(char *eof);
+t_file	heredoc(char *eof, char **envp);
 
 // parse/aux/
 int		handle_file(t_head *head, t_files *files, char *prompt, int op);
@@ -32,12 +32,12 @@ int		get_operator(char *value);
 void	print(t_btree *token);
 int		get_operator_size(int operator);
 int		is_arrow_operator(int operator);
-int		verify_quotes(t_quotes *quotes, char c);
+int		verify_quotes(t_quotes *quotes, char c, int is_heredoc);
 int		is_main_quote_closed(t_quotes *quotes);
 
 // parse/aux/string_argument/
-char	*string_argument(char *string, char **envp, int *len);
-int		string_argument_size(char *string, char **envp);
+char	*string_argument(char *string, char **envp, int *len, int to_expand);
+int		string_argument_size(char *string, char **envp, int to_expand, int is_hdoc);
 // parse/aux/string_argument/aux/
 int		is_tohandle_backslash(char *c, char quote);
 int		is_var_char(char c);
