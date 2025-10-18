@@ -2,6 +2,7 @@
 .build/
 build/
 include/libft/
+include/get_next_line/
 minishell
 infile
 outfile

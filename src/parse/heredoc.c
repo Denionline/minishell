@@ -1,49 +1,37 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/18 10:58:28 by dximenes          #+#    #+#             */
+/*   Updated: 2025/10/18 10:58:42 by dximenes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-typedef struct s_heredoc
+t_file	heredoc(char *eof)
 {
-	char	*name;
-	char	*eof;
-}		t_heredoc;
-
-void	init_struct(t_head *head)
-{
-	t_heredoc	*heredoc;
-
-	heredoc = malloc(sizeof(t_heredoc));
-	if (!heredoc)
-		//free_function
-	heredoc->eof = parse_eof; //precisa ser feito parse_eof
-	fd_heredoc(heredoc);
-	heredoc->fd_in = open("tmp_heredoc", O_RDONLY);
-	if (heredoc->fd_in == -1)
-		//free_function
-	//nao sei se ja daria para abrir o fd_out aqui, ou precisa ser no ultimo processo
-	heredoc->fd_out = open(head->outfile, O_CREAT | O_WRONLY | O_APPEND, 0644); //precisa criar o char *outfile no head
-	if (fd_out == -1)
-		//free_function
-	//mas acho que da para armazenar aqui e fazer o dup2 la no ultimo processo depois
-}
-
-void	fd_heredoc(t_heredoc *heredoc)
-{
-	int		fd;
+	t_file	heredoc_file;
 	char	*line;
-	char	*eof;
 
-	fd = open("tmp_heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-		//free_function
-	while (1)
+	heredoc_file.name = ft_strjoin(".heredoc_", eof);
+	heredoc_file.flags = O_CREAT | O_RDWR;
+	heredoc_file.fd = open(heredoc_file.name, heredoc_file.flags, 0644);
+	if (heredoc_file.fd == -1)
+		return (free(heredoc_file.name), (t_file){.exists = FALSE});
+	while (TRUE)
 	{
-		ft_putstr_fd(heredoc->name, 1);
+		ft_putstr_fd("> ", 1);
 		line = get_next_line(STDIN_FILENO);
-		if ((ft_strncmp(line, heredoc->eof, ft_strlen(line))) == 0 || !line)
+		if ((!ft_strncmp(line, eof, ft_strlen(line))) || !line)
 			break ;
-		ft_putstr_fd(line, fd);
+		ft_putstr_fd(line, heredoc_file.fd);
 		free(line);
 	}
 	free(line);
-	close(fd);
+	heredoc_file.exists = TRUE;
+	return (heredoc_file);
 }

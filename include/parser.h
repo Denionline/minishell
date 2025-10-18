@@ -21,9 +21,10 @@ typedef struct s_arg {
 }	t_arg;
 
 void	parse(t_head *head, char *prompt);
+t_file	heredoc(char *eof);
 
 // parse/aux/
-int	handle_file(t_head *head, t_files *files, char *prompt, int op);
+int		handle_file(t_head *head, t_files *files, char *prompt, int op);
 
 // parse/aux/get/
 char	*get_var_path(char *prefix, char **envp);
