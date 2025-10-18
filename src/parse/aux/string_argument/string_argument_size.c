@@ -30,7 +30,7 @@ static int variable_size(char *string, char **envp, int i, int j)
 	return (size);
 }
 
-int	string_argument_size(char *string, char **envp)
+int	string_argument_size(char *string, char **envp, int to_expand, int is_hdoc)
 {
 	t_quotes	quotes;
 	int			size;
@@ -41,8 +41,8 @@ int	string_argument_size(char *string, char **envp)
 	ft_bzero(&quotes, sizeof(quotes));
 	jumps = 0;
 	size = 0;
-	i = 0;
-	while (string[i])
+	i = -1;
+	while (string[++i])
 	{
 		if (is_tohandle_backslash(string + i, quotes.quote))
 			jumps += 1;
@@ -52,12 +52,10 @@ int	string_argument_size(char *string, char **envp)
 			break ;
 		if (string[i] == '\'' || string[i] == '\"')
 		{
-			if (!verify_quotes(&quotes, string[i]))
-				size++;
-			i++;
-			continue ;
+			if (!verify_quotes(&quotes, string[i], is_hdoc))
+				continue ;
 		}
-		if (string[i] == '$' && envp && quotes.quote != '\'')
+		if (string[i] == '$' && envp && quotes.quote != '\'' && to_expand)
 		{
 			j = i + 1;
 			while (string[j] && is_var_char(string[j]))
@@ -66,7 +64,6 @@ int	string_argument_size(char *string, char **envp)
 			i = j - 1;
 		}
 		size += 1;
-		i++;
 	}
 	if (!envp && (string[i] == '\'' || string[i] == '\"'))
 		size -= 1;

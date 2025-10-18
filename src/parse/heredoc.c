@@ -6,13 +6,13 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 10:58:28 by dximenes          #+#    #+#             */
-/*   Updated: 2025/10/18 13:03:53 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/10/18 16:09:23 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_file	heredoc(char *eof)
+t_file	heredoc(char *eof, char **envp)
 {
 	t_file	heredoc_file;
 	char	*line;
@@ -24,14 +24,17 @@ t_file	heredoc(char *eof)
 		return (free(heredoc_file.name), (t_file){.exists = FALSE});
 	while (TRUE)
 	{
-		ft_putstr_fd("> ", 1);
-		line = get_next_line(STDIN_FILENO);
-		if ((!ft_strcmp(line, eof)) || !line)
+		// ft_putstr_fd("> ", 1);
+		line = readline("> ");
+		if ((!ft_strcmp(eof, line)) || !line)
 			break ;
+		line = string_argument(line, envp, NULL, TRUE);
 		ft_putstr_fd(line, heredoc_file.fd);
+		ft_putstr_fd("\n", heredoc_file.fd);
 		free(line);
 	}
 	free(line);
+	close(heredoc_file.fd);
 	heredoc_file.exists = TRUE;
 	return (heredoc_file);
 }
