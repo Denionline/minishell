@@ -35,13 +35,9 @@ int	handle_file(t_head *head, t_files *files, char *prompt, int op)
 		pos++;
 	string = string_argument(prompt + pos, head->envp, NULL, FALSE);
 	if (op == ARROW_LEFT)
-		pos += set_file_values(&files->in,
-			O_RDONLY, string, envp
-		);
+		pos += set_file_values(&files->in, O_RDONLY, string, envp);
 	else if (op == DOUBLE_ARROW_LEFT)
-		pos += set_file_values(&files->in,
-			-1, string, envp
-		);
+		pos += set_file_values(&files->in, -1, string, envp);
 	else if (op == ARROW_RIGHT)
 		pos += set_file_values(&files->out,
 			O_CREAT | O_WRONLY | O_TRUNC, string, envp
