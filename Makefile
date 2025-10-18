@@ -20,7 +20,6 @@ C_WHITE = \033[0;97m
 
 NAME			= minishell
 LIBFT			= $(LIBFT_PATH)libft.a
-GNL			= $(GNL_PATH)get_next_line.a
 
 # **************************************************************************** #
 #                                   Path's                                     #
@@ -45,7 +44,6 @@ VPATH			+= src/signal
 VPATH			+= src/functions
 
 LIBFT_PATH		= $(INC_PATH)/libft/
-GNL_PATH		= $(INC_PATH)/get_next_line/
 
 # **************************************************************************** #
 #                                   Files                                      #
@@ -94,7 +92,6 @@ OBJS			= $(addprefix $(BUILD_PATH), $(addsuffix .o, $(FILES)))
 # **************************************************************************** #
 
 LIBFT_URL		= https://github.com/Denionline/libft.git
-GNL_URL			= https://github.com/Denionline/get_next_line.git
 
 # **************************************************************************** #
 #                                  Compiler                                    #
@@ -104,13 +101,13 @@ CC				= cc
 CFLAGS			= -Werror -Wextra -Wall -g
 MAKE			= make --no-print-directory
 RM				= rm -rf
-LIBS			= $(LIBFT) $(GNL)
+LIBS			= $(LIBFT)
 
 # **************************************************************************** #
 #                                  Commands                                    #
 # **************************************************************************** #
 
-all: start verify_libft verify_gnl $(NAME)
+all: start verify_libft $(NAME)
 	@printf "$(C_MAGENTA)===========End [$(NAME)]===========$(C_STD)\n"
 
 start:
@@ -143,15 +140,5 @@ get_libft:
 	@echo "Cloning Libft"
 	@git clone $(LIBFT_URL) $(LIBFT_PATH)
 	@printf "$(C_GREEN)libft$(C_STD) successfully downloaded\n"
-
-verify_gnl:
-	@if test ! -d "$(GNL_PATH)"; then $(MAKE) get_gnl; \
-		else printf "get_next_line: $(C_GREEN)✅$(C_STD)\n"; fi
-	@$(MAKE) -C $(GNL_PATH)
-
-get_gnl:
-	@echo "Cloning get_next_line"
-	@git clone $(GNL_URL) $(GNL_PATH)
-	@printf "$(C_GREEN)get_next_line$(C_STD) successfully downloaded\n"
 
 #valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --trace-children=yes
