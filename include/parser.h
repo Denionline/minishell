@@ -45,4 +45,8 @@ int		is_var_char(char c);
 void	btree_add_as_first(t_btree **root, t_btree *new_node);
 void	btree_set_file_last_cmd(t_btree **root, t_files **files);
 
+// functions/env/
+void	print_env(char **env);
+
+
 #endif

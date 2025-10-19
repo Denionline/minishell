@@ -43,6 +43,7 @@ VPATH			+= src/verify
 VPATH			+= src/execute
 VPATH			+= src/signal
 VPATH			+= src/functions
+VPATH			+= src/functions/env
 
 LIBFT_PATH		= $(INC_PATH)/libft/
 
