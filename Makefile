@@ -43,7 +43,6 @@ VPATH			+= src/verify
 VPATH			+= src/execute
 VPATH			+= src/signal
 VPATH			+= src/functions
-VPATH			+= src/functions/env
 
 LIBFT_PATH		= $(INC_PATH)/libft/
 
@@ -84,6 +83,7 @@ FILES			+= builtin
 #built-in
 FILES			+= ft_pwd
 FILES			+= ft_cd
+FILES			+= ft_env
 
 
 SRCS			= $(addprefix ./, $(addsuffix .c, $(FILES)))

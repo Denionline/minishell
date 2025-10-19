@@ -23,7 +23,7 @@ void	close_fd(int *fd);
 
 //built-ins
 int		is_builtin(t_btree *node);
-void	call_builtin(t_btree *node);
+void	call_builtin(t_head *head, t_btree *node);
 void	ft_pwd(t_btree *node);
 void	ft_cd(char *path);
 

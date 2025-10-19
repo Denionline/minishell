@@ -3,21 +3,27 @@
 
 int	is_builtin(t_btree *node)
 {
-	if (ft_strncmp(node->cmd->args[0], "pwd",
-			ft_strlen(node->cmd->args[0])) == 0)
-		return (0);
-	else if (ft_strncmp(node->cmd->args[0], "cd",
-			ft_strlen(node->cmd->args[0])) == 0)
-		return (0);
-	return (1);
+	const char	*command = node->cmd->args[0];
+	const int	lcommand = ft_strlen(command);
+
+	if (!ft_strncmp(command, "pwd", lcommand))
+		return (TRUE);
+	if (!ft_strncmp(command, "cd", lcommand))
+		return (TRUE);
+	if (!ft_strncmp(command, "env", lcommand))
+		return (TRUE);
+	return (FALSE);
 }
 
-void	call_builtin(t_btree *node)
+void	call_builtin(t_head *head, t_btree *node)
 {
-	if (ft_strncmp(node->cmd->args[0], "pwd",
-			ft_strlen(node->cmd->args[0])) == 0)
+	const char	*command = node->cmd->args[0];
+	const int	lcommand = ft_strlen(command);
+
+	if (!ft_strncmp(command, "pwd", lcommand))
 		ft_pwd(node);
-	else if (ft_strncmp(node->cmd->args[0], "cd",
-			ft_strlen(node->cmd->args[0])) == 0)
+	if (!ft_strncmp(command, "cd", lcommand))
 		ft_cd(node->cmd->args[1]);
+	if (!ft_strncmp(command, "env", lcommand))
+		ft_env(head->envp);
 }
