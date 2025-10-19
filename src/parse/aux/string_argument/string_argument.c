@@ -62,9 +62,9 @@ char	*string_argument(char *string, char **envp, int *len, int to_expand)
 		if (string[arg.i] == '\'' || string[arg.i] == '\"')
 			if (!verify_quotes(&arg.quotes, string[arg.i], !len))
 				continue ;
-		if (is_main_quote_closed(&arg.quotes) && get_operator(string + arg.i))
+		if (is_main_quote_closed(&arg.quotes) && get_operator(string + arg.i) && len)
 			break ;
-		if (is_main_quote_closed(&arg.quotes) && ft_isspace(string[arg.i]))
+		if (is_main_quote_closed(&arg.quotes) && ft_isspace(string[arg.i]) && len)
 			break ;
 		if (is_to_handle_variable(&arg, string, envp, to_expand))
 			arg.i = variable(&arg, string, envp);
@@ -72,7 +72,7 @@ char	*string_argument(char *string, char **envp, int *len, int to_expand)
 			arg.string[arg.pos++] = string[arg.i];
 	}
 	arg.string[arg.pos] = '\0';
-	if (len)
+	if (len && to_expand)
 		*len += arg.i;
 	return (arg.string);
 }
