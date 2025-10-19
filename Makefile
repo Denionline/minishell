@@ -20,6 +20,7 @@ C_WHITE = \033[0;97m
 
 NAME			= minishell
 LIBFT			= $(LIBFT_PATH)libft.a
+VALGRINDRC		= ~/.valgrindrc
 
 # **************************************************************************** #
 #                                   Path's                                     #
@@ -107,7 +108,7 @@ LIBS			= $(LIBFT)
 #                                  Commands                                    #
 # **************************************************************************** #
 
-all: start verify_libft $(NAME)
+all: start verify_libft $(VALGRINDRC) $(NAME)
 	@printf "$(C_MAGENTA)===========End [$(NAME)]===========$(C_STD)\n"
 
 start:
@@ -130,6 +131,9 @@ fclean: clean
 	@$(RM) $(NAME)
 
 re: fclean all
+
+$(VALGRINDRC):
+	@echo "--suppressions=readline.supp" > ~/.valgrindrc
 
 verify_libft:
 	@if test ! -d "$(LIBFT_PATH)"; then $(MAKE) get_libft; \
