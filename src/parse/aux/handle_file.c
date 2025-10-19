@@ -11,9 +11,13 @@ static int	set_file_values(t_file *file, int flags, char *string, char **envp)
 			*file = heredoc(string, envp);
 		else
 		{
-			file->exists = TRUE;
-			file->flags = flags;
 			file->name = ft_strdup(string);
+			file->flags = flags;
+			file->fd = open(file->name, file->flags, 0644);
+			if (file->fd < 0)
+				ft_putendl_fd("Erro to open file", 1);
+			close(file->fd);
+			file->exists = TRUE;
 		}
 	}
 	complete_size = ft_strlen(string);
