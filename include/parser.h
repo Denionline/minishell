@@ -22,6 +22,7 @@ typedef struct s_arg {
 
 void	parse(t_head *head, char *prompt);
 t_file	heredoc(char *eof, char **envp);
+void	new_shlvl(char **env);
 
 // parse/aux/
 int		handle_file(t_head *head, t_files *files, char *prompt, int op);

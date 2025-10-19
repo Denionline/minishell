@@ -36,4 +36,5 @@ void	initializer(t_head **head, int argc, char *argv[], char *envp[])
 		end(*head, errno, "head");
 	ft_bzero(*head, sizeof(**head));
 	(*head)->envp = copy_envp(envp);
+	new_shlvl((*head)->envp);
 }

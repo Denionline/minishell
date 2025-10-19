@@ -32,6 +32,7 @@ BUILD_PATH		= .build/
 VPATH			+= ./
 VPATH			+= src/
 VPATH			+= src/aux
+VPATH			+= src/aux/env
 VPATH			+= src/aux/get
 VPATH			+= src/aux/btree
 VPATH			+= src/parse
@@ -57,6 +58,7 @@ FILES			+= print
 FILES			+= end
 FILES			+= signal_handler
 FILES			+= free_all
+FILES			+= new_shlvl
 #parsing
 FILES			+= parse
 FILES			+= heredoc
