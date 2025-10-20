@@ -22,6 +22,7 @@ typedef struct s_arg {
 
 void	parse(t_head *head, char *prompt);
 t_file	heredoc(char *eof, char **envp);
+void	new_shlvl(char **env);
 
 // parse/aux/
 int		handle_file(t_head *head, t_files *files, char *prompt, int op);
@@ -35,6 +36,9 @@ int		is_arrow_operator(int operator);
 int		verify_quotes(t_quotes *quotes, char c, int is_heredoc);
 int		is_main_quote_closed(t_quotes *quotes);
 
+t_cmd	*get_command(t_head *head, char *prompt);
+char	*get_valid_path(char **paths, char *command);
+
 // parse/aux/string_argument/
 char	*string_argument(char *string, char **envp, int *len, int to_expand);
 int		string_argument_size(char *string, char **envp, int to_expand, int is_hdoc);
@@ -44,5 +48,9 @@ int		is_var_char(char c);
 // aux/btree/
 void	btree_add_as_first(t_btree **root, t_btree *new_node);
 void	btree_set_file_last_cmd(t_btree **root, t_files **files);
+
+// functions/env/
+void	ft_env(char **env);
+
 
 #endif

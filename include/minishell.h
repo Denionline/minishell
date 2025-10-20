@@ -32,11 +32,6 @@ t_btree	*btree_create(int identifier, t_cmd *cmd, t_btree *left, t_btree *right)
 void	btree_add_last_left(t_btree **root, t_btree *new_token);
 void	btree_add_last_right(t_btree **root, t_btree *new_token);
 
-// aux/get/
-t_cmd	*get_command(t_head *head, char *prompt);
-char	*get_valid_path(char **paths, char *command);
-char	**get_paths(char *env[]);
-
 // verify/
 int		end(t_head *head, int status, char *description);
 

@@ -32,6 +32,7 @@ BUILD_PATH		= .build/
 VPATH			+= ./
 VPATH			+= src/
 VPATH			+= src/aux
+VPATH			+= src/aux/env
 VPATH			+= src/aux/get
 VPATH			+= src/aux/btree
 VPATH			+= src/parse
@@ -43,6 +44,7 @@ VPATH			+= src/verify
 VPATH			+= src/execute
 VPATH			+= src/signal
 VPATH			+= src/functions
+VPATH			+= src/functions/aux
 
 LIBFT_PATH		= $(INC_PATH)/libft/
 
@@ -57,6 +59,7 @@ FILES			+= print
 FILES			+= end
 FILES			+= signal_handler
 FILES			+= free_all
+FILES			+= new_shlvl
 #parsing
 FILES			+= parse
 FILES			+= heredoc
@@ -83,6 +86,7 @@ FILES			+= builtin
 #built-in
 FILES			+= ft_pwd
 FILES			+= ft_cd
+FILES			+= ft_env
 
 
 SRCS			= $(addprefix ./, $(addsuffix .c, $(FILES)))

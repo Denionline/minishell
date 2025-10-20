@@ -6,3 +6,4 @@ include/get_next_line/
 minishell
 infile
 outfile
+test_binpath
