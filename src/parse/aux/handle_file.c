@@ -11,9 +11,13 @@ static int	set_file_values(t_file *file, int flags, char *string, char **envp)
 			*file = heredoc(string, envp);
 		else
 		{
-			file->exists = TRUE;
-			file->flags = flags;
 			file->name = ft_strdup(string);
+			file->flags = flags;
+			file->fd = open(file->name, file->flags, 0644);
+			if (file->fd < 0)
+				ft_putendl_fd("Erro to open file", 1);
+			close(file->fd);
+			file->exists = TRUE;
 		}
 	}
 	complete_size = ft_strlen(string);
@@ -33,7 +37,7 @@ int	handle_file(t_head *head, t_files *files, char *prompt, int op)
 	pos = get_operator_size(op);
 	while (ft_isspace(prompt[pos]))
 		pos++;
-	string = string_argument(prompt + pos, head->envp, NULL, FALSE);
+	string = string_argument(prompt + pos, head->envp, &pos, FALSE);
 	if (op == ARROW_LEFT)
 		pos += set_file_values(&files->in, O_RDONLY, string, envp);
 	else if (op == DOUBLE_ARROW_LEFT)

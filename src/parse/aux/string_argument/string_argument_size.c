@@ -46,9 +46,9 @@ int	string_argument_size(char *string, char **envp, int to_expand, int is_hdoc)
 	{
 		if (is_tohandle_backslash(string + i, quotes.quote))
 			jumps += 1;
-		if (is_main_quote_closed(&quotes) && get_operator(string + i))
+		if (is_main_quote_closed(&quotes) && get_operator(string + i) && !is_hdoc)
 			break ;
-		if (is_main_quote_closed(&quotes) && ft_isspace(string[i]))
+		if (is_main_quote_closed(&quotes) && ft_isspace(string[i]) && !is_hdoc)
 			break ;
 		if (string[i] == '\'' || string[i] == '\"')
 		{
@@ -65,7 +65,5 @@ int	string_argument_size(char *string, char **envp, int to_expand, int is_hdoc)
 		}
 		size += 1;
 	}
-	if (!envp && (string[i] == '\'' || string[i] == '\"'))
-		size -= 1;
 	return (size - jumps);
 }

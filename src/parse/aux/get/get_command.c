@@ -43,7 +43,7 @@ static void	set_cmd_args(t_head *head, t_cmd *cmd, char *prompt)
 		{
 			cmd->args = realloc_args(cmd->args, size_args + 1);
 			cmd->args[size_args++] = string_argument(prompt + i, head->envp, &i, TRUE);
-			prompt += i + 1;
+			prompt += i;
 			i = 0;
 			continue;
 		}
