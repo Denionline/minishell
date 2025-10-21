@@ -1,6 +1,12 @@
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
+typedef struct  s_pipe
+{
+        int     pipe_fd[2];
+        int     flag;
+}               t_pipe;
+
 typedef struct s_file
 {
 	char	*name;
@@ -40,6 +46,7 @@ typedef struct s_head
 	t_files	files;
 	pid_t	*pid;
 	int		index;
+	t_pipe	pipe;
 }	t_head;
 
 #endif

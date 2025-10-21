@@ -1,21 +1,34 @@
 
 #include "minishell.h"
 
+static void     init_pipe(t_head *head)
+{
+        head->pipe.pipe_fd[0] = -1;
+        head->pipe.pipe_fd[1] = -1;
+        head->pipe.flag = 0; //no pipe
+}
+
 void	execute_manager(t_head *head)
 {
+	//save original stdin and stdout
 	head->files.in.fd = dup(STDIN_FILENO);
 	head->files.out.fd = dup(STDOUT_FILENO);
+	//count cmds
 	head->n_cmds = count_cmds(head->root, 0);
+	//malloc pid array
 	head->pid = malloc(sizeof(pid_t) * head->n_cmds);
 	if (!head->pid)
 		return ;
 	head->index = 0;
+	//call binary tree, which will call the child process and executions
+	init_pipe(head);
 	hierarchy_btree(head, head->root);
+	//call wait function to ordenate pipes
+	wait_process(head);
+	free(head->pid);
+	//return original stdin and stdout to macros
 	dup2(head->files.in.fd, STDIN_FILENO);
 	dup2(head->files.out.fd, STDOUT_FILENO);
-	close(head->files.in.fd);
-	close(head->files.out.fd);
-	free(head->pid);
 }
 
 int	hierarchy_btree(t_head *head, t_btree *node)
@@ -23,86 +36,142 @@ int	hierarchy_btree(t_head *head, t_btree *node)
 	if (node == NULL)
 		return (0);
 	else if (node->identifier == COMMAND)
-		execute(head, node);
+		organize_process(head, node);
 	else if (node->left && node->left->identifier == PIPE)
 		hierarchy_btree(head, node->left);
 	if (node->left && node->left->identifier == COMMAND)
 	{
-		execute(head, node->left);
+		organize_process(head, node->left);
 		if (node->right->identifier == COMMAND)
-			execute(head, node->right);
+			organize_process(head, node->right);
 		node = NULL;
 	}
 	if (node && node->right && node->right->identifier == COMMAND)
-		execute(head, node->right);
-/*	else if (node && node->identifier == AND)
-	{
-		head->exit_code = hierarchy_btree(head, node->left);
-		if (head->exit_code == 0)
-			hierarchy_btree(head, node->right);
-	}
-	else if (node && node->identifier == OR)
-	{
-		head->exit_code = hierarchy_btree(head, node->left);
-		if (head->exit_code != 0)
-			hierarchy_btree(head, node->right);
-	}*/
+		organize_process(head, node->right);
 	return (head->exit_code);
 }
 
-int	execute(t_head *head, t_btree *node)
+void	organize_process(t_head *head, t_btree *node)
 {
-	int	status;
-
+	//call child process and increase index
 	head->pid[head->index] = child_process(head, node);
-	waitpid(head->pid[head->index], &status, 0);
-	if (head->index == (head->n_cmds - 1))
-	{
-		if (WIFEXITED(status))
-			head->exit_code = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			head->exit_code = WTERMSIG(status) + 128;
-	}
+	//null node to delete it from tree (it works like that?)
 	node = NULL;
-//	free_node(node);
 	head->index++;
-	return (head->exit_code);
+}
+
+void	fd_organizer(t_head *head, t_btree *node)
+{
+//	init_pipe(head);
+	if (head->n_cmds == 1 && !node->files.in.exists)
+		node->files.in.fd = STDIN_FILENO;
+	else if (node->files.in.exists == 1)
+		node->files.in.fd = open(node->files.in.name, node->files.in.flags);
+	if (head->index == (head->n_cmds - 1) && !node->files.out.exists)
+		node->files.out.fd = STDOUT_FILENO;
+	else if (node->files.out.exists == 1)
+	{
+		node->files.out.fd = open(node->files.out.name,
+				node->files.out.flags, 0644);
+	}
+	if (head->n_cmds > 1 && head->index < (head->n_cmds -1))
+		head->pipe.flag = 1;
+	else
+		head->pipe.flag = 0;
+}
+
+static void	parent_process(t_head *head, t_btree *node, int *fd)
+{
+	(void)*node;
+	if (head->pipe.pipe_fd[0] != -1)
+	{
+		close(head->pipe.pipe_fd[0]);
+		head->pipe.pipe_fd[0] = -1;
+	}
+	if (head->pipe.pipe_fd[1] != -1)
+	{
+		close(head->pipe.pipe_fd[1]);
+		head->pipe.pipe_fd[1] = -1;
+	}
+	if (head->pipe.flag == 1)
+	{
+		head->pipe.pipe_fd[0] = fd[0];
+		head->pipe.pipe_fd[1] = fd[1];
+		close(fd[1]);
+	}
+	else
+	{
+		head->pipe.pipe_fd[0] = -1;
+		head->pipe.pipe_fd[1] = -1;
+	}
+}
+
+pid_t	child_process(t_head *head, t_btree *node)
+{
+	int	fd[2];
+	pid_t	pid;
+
+	fd_organizer(head, node);
+	if (head->pipe.flag == 1)
+	{
+		if (pipe(fd) == -1)
+			close_fd(fd);
+	}
+	pid = fork();
+	if (pid == -1)
+		close_fd(fd);
+	if (pid == 0)
+	{
+		if (node->files.in.exists)
+		{
+			dup2(node->files.in.fd, STDIN_FILENO);
+			close(node->files.in.fd);
+		}
+		else if (head->pipe.pipe_fd[0] != -1)
+			dup2(head->pipe.pipe_fd[0], STDIN_FILENO);
+		if (node->files.out.exists)
+		{
+			dup2(node->files.out.fd, STDOUT_FILENO);
+			close(node->files.out.fd);
+		}
+		else if (head->pipe.flag == 1)
+		{
+			dup2(fd[1], STDOUT_FILENO);
+			close_fd(fd);
+		}
+		if (head->pipe.pipe_fd[0] != -1)
+			close(head->pipe.pipe_fd[0]);
+		if (head->pipe.pipe_fd[1] != -1)
+			close(head->pipe.pipe_fd[1]);
+		ft_execute(head, node);
+	}
+	else
+		parent_process(head, node, fd);
+	return (pid);
 }
 
 void	ft_execute(t_head *head, t_btree *node)
 {
-//	signal_child();
-	if (is_builtin(node)) //isso pode ser uma flag na struct??
+	if (is_builtin(node))
 		call_builtin(head, node);
 	else if (execve(node->cmd->path, node->cmd->args, head->envp) == -1)
 		free_node(node);
 }
 
-pid_t	child_process(t_head *head, t_btree *node)
+int	wait_process(t_head *head)
 {
-	int		fd[2];
-	pid_t	pid;
+	int	status;
+	int	i = 0;
 
-	if (pipe(fd) == -1)
-		close_fd(fd);
-	fd_organizer(head, node, fd);
-	pid = fork();
-	if (pid == -1)
-		close_fd(fd);
-	else if (pid == 0)
+//	signal_handler();
+	while (i < head->n_cmds)
 	{
-		close(head->files.in.fd);
-		close(head->files.out.fd);
-		if (node->files.out.fd == -1)
-			dup2(fd[1], STDOUT_FILENO);
-		close_fd(fd);
-		ft_execute(head, node);
+		waitpid(head->pid[i], &status, 0);
+		if (WIFEXITED(status))
+			head->exit_code = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			head->exit_code = WTERMSIG(status) + 128;
+		i++;
 	}
-	else
-	{
-		if (node->files.in.fd == -1)
-			dup2(fd[0], STDIN_FILENO);
-		close_fd(fd);
-	}
-	return (pid);
+	return (head->exit_code);
 }

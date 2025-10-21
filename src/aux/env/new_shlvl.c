@@ -7,8 +7,6 @@ static char	*get_newlvl_string(char *variable, int newlvl)
 	char	*newlvl_string;
 
 	string_number = ft_itoa(newlvl);
-	ft_putstr_fd("SHLVL => ", 1);
-	ft_putendl_fd(string_number, 1);
 	newlvl_string = ft_strjoin("SHLVL=", string_number);
 	free(string_number);
 	free(variable);
