@@ -6,12 +6,13 @@
 # include <fcntl.h>
 
 //execute
-int		hierarchy_btree(t_head *head, t_btree *node);
-void	execute_with_pipe(t_head *head, t_btree *node);
-int		execute(t_head *head, t_btree *node);
-pid_t	child_process(t_head *head, t_btree *node);
-void	execute_manager(t_head *head);
-void	fd_organizer(t_head *head, t_btree *node, int *fd);
+void    execute_manager(t_head *head);
+int     hierarchy_btree(t_head *head, t_btree *node);
+void    organize_process(t_head *head, t_btree *node);
+void    fd_organizer(t_head *head, t_btree *node);
+pid_t   child_process(t_head *head, t_btree *node);
+void    ft_execute(t_head *head, t_btree *node);
+int     wait_process(t_head *head);
 int		count_cmds(t_btree *node, int j);
 
 //free
@@ -26,6 +27,7 @@ int		is_builtin(t_btree *node);
 void	call_builtin(t_head *head, t_btree *node);
 void	ft_pwd(t_btree *node);
 void	ft_cd(char *path);
+void	ft_exit(t_head *head);
 
 //signals
 void	signal_handler(void);

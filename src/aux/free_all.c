@@ -51,9 +51,9 @@ void	free_btree(t_btree *node)
 
 void	free_all(t_head *head, t_btree *btree, int *fd)
 {
+	(void)*head;
 	if (fd)
 		close_fd(fd);
 	if (btree)
 		free_btree(btree);
-	free(head);
 }

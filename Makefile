@@ -43,8 +43,8 @@ VPATH			+= src/parse/aux/string_argument/aux
 VPATH			+= src/verify
 VPATH			+= src/execute
 VPATH			+= src/signal
-VPATH			+= src/functions
-VPATH			+= src/functions/aux
+VPATH			+= src/builtin
+VPATH			+= src/builtin/aux
 
 LIBFT_PATH		= $(INC_PATH)/libft/
 
