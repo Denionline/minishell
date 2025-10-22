@@ -29,7 +29,7 @@ static int	variable(t_arg *arg, char *string, char **envp)
 	var_size = ++arg->i;
 	while (string[var_size] && is_var_char(string[var_size]))
 		var_size++;
-	var_size -= arg->i;
+	var_size -= (arg->i);
 	name = ft_substr(string + arg->i, 0, var_size);
 	if (!name)
 		return (free(arg->string), 0);
@@ -76,6 +76,3 @@ char	*string_argument(char *string, char **envp, int *len, int to_expand)
 		*len += arg.i;
 	return (arg.string);
 }
-//  echo 'hel' $SHELL 'lo'
-//  "e"c'h'"o" "hel' $SHELL 'lo"
-//  "e"c'h'"o" hel' $SHELL 'lo
