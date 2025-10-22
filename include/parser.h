@@ -37,7 +37,7 @@ int		verify_quotes(t_quotes *quotes, char c, int is_heredoc);
 int		is_main_quote_closed(t_quotes *quotes);
 
 t_cmd	*get_command(t_head *head, char *prompt);
-char	*get_valid_path(char **paths, char *command);
+char	*get_valid_path(t_env *env, char *command);
 
 // parse/aux/string_argument/
 char	*string_argument(char *string, char **envp, int *len, int to_expand);

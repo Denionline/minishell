@@ -154,7 +154,7 @@ void	ft_execute(t_head *head, t_btree *node)
 {
 	if (is_builtin(node))
 		call_builtin(head, node);
-	else if (execve(node->cmd->path, node->cmd->args, head->envp) == -1)
+	else if (execve(node->cmd->path, node->cmd->args, head->env.vars) == -1)
 		free_node(node);
 }
 

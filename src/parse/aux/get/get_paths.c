@@ -1,12 +1,14 @@
 
 #include "minishell.h"
 
-char	*get_valid_path(char **paths, char *command)
+char	*get_valid_path(t_env *env, char *command)
 {
+	char	**paths ;
 	char	*complete_path;
 	char	*path_bar;
 	int		j;
 
+	paths = ft_split(get_var_path("PATH=", env->vars), ':');
 	j = 0;
 	while (paths[j])
 	{

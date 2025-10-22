@@ -58,7 +58,6 @@ void	parse(t_head *head, char *prompt)
 	int		operator;
 	int		i;
 
-	head->paths = ft_split(get_var_path("PATH=", head->envp), ':');
 	ft_bzero(&files, sizeof(files));
 	files.in.fd = -1;
 	files.out.fd = -1;

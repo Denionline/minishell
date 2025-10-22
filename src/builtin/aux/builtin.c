@@ -25,5 +25,5 @@ void	call_builtin(t_head *head, t_btree *node)
 	if (!ft_strncmp(command, "cd", lcommand))
 		ft_cd(node->cmd->args[1]);
 	if (!ft_strncmp(command, "env", lcommand))
-		ft_env(head->envp);
+		ft_env(head->env.vars);
 }
