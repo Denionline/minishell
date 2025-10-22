@@ -17,6 +17,7 @@ static char	**realloc_args(char **old_args, int new_len)
 			new_args[i] = old_args[i];
 			i++;
 		}
+		new_args[i] = NULL;
 		free(old_args);
 	}
 	return (new_args);
@@ -42,7 +43,7 @@ static void	set_cmd_args(t_head *head, t_cmd *cmd, char *prompt)
 		if (!ft_isspace(prompt[i]) && (i == 0 || ft_isspace(prompt[i - 1])))
 		{
 			cmd->args = realloc_args(cmd->args, size_args + 1);
-			cmd->args[size_args++] = string_argument(prompt + i, head->envp, &i, TRUE);
+			cmd->args[size_args++] = string_argument(prompt + i, head->env.vars, &i, TRUE);
 			prompt += i;
 			i = 0;
 			continue;
@@ -61,7 +62,7 @@ t_cmd	*get_command(t_head *head, char *prompt)
 	set_cmd_args(head, cmd, prompt);
 	if (!cmd->args)
 		return (NULL);
-	cmd->path = get_valid_path(head->paths, cmd->args[0]);
+	cmd->path = get_valid_path(&head->env, cmd->args[0]);
 	if (!cmd->path)
 		return (NULL);
 	return (cmd);

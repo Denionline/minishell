@@ -31,13 +31,13 @@ int	handle_file(t_head *head, t_files *files, char *prompt, int op)
 	char	**envp;
 	int		pos;
 
-	envp = head->envp;
+	envp = head->env.vars;
 	if (!files)
 		envp = NULL;
 	pos = get_operator_size(op);
 	while (ft_isspace(prompt[pos]))
 		pos++;
-	string = string_argument(prompt + pos, head->envp, &pos, FALSE);
+	string = string_argument(prompt + pos, envp, &pos, FALSE);
 	if (op == ARROW_LEFT)
 		pos += set_file_values(&files->in, O_RDONLY, string, envp);
 	else if (op == DOUBLE_ARROW_LEFT)

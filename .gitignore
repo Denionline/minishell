@@ -7,3 +7,6 @@ minishell
 infile
 outfile
 test_binpath
+.readline.supp
+readline.supp
+.heredoc_*

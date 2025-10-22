@@ -1,7 +1,7 @@
 
 #include "minishell.h"
 
-void	ft_env(char **env)
+int	ft_env(char **env)
 {
 	int	i;
 
@@ -12,4 +12,5 @@ void	ft_env(char **env)
 		ft_putstr_fd("] => ", STDOUT_FILENO);
 		ft_putendl_fd(env[i++], STDOUT_FILENO);
 	}
+	return(0);
 }
