@@ -37,7 +37,7 @@ int		verify_quotes(t_quotes *quotes, char c, int is_heredoc);
 int		is_main_quote_closed(t_quotes *quotes);
 
 t_cmd	*get_command(t_head *head, char *prompt);
-char	*get_valid_path(char **paths, char *command);
+char	*get_valid_path(t_env *env, char *command);
 
 // parse/aux/string_argument/
 char	*string_argument(char *string, char **envp, int *len, int to_expand);
@@ -50,7 +50,8 @@ void	btree_add_as_first(t_btree **root, t_btree *new_node);
 void	btree_set_file_last_cmd(t_btree **root, t_files **files);
 
 // functions/env/
-void	ft_env(char **env);
+int		ft_env(char **env);
+int		ft_export(t_cmd *cmd, char **envp);
 
 
 #endif

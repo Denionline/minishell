@@ -36,11 +36,16 @@ typedef struct s_btree
 	struct s_btree	*right;
 }	t_btree;
 
+typedef struct s_env
+{
+	char	**vars;
+	int		n_vars;
+}	t_env;
+
 typedef struct s_head
 {
 	t_btree	*root;
-	char	**paths;
-	char	**envp;
+	t_env	env;
 	int		exit_code;
 	int		n_cmds;
 	t_files	files;
