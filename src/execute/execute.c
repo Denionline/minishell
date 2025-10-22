@@ -1,32 +1,19 @@
 
 #include "minishell.h"
 
-static void     init_pipe(t_head *head)
-{
-        head->pipe.pipe_fd[0] = -1;
-        head->pipe.pipe_fd[1] = -1;
-        head->pipe.flag = 0; //no pipe
-}
-
 void	execute_manager(t_head *head)
 {
-	//save original stdin and stdout
 	head->files.in.fd = dup(STDIN_FILENO);
 	head->files.out.fd = dup(STDOUT_FILENO);
-	//count cmds
 	head->n_cmds = count_cmds(head->root, 0);
-	//malloc pid array
 	head->pid = malloc(sizeof(pid_t) * head->n_cmds);
 	if (!head->pid)
 		return ;
 	head->index = 0;
-	//call binary tree, which will call the child process and executions
 	init_pipe(head);
 	hierarchy_btree(head, head->root);
-	//call wait function to ordenate pipes
 	wait_process(head);
 	free(head->pid);
-	//return original stdin and stdout to macros
 	dup2(head->files.in.fd, STDIN_FILENO);
 	dup2(head->files.out.fd, STDOUT_FILENO);
 }
@@ -53,27 +40,22 @@ int	hierarchy_btree(t_head *head, t_btree *node)
 
 void	organize_process(t_head *head, t_btree *node)
 {
-	//call child process and increase index
 	head->pid[head->index] = child_process(head, node);
-	//null node to delete it from tree (it works like that?)
 	node = NULL;
 	head->index++;
 }
 
 void	fd_organizer(t_head *head, t_btree *node)
 {
-//	init_pipe(head);
-	if (head->n_cmds == 1 && !node->files.in.exists)
-		node->files.in.fd = STDIN_FILENO;
-	else if (node->files.in.exists == 1)
+//	if (head->n_cmds == 1 && !node->files.in.exists)
+//		node->files.in.fd = STDIN_FILENO;
+	if (node->files.in.exists == 1)
 		node->files.in.fd = open(node->files.in.name, node->files.in.flags);
-	if (head->index == (head->n_cmds - 1) && !node->files.out.exists)
-		node->files.out.fd = STDOUT_FILENO;
-	else if (node->files.out.exists == 1)
-	{
+//	if (head->index == (head->n_cmds - 1) && !node->files.out.exists)
+//		node->files.out.fd = STDOUT_FILENO;
+	if (node->files.out.exists == 1)
 		node->files.out.fd = open(node->files.out.name,
 				node->files.out.flags, 0644);
-	}
 	if (head->n_cmds > 1 && head->index < (head->n_cmds -1))
 		head->pipe.flag = 1;
 	else

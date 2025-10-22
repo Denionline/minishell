@@ -13,7 +13,10 @@ void    fd_organizer(t_head *head, t_btree *node);
 pid_t   child_process(t_head *head, t_btree *node);
 void    ft_execute(t_head *head, t_btree *node);
 int     wait_process(t_head *head);
+
+//execute utils
 int		count_cmds(t_btree *node, int j);
+void	init_pipe(t_head *head);
 
 //free
 void	free_all(t_head *head, t_btree *node, int *fd);

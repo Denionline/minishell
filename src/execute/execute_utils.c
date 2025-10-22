@@ -20,6 +20,13 @@ int	count_cmds(t_btree *node, int j)
 	return (i);
 }
 
+void     init_pipe(t_head *head)
+{
+	head->pipe.pipe_fd[0] = -1;
+        head->pipe.pipe_fd[1] = -1;
+        head->pipe.flag = 0; //no pipe
+}
+
 /*void	fd_organizer(t_head *head, t_btree *node, int *fd)
 {
 	(void)*fd;
