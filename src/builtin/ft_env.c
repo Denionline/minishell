@@ -12,4 +12,5 @@ void	ft_env(char **env)
 		ft_putstr_fd("] => ", STDOUT_FILENO);
 		ft_putendl_fd(env[i++], STDOUT_FILENO);
 	}
+	exit(0);
 }
