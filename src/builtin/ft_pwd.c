@@ -1,13 +1,13 @@
 
 #include "minishell.h"
 
-void	ft_pwd(t_btree *node)
+int	ft_pwd(t_btree *node)
 {
 	char	buffer[100];
 
 	(void)*node;
 	printf("%s\n", getcwd(buffer, 100));
-	exit(0);
+	return(0);
 }
 /*
 int	main()

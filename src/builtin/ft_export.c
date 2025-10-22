@@ -23,15 +23,16 @@
 // 	return (new_args);
 // }
 
-void	ft_export(t_btree *node, char **envp)
+int	ft_export(t_cmd *cmd, char **envp)
 {
 	int	i;
 
 	(void)envp;
 	i = 0;
-	ft_putendl_fd(node->cmd->args[i], 1);
-	while (node->cmd->args[i])
+	ft_putendl_fd(cmd->args[i], 1);
+	while (cmd->args[i])
 	{
 		i++;
 	}
+	return (0);
 }

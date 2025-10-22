@@ -50,8 +50,8 @@ void	btree_add_as_first(t_btree **root, t_btree *new_node);
 void	btree_set_file_last_cmd(t_btree **root, t_files **files);
 
 // functions/env/
-void	ft_env(char **env);
-void	ft_export(t_btree *node, char **envp);
+int		ft_env(char **env);
+int		ft_export(t_cmd *cmd, char **envp);
 
 
 #endif
