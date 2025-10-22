@@ -12,6 +12,8 @@ int	is_builtin(t_btree *node)
 		return (TRUE);
 	if (!ft_strncmp(command, "env", lcommand))
 		return (TRUE);
+	if (!ft_strncmp(command, "export", lcommand))
+		return (TRUE);
 	return (FALSE);
 }
 
@@ -25,5 +27,7 @@ void	call_builtin(t_head *head, t_btree *node)
 	if (!ft_strncmp(command, "cd", lcommand))
 		ft_cd(node->cmd->args[1]);
 	if (!ft_strncmp(command, "env", lcommand))
+		ft_env(head->env.vars);
+	if (!ft_strncmp(command, "export", lcommand))
 		ft_env(head->env.vars);
 }

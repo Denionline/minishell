@@ -88,6 +88,7 @@ FILES			+= builtin
 FILES			+= ft_pwd
 FILES			+= ft_cd
 FILES			+= ft_env
+FILES			+= ft_export
 
 
 SRCS			= $(addprefix ./, $(addsuffix .c, $(FILES)))

@@ -51,6 +51,7 @@ void	btree_set_file_last_cmd(t_btree **root, t_files **files);
 
 // functions/env/
 void	ft_env(char **env);
+void	ft_export(t_btree *node, char **envp);
 
 
 #endif

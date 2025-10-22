@@ -18,7 +18,7 @@ static void	copy_envp(t_env *env, char **original)
 	env->n_vars = envp_size(original);
 	env->vars = ft_calloc(env->n_vars + 1, sizeof(char *));
 	if (!env->vars)
-		return (NULL);
+		return ;
 	i = 0;
 	while (original && original[i])
 	{
