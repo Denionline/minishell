@@ -21,6 +21,7 @@ C_WHITE = \033[0;97m
 NAME			= minishell
 LIBFT			= $(LIBFT_PATH)libft.a
 VALGRINDRC		= ~/.valgrindrc
+READLINESUPP	= .readline.supp
 
 # **************************************************************************** #
 #                                   Path's                                     #
@@ -136,8 +137,23 @@ fclean: clean
 
 re: fclean all
 
-$(VALGRINDRC):
-	@echo "--suppressions=readline.supp" > ~/.valgrindrc
+$(VALGRINDRC): $(READLINESUPP)
+	@echo "--suppressions=.readline.supp" > ~/.valgrindrc
+
+$(READLINESUPP):
+	@echo "\
+	{\n\
+		leak readline\n\
+		Memcheck:Leak\n\
+		...\n\
+		fun:readline\n\
+	}\n\
+	{\n\
+		leak add_history\n\
+		Memcheck:Leak\n\
+		...\n\
+		fun:add_history\n\
+	}" > $(READLINESUPP)
 
 verify_libft:
 	@if test ! -d "$(LIBFT_PATH)"; then $(MAKE) get_libft; \

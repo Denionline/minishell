@@ -26,11 +26,11 @@ static int	variable(t_arg *arg, char *string, char **envp)
 	int		var_size;
 	int		i;
 
-	var_size = arg->i + 1;
+	var_size = ++arg->i;
 	while (string[var_size] && is_var_char(string[var_size]))
 		var_size++;
-	var_size -= (arg->i + 1);
-	name = ft_substr(string + arg->i + 1, 0, var_size);
+	var_size -= arg->i;
+	name = ft_substr(string + arg->i, 0, var_size);
 	if (!name)
 		return (free(arg->string), 0);
 	prefix = ft_strjoin(name, "=");

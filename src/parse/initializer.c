@@ -17,7 +17,7 @@ static char	**copy_envp(char **original_envp)
 	char		**copy_envp;
 	int			i;
 
-	copy_envp = ft_calloc(original_envp_size, sizeof(char *));
+	copy_envp = ft_calloc(original_envp_size + 1, sizeof(char *));
 	if (!copy_envp)
 		return (NULL);
 	i = -1;
@@ -31,7 +31,7 @@ void	initializer(t_head **head, int argc, char *argv[], char *envp[])
 {
 	(void)argc;
 	(void)argv;
-	(*head) = malloc(sizeof(t_head));
+	(*head) = ft_calloc(1, sizeof(t_head));
 	if (!(*head))
 		end(*head, errno, "head");
 	ft_bzero(*head, sizeof(**head));
