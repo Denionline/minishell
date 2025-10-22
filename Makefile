@@ -81,6 +81,7 @@ FILES			+= btree_add_last_right
 FILES			+= btree_add_as_first
 FILES			+= btree_set_file_last_cmd
 #execute
+FILES			+= process_manager
 FILES			+= execute
 FILES			+= execute_utils
 FILES			+= builtin

@@ -20,20 +20,8 @@ int	count_cmds(t_btree *node, int j)
 	return (i);
 }
 
-/*void	fd_organizer(t_head *head, t_btree *node, int *fd)
+void	reset_pipe(t_head *head)
 {
-	(void)*fd;
-	if (head->n_cmds == 1 && !node->files.in.exists)
-		node->files.in.fd = STDIN_FILENO;
-	else if (node->files.in.exists == 1)
-	{
-		node->files.in.fd = open(node->files.in.name, node->files.in.flags);
-	}
-	if (head->index == (head->n_cmds - 1) && !node->files.out.exists)
-		node->files.out.fd = STDOUT_FILENO;
-	else if (node->files.out.exists == 1)
-	{
-		node->files.out.fd = open(node->files.out.name,
-				node->files.out.flags, 0644);
-	}
-}*/
+	head->pipe.pipe_fd[0] = -1;
+	head->pipe.pipe_fd[1] = -1;
+}

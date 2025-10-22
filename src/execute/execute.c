@@ -1,114 +1,73 @@
 
 #include "minishell.h"
 
-static void     init_pipe(t_head *head)
-{
-        head->pipe.pipe_fd[0] = -1;
-        head->pipe.pipe_fd[1] = -1;
-        head->pipe.flag = 0; //no pipe
-}
-
-void	execute_manager(t_head *head)
-{
-	//save original stdin and stdout
-	head->files.in.fd = dup(STDIN_FILENO);
-	head->files.out.fd = dup(STDOUT_FILENO);
-	//count cmds
-	head->n_cmds = count_cmds(head->root, 0);
-	//malloc pid array
-	head->pid = malloc(sizeof(pid_t) * head->n_cmds);
-	if (!head->pid)
-		return ;
-	head->index = 0;
-	//call binary tree, which will call the child process and executions
-	init_pipe(head);
-	hierarchy_btree(head, head->root);
-	//call wait function to ordenate pipes
-	wait_process(head);
-	free(head->pid);
-	//return original stdin and stdout to macros
-	dup2(head->files.in.fd, STDIN_FILENO);
-	dup2(head->files.out.fd, STDOUT_FILENO);
-}
-
-int	hierarchy_btree(t_head *head, t_btree *node)
-{
-	if (node == NULL)
-		return (0);
-	else if (node->identifier == COMMAND)
-		organize_process(head, node);
-	else if (node->left && node->left->identifier == PIPE)
-		hierarchy_btree(head, node->left);
-	if (node->left && node->left->identifier == COMMAND)
-	{
-		organize_process(head, node->left);
-		if (node->right->identifier == COMMAND)
-			organize_process(head, node->right);
-		node = NULL;
-	}
-	if (node && node->right && node->right->identifier == COMMAND)
-		organize_process(head, node->right);
-	return (head->exit_code);
-}
-
-void	organize_process(t_head *head, t_btree *node)
-{
-	//call child process and increase index
-	head->pid[head->index] = child_process(head, node);
-	//null node to delete it from tree (it works like that?)
-	node = NULL;
-	head->index++;
-}
-
 void	fd_organizer(t_head *head, t_btree *node)
 {
-//	init_pipe(head);
-	if (head->n_cmds == 1 && !node->files.in.exists)
-		node->files.in.fd = STDIN_FILENO;
-	else if (node->files.in.exists == 1)
+	if (node->files.in.exists == 1)
 		node->files.in.fd = open(node->files.in.name, node->files.in.flags);
-	if (head->index == (head->n_cmds - 1) && !node->files.out.exists)
-		node->files.out.fd = STDOUT_FILENO;
-	else if (node->files.out.exists == 1)
-	{
+	if (node->files.out.exists == 1)
 		node->files.out.fd = open(node->files.out.name,
 				node->files.out.flags, 0644);
-	}
 	if (head->n_cmds > 1 && head->index < (head->n_cmds -1))
 		head->pipe.flag = 1;
 	else
 		head->pipe.flag = 0;
 }
 
-static void	parent_process(t_head *head, t_btree *node, int *fd)
+void	parent_process(t_head *head, int *fd)
 {
-	(void)*node;
+	//in the parent process, reset pipe_fds
 	if (head->pipe.pipe_fd[0] != -1)
-	{
 		close(head->pipe.pipe_fd[0]);
-		head->pipe.pipe_fd[0] = -1;
-	}
 	if (head->pipe.pipe_fd[1] != -1)
-	{
 		close(head->pipe.pipe_fd[1]);
-		head->pipe.pipe_fd[1] = -1;
-	}
 	if (head->pipe.flag == 1)
 	{
-		head->pipe.pipe_fd[0] = fd[0];
-		head->pipe.pipe_fd[1] = fd[1];
-		close(fd[1]);
+		head->pipe.pipe_fd[0] = dup(fd[0]);
+		head->pipe.pipe_fd[1] = dup(fd[1]);
+		//leave read pipe open for next pipe command
+		//close(fd[1]);
+		close_fd(fd);
 	}
-	else
+	else if (head->pipe.flag == 0)
 	{
-		head->pipe.pipe_fd[0] = -1;
-		head->pipe.pipe_fd[1] = -1;
+		close_fd(fd);
+		reset_pipe(head);
 	}
 }
 
-pid_t	child_process(t_head *head, t_btree *node)
+void	child_process(t_head *head, t_btree *node, int *fd)
 {
-	int	fd[2];
+	if (node->files.in.exists)
+	{
+		dup2(node->files.in.fd, STDIN_FILENO);
+		close(node->files.in.fd);
+	}
+	//se existe ja a abertura para o pipe, usa ela de entrada pro comando
+	else if (head->pipe.pipe_fd[0] != -1)
+	{
+		dup2(head->pipe.pipe_fd[0], STDIN_FILENO);
+		close(head->pipe.pipe_fd[0]);
+	}
+	if (node->files.out.exists)
+	{
+		dup2(node->files.out.fd, STDOUT_FILENO);
+		close(node->files.out.fd);
+	}
+	//se existe flag de proximo pipe, usa a saida do pipe
+	else if (head->pipe.flag == 1)
+	{
+		dup2(fd[1], STDOUT_FILENO);
+		close_fd(fd);
+	}
+	if (head->pipe.pipe_fd[1] != -1)
+		close(head->pipe.pipe_fd[1]);
+	ft_execute(head, node);
+}
+
+void	process(t_head *head, t_btree *node)
+{
+	int		fd[2];
 	pid_t	pid;
 
 	fd_organizer(head, node);
@@ -122,60 +81,22 @@ pid_t	child_process(t_head *head, t_btree *node)
 		close_fd(fd);
 	if (pid == 0)
 	{
-		if (node->files.in.exists)
-		{
-			dup2(node->files.in.fd, STDIN_FILENO);
-			close(node->files.in.fd);
-		}
-		else if (head->pipe.pipe_fd[0] != -1)
-			dup2(head->pipe.pipe_fd[0], STDIN_FILENO);
-		if (node->files.out.exists)
-		{
-			dup2(node->files.out.fd, STDOUT_FILENO);
-			close(node->files.out.fd);
-		}
-		else if (head->pipe.flag == 1)
-		{
-			dup2(fd[1], STDOUT_FILENO);
-			close_fd(fd);
-		}
-		if (head->pipe.pipe_fd[0] != -1)
-			close(head->pipe.pipe_fd[0]);
-		if (head->pipe.pipe_fd[1] != -1)
-			close(head->pipe.pipe_fd[1]);
-		ft_execute(head, node);
+		child_process(head, node, fd);
 	}
 	else
-		parent_process(head, node, fd);
-	return (pid);
+		parent_process(head, fd);
+	head->pid[head->index] = pid;
+	node = NULL;
+	head->index++;
 }
 
 void	ft_execute(t_head *head, t_btree *node)
 {
+	//nao e melhor mandar direto o head e node para call_builtin?
 	if (is_builtin(node->cmd->args[0], ft_strlen(node->cmd->args[0])))
-		call_builtin(head,
-			node,
-			node->cmd->args[0],
-			ft_strlen(node->cmd->args[0])
-		);
+		call_builtin(head, node, node->cmd->args[0],
+			ft_strlen(node->cmd->args[0]));
 	else if (execve(node->cmd->path, node->cmd->args, head->env.vars) == -1)
 		free_node(node);
 }
 
-int	wait_process(t_head *head)
-{
-	int	status;
-	int	i = 0;
-
-//	signal_handler();
-	while (i < head->n_cmds)
-	{
-		waitpid(head->pid[i], &status, 0);
-		if (WIFEXITED(status))
-			head->exit_code = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			head->exit_code = WTERMSIG(status) + 128;
-		i++;
-	}
-	return (head->exit_code);
-}

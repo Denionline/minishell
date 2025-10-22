@@ -5,15 +5,21 @@
 # include "minishell.h"
 # include <fcntl.h>
 
+//process manager
+void	execute_manager(t_head *head);
+int		hierarchy_btree(t_head *head, t_btree *node);
+int		wait_process(t_head *head);
+
 //execute
-void    execute_manager(t_head *head);
-int     hierarchy_btree(t_head *head, t_btree *node);
-void    organize_process(t_head *head, t_btree *node);
-void    fd_organizer(t_head *head, t_btree *node);
-pid_t   child_process(t_head *head, t_btree *node);
-void    ft_execute(t_head *head, t_btree *node);
-int     wait_process(t_head *head);
+void	fd_organizer(t_head *head, t_btree *node);
+void	parent_process(t_head *head, int *fd);
+void	child_process(t_head *head, t_btree *node, int *fd);
+void	process(t_head *head, t_btree *node);
+void	ft_execute(t_head *head, t_btree *node);
+
+//execute utils
 int		count_cmds(t_btree *node, int j);
+void	reset_pipe(t_head *head);
 
 //free
 void	free_all(t_head *head, t_btree *node, int *fd);
