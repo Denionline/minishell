@@ -12,7 +12,7 @@ int		wait_process(t_head *head);
 
 //execute
 void	fd_organizer(t_head *head, t_btree *node);
-void	parent_process(t_head *head, int *fd);
+void	parent_process(t_head *head, t_btree *node, int *fd);
 void	child_process(t_head *head, t_btree *node, int *fd);
 void	process(t_head *head, t_btree *node);
 void	ft_execute(t_head *head, t_btree *node);
@@ -20,6 +20,7 @@ void	ft_execute(t_head *head, t_btree *node);
 //execute utils
 int		count_cmds(t_btree *node, int j);
 void	reset_pipe(t_head *head);
+void	close_all_fds(t_head *head, t_btree *node, int process);
 
 //free
 void	free_all(t_head *head, t_btree *node, int *fd);
