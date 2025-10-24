@@ -15,8 +15,6 @@ OUT_BASH=out_bash.txt
 
 # Array of test commands
 tests=(
-	"ls"
-#	"ls -l"
 	"ls | echo oi"
 	"ls | wc"
 	"ls | wc -l"
@@ -29,17 +27,58 @@ tests=(
 	"echo "banana" > a > b | ls"
 	"< Makefile wc | ls"	
 	"< Makefile cat | wc | cat -e | cat -e | cat -e | cat -e"
-#  "echo -n hello && echo world"
-#  "cd .. && pwd"
-#  "echo test > tmpfile && cat tmpfile"
-#  "echo test >> tmpfile && cat tmpfile"
-#  "cat < tmpfile"
-#  "echo \$HOME"
-#  "echo \"   spaced   \""
-#  "export VAR=42 && echo \$VAR"
-#  "unset VAR && echo \$VAR"
-#  "echo \$?"
-#  "exit"
+
+	# Simple
+	"echo hello"
+	"/bin/echo hello world"
+	"ls"
+	"ls -l"
+	"pwd"
+	"whoami"
+
+	# Pipes
+	"ls | wc -l"
+	"echo hello | cat"
+	"echo hello | cat | cat"
+#	"echo one two three | tr ' ' '\n' | sort | uniq"
+	"cat /etc/passwd | grep root | wc -l"
+
+	# Redirections
+	"echo hello > out.txt"
+	"echo one >> test.txt"
+	"echo two >> test.txt"
+	"cat < test.txt"
+	"wc -l < test.txt"
+	"cat < test.txt | grep o > result.txt"
+
+	# Combinations
+	"cat < /etc/passwd | grep root > roots.txt"
+	"grep bash < /etc/passwd | sort | uniq > bash_users.txt"
+
+	# Quotes and expansions
+#	"echo "hello world""
+	"echo 'single quotes'"
+#	"echo "mix 'inside' double""
+	"echo "$HOME""
+	"echo "$USER""
+#	"echo "user: $USER, home: $HOME""
+
+	# Exit codes ----> in progress
+#	/bin/false
+#	echo $?
+#	/bin/true
+#	echo $?
+#	ls non_existent
+#	echo $?
+
+#	nosuchcommand
+#	/bin/ls no_such_file
+#	cat no_such_file
+#	echo > /no_permission
+
+	# Super duper tests
+	"seq 1 10 | grep 5 | cat | grep 1 | wc -l"
+	"echo hi > a | cat < a | grep hi > b"
 )
 
 run_test() {
@@ -79,5 +118,5 @@ for t in "${tests[@]}"; do
     run_test "$t"
 done
 
-rm -f "$OUT_MINI" "$OUT_BASH" tmpfile
+rm -f "$OUT_MINI" "$OUT_BASH" tmpfile out.txt "test.txt" result.txt roots.txt bash_users.txt a b
 
