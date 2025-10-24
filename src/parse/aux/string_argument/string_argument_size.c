@@ -44,7 +44,7 @@ int	string_argument_size(char *string, char **envp, int to_expand, int is_hdoc)
 	i = -1;
 	while (string[++i])
 	{
-		if (is_tohandle_backslash(string + i, quotes.quote))
+		if (is_tohandle_backslash(string + jumps + i, quotes.quote))
 			jumps += 1;
 		if (is_main_quote_closed(&quotes) && get_operator(string + i) && !is_hdoc)
 			break ;
