@@ -68,11 +68,12 @@ int	ft_export(t_cmd *cmd, t_env *env)
 		while (is_var_char(current[var_size]))
 			var_size++;
 		if (current[var_size] != '=')
-			return ;
+			return (1);
 		(*env) = handle_variable(ft_substr(current, 0, var_size + 1),
 			var_size,
 			current,
 			env
 		);
 	}
+	return (0);
 }

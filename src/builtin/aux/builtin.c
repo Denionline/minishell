@@ -23,5 +23,5 @@ void	call_builtin(t_head *head, t_btree *node, char *command, int lcommand)
 	if (!ft_strncmp(command, "env", lcommand))
 		exit(ft_env(head->env.vars));
 	if (!ft_strncmp(command, "export", lcommand))
-		exit(ft_export(node->cmd, head->env.vars));
+		exit(ft_export(node->cmd, &head->env));
 }
