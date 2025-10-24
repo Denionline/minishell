@@ -55,7 +55,7 @@ char	*string_argument(char *string, char **envp, int *len, int to_expand)
 	if (!arg.string)
 		return (NULL);
 	arg.i = -1;
-	while (string[++arg.i] && arg.pos < arg.lstring)
+	while (string[++arg.i] && arg.pos <= arg.lstring)
 	{
 		if (is_tohandle_backslash(string + arg.i, arg.quotes.quote))
 			arg.i++;
@@ -68,8 +68,7 @@ char	*string_argument(char *string, char **envp, int *len, int to_expand)
 			break ;
 		if (is_to_handle_variable(&arg, string, envp, to_expand))
 			arg.i = variable(&arg, string, envp);
-		else
-			arg.string[arg.pos++] = string[arg.i];
+		arg.string[arg.pos++] = string[arg.i];
 	}
 	arg.string[arg.pos] = '\0';
 	if (len && to_expand)
