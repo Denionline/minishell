@@ -14,54 +14,31 @@ void	fd_organizer(t_head *head, t_btree *node)
 		head->pipe.flag = 0;
 }
 
-void	parent_process(t_head *head, int *fd)
+void	parent_process(t_head *head, t_btree *node, int *fd)
 {
-	//in the parent process, reset pipe_fds
-	if (head->pipe.pipe_fd[0] != -1)
-		close(head->pipe.pipe_fd[0]);
-	if (head->pipe.pipe_fd[1] != -1)
-		close(head->pipe.pipe_fd[1]);
+	close_all_fds(head, node, 1);
 	if (head->pipe.flag == 1)
 	{
 		head->pipe.pipe_fd[0] = dup(fd[0]);
 		head->pipe.pipe_fd[1] = dup(fd[1]);
-		//leave read pipe open for next pipe command
-		//close(fd[1]);
 		close_fd(fd);
-	}
-	else if (head->pipe.flag == 0)
-	{
-		close_fd(fd);
-		reset_pipe(head);
 	}
 }
 
 void	child_process(t_head *head, t_btree *node, int *fd)
 {
 	if (node->files.in.exists)
-	{
 		dup2(node->files.in.fd, STDIN_FILENO);
-		close(node->files.in.fd);
-	}
-	//se existe ja a abertura para o pipe, usa ela de entrada pro comando
 	else if (head->pipe.pipe_fd[0] != -1)
-	{
 		dup2(head->pipe.pipe_fd[0], STDIN_FILENO);
-		close(head->pipe.pipe_fd[0]);
-	}
 	if (node->files.out.exists)
-	{
 		dup2(node->files.out.fd, STDOUT_FILENO);
-		close(node->files.out.fd);
-	}
-	//se existe flag de proximo pipe, usa a saida do pipe
 	else if (head->pipe.flag == 1)
 	{
 		dup2(fd[1], STDOUT_FILENO);
 		close_fd(fd);
 	}
-	if (head->pipe.pipe_fd[1] != -1)
-		close(head->pipe.pipe_fd[1]);
+	close_all_fds(head, node, 0);
 	ft_execute(head, node);
 }
 
@@ -84,7 +61,7 @@ void	process(t_head *head, t_btree *node)
 		child_process(head, node, fd);
 	}
 	else
-		parent_process(head, fd);
+		parent_process(head, node, fd);
 	head->pid[head->index] = pid;
 	node = NULL;
 	head->index++;
