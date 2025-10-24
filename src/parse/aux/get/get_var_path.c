@@ -13,5 +13,5 @@ char	*get_var_path(char *prefix, char **envp)
 			return (ft_strdup(envp[i] + lprefix));
 		i++;
 	}
-	return ("");
+	return (NULL);
 }

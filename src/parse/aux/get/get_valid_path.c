@@ -22,6 +22,8 @@ char	*get_valid_path(t_env *env, char *command)
 	}
 	if (command[0] == '.' && !access(command, F_OK | X_OK))
 		return (command);
+	if (is_builtin(command, ft_strlen(command)))
+		return (ft_strdup("built-in"));
 	return (NULL);
 }
 
