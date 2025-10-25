@@ -61,22 +61,21 @@ static char	*argument_verification(t_arg *arg, char *string, char **envp)
 	return (string);
 }
 
-char	*string_argument(char *string, char **envp, int *len, int to_expand)
+char	*string_argument(t_head *head, char *string, t_arg arg)
 {
 	char	*string_updated;
-	t_arg	arg;
 	int		i;
 
-	ft_bzero(&arg, sizeof(arg));
-	arg = (t_arg){.to_expand = to_expand, .len = len};
-	string_argument_size(&arg, string, envp);
+	string_argument_size(&arg, string, head->env.vars);
 	arg.string = ft_calloc(arg.lstring + 1, 1);
 	if (!arg.string)
 		return (NULL);
 	i = 0;
 	while (string[i] && arg.pos <= arg.lstring)
 	{
-		string_updated = argument_verification(&arg, string + i, envp);
+		string_updated = argument_verification(&arg, string + i,
+			head->env.vars
+		);
 		if (!string_updated)
 			break;
 		if (string_updated - string)
@@ -84,7 +83,7 @@ char	*string_argument(char *string, char **envp, int *len, int to_expand)
 		i += 1;
 	}
 	arg.string[arg.pos - (arg.string[arg.pos - 1] == arg.quotes.quote)] = '\0';
-	if (len && to_expand)
-		*len += i;
+	if (arg.len && arg.to_expand)
+		*(arg.len) += i;
 	return (arg.string);
 }

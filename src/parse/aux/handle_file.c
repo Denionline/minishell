@@ -1,14 +1,14 @@
 
 #include "minishell.h"
 
-static int	set_file_values(t_file *file, int flags, char *string, char **envp)
+static int	manage_file(t_file *file, int flags, char *string, t_head *head)
 {
 	int	complete_size;
 
-	if (envp)
+	if (head)
 	{
 		if (flags < 0)
-			*file = heredoc(string, envp);
+			*file = heredoc(head, string);
 		else
 		{
 			file->name = ft_strdup(string);
@@ -26,27 +26,27 @@ static int	set_file_values(t_file *file, int flags, char *string, char **envp)
 int	handle_file(t_head *head, t_files *files, char *prompt, int op)
 {
 	char	*string;
-	char	**envp;
 	int		pos;
 
-	envp = head->env.vars;
 	if (!files)
-		envp = NULL;
+		head = NULL;
 	pos = get_operator_size(op);
 	while (ft_isspace(prompt[pos]))
 		pos++;
-	string = string_argument(prompt + pos, envp, &pos, FALSE);
+	string = string_argument(head, prompt + pos,
+		(t_arg){.len = &pos, .to_expand = FALSE}
+	);
 	if (op == ARROW_LEFT)
-		pos += set_file_values(&files->in, O_RDONLY, string, envp);
-	else if (op == DOUBLE_ARROW_LEFT)
-		pos += set_file_values(&files->in, -1, string, envp);
-	else if (op == ARROW_RIGHT)
-		pos += set_file_values(&files->out,
-			O_CREAT | O_WRONLY | O_TRUNC, string, envp
-		);
-	else if (op == DOUBLE_ARROW_RIGHT)
-		pos += set_file_values(&files->out,
-			O_CREAT | O_WRONLY | O_APPEND, string, envp
-		);
+		return (pos + manage_file(&files->in, O_RDONLY, string, head));
+	if (op == DOUBLE_ARROW_LEFT)
+		return (pos + manage_file(&files->in, -1, string, head));
+	if (op == ARROW_RIGHT)
+		return (pos + manage_file(&files->out,
+			O_CREAT | O_WRONLY | O_TRUNC, string, head
+		));
+	if (op == DOUBLE_ARROW_RIGHT)
+		return (pos + manage_file(&files->out,
+			O_CREAT | O_WRONLY | O_APPEND, string, head
+		));
 	return (pos);
 }

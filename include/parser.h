@@ -24,7 +24,7 @@ typedef struct s_arg {
 }	t_arg;
 
 void	parse(t_head *head, char *prompt);
-t_file	heredoc(char *eof, char **envp);
+t_file	heredoc(t_head *head, char *eof);
 void	new_shlvl(char **env);
 
 // parse/aux/
@@ -43,7 +43,7 @@ t_cmd	*get_command(t_head *head, char *prompt);
 char	*get_valid_path(t_env *env, char *command);
 
 // parse/aux/string_argument/
-char	*string_argument(char *string, char **envp, int *len, int to_expand);
+char	*string_argument(t_head *head, char *string, t_arg arg);
 void	string_argument_size(t_arg *arg, char *string, char **envp);
 // parse/aux/string_argument/aux/
 int		is_tohandle_backslash(char *c, char quote);
@@ -55,7 +55,7 @@ void	btree_set_file_last_cmd(t_btree **root, t_files **files);
 // functions/env/
 int		ft_env(char **env);
 int		ft_export(t_cmd *cmd, t_env *env);
-int		ft_echo(t_head *head, t_cmd *cmd);
+int		ft_echo(t_cmd *cmd);
 
 
 #endif

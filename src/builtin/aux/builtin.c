@@ -27,7 +27,7 @@ void	call_builtin(t_head *head, t_btree *node, char *command, int lcommand)
 //	if (!ft_strncmp(command, "export", lcommand))
 //		exit(ft_export(node->cmd, &head->env));
 	if (!ft_strncmp(command, "echo", lcommand))
-		exit(ft_echo(head, node->cmd));
+		exit(ft_echo(node->cmd));
 }
 
 int	is_parent_builtin(t_head *head, t_btree *node)
