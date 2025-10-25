@@ -9,6 +9,8 @@ static int	is_to_handle_variable(t_arg *arg, char *s, char **envp, int expand)
 		return (FALSE);
 	if (s[0] == '$' && arg->quotes.quote != '\'')
 	{
+		if (s[1] == '?')
+			return (TRUE);
 		if (!s[1])
 			return (FALSE);
 		if (!is_var_char(s[1]))
@@ -18,10 +20,9 @@ static int	is_to_handle_variable(t_arg *arg, char *s, char **envp, int expand)
 	return (FALSE);
 }
 
-static int	variable(t_arg *arg, char *string, char **envp)
+static int	variable(t_arg *arg, char *string, t_head *head)
 {
 	char	*variable;
-	char	*prefix;
 	char	*name;
 	int		var_size;
 	int		i;
@@ -32,19 +33,16 @@ static int	variable(t_arg *arg, char *string, char **envp)
 	name = ft_substr(string, 1, var_size - 1);
 	if (!name)
 		return (free(arg->string), 0);
-	prefix = ft_strjoin(name, "=");
-	if (!prefix)
-		return (free(name), 0);
-	variable = get_var_path(prefix, envp);
+	variable = get_var_path(name, head->env.vars);
 	if (!variable)
-		return (free(prefix), 0);
+		return (free(name), 0);
 	i = 0;
 	while (variable[i])
 		arg->string[arg->pos++] = variable[i++];
-	return (free(name), free(prefix), free(variable), var_size);
+	return (free(name), free(variable), var_size);
 }
 
-static char	*argument_verification(t_arg *arg, char *string, char **envp)
+static char	*argument_verification(t_arg *arg, char *string, t_head *head)
 {
 	if (is_tohandle_backslash(string, arg->quotes.quote))
 		string++;
@@ -55,8 +53,8 @@ static char	*argument_verification(t_arg *arg, char *string, char **envp)
 		return (NULL);
 	if (is_quote_closed(&arg->quotes) && ft_isspace(string[0]) && arg->len)
 		return (NULL);
-	if (is_to_handle_variable(arg, string, envp, arg->to_expand))
-		string += variable(arg, string, envp);
+	if (is_to_handle_variable(arg, string, head->env.vars, arg->to_expand))
+		string += variable(arg, string, head);
 	arg->string[arg->pos++] = string[0];
 	return (string);
 }
@@ -73,9 +71,7 @@ char	*string_argument(t_head *head, char *string, t_arg arg)
 	i = 0;
 	while (string[i] && arg.pos <= arg.lstring)
 	{
-		string_updated = argument_verification(&arg, string + i,
-			head->env.vars
-		);
+		string_updated = argument_verification(&arg, string + i, head);
 		if (!string_updated)
 			break;
 		if (string_updated - string)

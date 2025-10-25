@@ -12,12 +12,11 @@ static int variable_size(char *string, char **envp)
 	while (string[var_size] && is_var_char(string[var_size]))
 		var_size++;
 	name = ft_substr(string, 1, var_size - 1);
-	prefix = ft_strjoin(name, "=");
 	free(name);
-	if (prefix)
+	if (name)
 	{
-		variable = get_var_path(prefix, envp);
-		free(prefix);
+		variable = get_var_path(name, envp);
+		free(name);
 		if (variable)
 		{
 			var_size = ft_strlen(variable);
