@@ -1,7 +1,7 @@
 
 #include "minishell.h"
 
-int	is_main_quote_closed(t_quotes *quotes)
+int	is_quote_closed(t_quotes *quotes)
 {
 	if (!quotes->quote)
 		return (TRUE);

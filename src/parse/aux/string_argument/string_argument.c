@@ -7,11 +7,11 @@ static int	is_to_handle_variable(t_arg *arg, char *s, char **envp, int expand)
 		return (FALSE);
 	if (!envp)
 		return (FALSE);
-	if (s[arg->i] == '$' && arg->quotes.quote != '\'')
+	if (s[0] == '$' && arg->quotes.quote != '\'')
 	{
-		if (!s[arg->i + 1])
+		if (!s[1])
 			return (FALSE);
-		if (!is_var_char(s[arg->i + 1]))
+		if (!is_var_char(s[1]))
 			return (FALSE);
 		return (TRUE);
 	}
@@ -20,17 +20,17 @@ static int	is_to_handle_variable(t_arg *arg, char *s, char **envp, int expand)
 
 static int	variable(t_arg *arg, char *string, char **envp)
 {
+	char	*variable;
 	char	*prefix;
 	char	*name;
-	char	*variable;
 	int		var_size;
 	int		i;
 
-	var_size = ++arg->i;
+	string++;
+	var_size = 0;
 	while (string[var_size] && is_var_char(string[var_size]))
 		var_size++;
-	var_size -= (arg->i);
-	name = ft_substr(string + arg->i, 0, var_size);
+	name = ft_substr(string, 0, var_size);
 	if (!name)
 		return (free(arg->string), 0);
 	prefix = ft_strjoin(name, "=");
@@ -42,36 +42,49 @@ static int	variable(t_arg *arg, char *string, char **envp)
 	i = 0;
 	while (variable[i])
 		arg->string[arg->pos++] = variable[i++];
-	return (free(name), free(prefix), free(variable), var_size + arg->i);
+	return (free(name), free(prefix), free(variable), var_size);
+}
+
+static int	argument_verification(t_arg *arg, char *string, char **envp)
+{
+	if (is_tohandle_backslash(string, arg->quotes.quote))
+		string++;
+	if (string[0] == '\'' || string[0] == '\"')
+		if (!verify_quotes(&arg->quotes, string[0], !arg->len))
+			return (1);
+	if (is_quote_closed(&arg->quotes) && get_operator(string) && arg->len)
+		return (0);
+	if (is_quote_closed(&arg->quotes) && ft_isspace(string[0]) && arg->len)
+		return (0);
+	if (is_to_handle_variable(arg, string, envp, arg->to_expand))
+		string += variable(arg, string, envp);
+	arg->string[arg->pos++] = string[0];
+	return (1);
 }
 
 char	*string_argument(char *string, char **envp, int *len, int to_expand)
 {
 	t_arg	arg;
+	int		i;
 
 	ft_bzero(&arg, sizeof(arg));
+	arg.len = len;
+	arg.to_expand = to_expand;
 	arg.lstring = string_argument_size(string, envp, to_expand, !len);
 	arg.string = ft_calloc(arg.lstring + 1, 1);
 	if (!arg.string)
 		return (NULL);
-	arg.i = -1;
-	while (string[++arg.i] && arg.pos <= arg.lstring)
+	i = 0;
+	while (string[i] && arg.pos <= arg.lstring)
 	{
-		if (is_tohandle_backslash(string + arg.i, arg.quotes.quote))
-			arg.i++;
-		if (string[arg.i] == '\'' || string[arg.i] == '\"')
-			if (!verify_quotes(&arg.quotes, string[arg.i], !len))
-				continue ;
-		if (is_main_quote_closed(&arg.quotes) && get_operator(string + arg.i) && len)
-			break ;
-		if (is_main_quote_closed(&arg.quotes) && ft_isspace(string[arg.i]) && len)
-			break ;
-		if (is_to_handle_variable(&arg, string, envp, to_expand))
-			arg.i = variable(&arg, string, envp);
-		arg.string[arg.pos++] = string[arg.i];
+		if (!argument_verification(&arg, string + i, envp))
+			break;
+		i++;
 	}
+	if (arg.string[arg.pos - 1] == arg.quotes.quote)
+		arg.string[arg.pos - 1] = '\0';
 	arg.string[arg.pos] = '\0';
-	if (len && to_expand)
+		if (len && to_expand)
 		*len += arg.i;
 	return (arg.string);
 }

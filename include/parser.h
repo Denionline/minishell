@@ -18,6 +18,8 @@ typedef struct s_arg {
 	int			lstring;
 	int			pos;
 	int			i;
+	int			*len;
+	int			to_expand;
 }	t_arg;
 
 void	parse(t_head *head, char *prompt);
@@ -34,7 +36,7 @@ void	print(t_btree *token);
 int		get_operator_size(int operator);
 int		is_arrow_operator(int operator);
 int		verify_quotes(t_quotes *quotes, char c, int is_heredoc);
-int		is_main_quote_closed(t_quotes *quotes);
+int		is_quote_closed(t_quotes *quotes);
 
 t_cmd	*get_command(t_head *head, char *prompt);
 char	*get_valid_path(t_env *env, char *command);

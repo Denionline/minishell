@@ -46,9 +46,9 @@ int	string_argument_size(char *string, char **envp, int to_expand, int is_hdoc)
 	{
 		if (is_tohandle_backslash(string + jumps + i, quotes.quote))
 			jumps += 1;
-		if (is_main_quote_closed(&quotes) && get_operator(string + i) && !is_hdoc)
+		if (is_quote_closed(&quotes) && get_operator(string + i) && !is_hdoc)
 			break ;
-		if (is_main_quote_closed(&quotes) && ft_isspace(string[i]) && !is_hdoc)
+		if (is_quote_closed(&quotes) && ft_isspace(string[i]) && !is_hdoc)
 			break ;
 		if (string[i] == '\'' || string[i] == '\"')
 		{
