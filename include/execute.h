@@ -11,7 +11,7 @@ int		hierarchy_btree(t_head *head, t_btree *node);
 int		wait_process(t_head *head);
 
 //execute
-void	fd_organizer(t_head *head, t_btree *node);
+void	redirect(t_head *head, t_btree *node);
 void	parent_process(t_head *head, t_btree *node, int *fd);
 void	child_process(t_head *head, t_btree *node, int *fd);
 void	process(t_head *head, t_btree *node);
@@ -31,6 +31,7 @@ void	close_fd(int *fd);
 
 //built-ins
 int		is_builtin(char *command, int lcommand);
+int	is_parent_builtin(t_head *head, t_btree *btree);
 void	call_builtin(t_head *head, t_btree *node, char *command, int lcommand);
 int		ft_pwd(t_btree *node);
 int		ft_cd(char *path);
@@ -40,5 +41,9 @@ int		ft_exit(t_head *head);
 void	signal_handler(void);
 void	signal_tty(void);
 void	signal_child(void);
+
+//error
+void	ft_error(t_head *head, t_btree *node, int error_type);
+void	ft_not_readable(t_head *head, t_btree *node);
 
 #endif
