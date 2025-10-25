@@ -10,7 +10,7 @@ static int	is_flag(char *string)
 	return (FALSE);
 }
 
-int	ft_echo(t_cmd *cmd)
+int	ft_echo(t_head *head, t_cmd *cmd)
 {
 	int	flag_exists;
 	int	i;
@@ -26,7 +26,10 @@ int	ft_echo(t_cmd *cmd)
 		}
 		if (flag_exists && is_flag(cmd->args[i]) && is_flag(cmd->args[i - 1]))
 			continue;
-		ft_putstr_fd(cmd->args[i], STDOUT_FILENO);
+		if (!ft_strncmp("$?", cmd->args[i], 2))
+			ft_putnbr_fd(head->exit_code, 1);
+		else
+			ft_putstr_fd(cmd->args[i], STDOUT_FILENO);
 		if (cmd->args[i + 1])
 			ft_putchar_fd(' ', 1);
 	}
