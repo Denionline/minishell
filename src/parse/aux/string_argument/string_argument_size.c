@@ -1,74 +1,62 @@
 
 #include "minishell.h"
 
-static int variable_size(char *string, char **envp, int i, int j)
+static int variable_size(char *string, char **envp)
 {
 	char	*prefix;
 	char	*name;
-	char	*val;
-	int		name_len;
-	int		size;
-	
-	size = 0;
-	name_len = j - (i + 1);
-	name = ft_calloc(name_len + 1, 1);
-	if (!name)
-		return (-1);
-	ft_memcpy(name, string + 1, name_len);
+	char	*variable;
+	int		var_size;
+
+	var_size = 1;
+	while (string[var_size] && is_var_char(string[var_size]))
+		var_size++;
+	name = ft_substr(string, 1, var_size - 1);
 	prefix = ft_strjoin(name, "=");
 	free(name);
 	if (prefix)
 	{
-		val = get_var_path(prefix, envp);
+		variable = get_var_path(prefix, envp);
 		free(prefix);
-		if (val)
+		if (variable)
 		{
-			size = ft_strlen(val);
-			free(val);
+			var_size = ft_strlen(variable);
+			free(variable);
 		}
 	}
-	return (size);
+	return (var_size);
 }
 
-static int	argument_verification_size()
+static int	argument_verification_size(t_arg *arg, char *string, char **envp)
 {
-	if (is_tohandle_backslash(string + jumps + i, quotes.quote))
-		jumps += 1;
-	if (is_quote_closed(&quotes) && get_operator(string + i) && !is_hdoc)
-		break ;
-	if (is_quote_closed(&quotes) && ft_isspace(string[i]) && !is_hdoc)
-		break ;
-	if (string[i] == '\'' || string[i] == '\"')
+	if (is_tohandle_backslash(string, arg->quotes.quote))
+		string += 1;
+	if (is_quote_closed(&arg->quotes) && get_operator(string) && arg->len)
+		return (0);
+	if (is_quote_closed(&arg->quotes) && ft_isspace(*string) && arg->len)
+		return (0);
+	if (*string == '\'' || *string == '\"')
 	{
-		if (!verify_quotes(&quotes, string[i], is_hdoc))
-			continue ;
+		if (!verify_quotes(&arg->quotes, *string, !arg->len))
+			return (1);
 	}
-	if (string[i] == '$' && envp && quotes.quote != '\'' && to_expand)
-	{
-		j = i + 1;
-		while (string[j] && is_var_char(string[j]))
-			j++;
-		size += variable_size(string + i, envp, i, j) - 1;
-		i = j - 1;
-	}
+	if (*string == '$' && envp && arg->quotes.quote != '\'' && arg->to_expand)
+		arg->lstring += variable_size(string, envp);
+	return (1);
 }
 
-int	string_argument_size(char *string, char **envp, int to_expand, int is_hdoc)
+void	string_argument_size(t_arg *arg, char *string, char **envp)
 {
-	t_quotes	quotes;
-	int			size;
-	int			jumps;
-	int			i;
-	int			j;
+	int	jumps;
+	int	i;
 
-	ft_bzero(&quotes, sizeof(quotes));
 	jumps = 0;
-	size = 0;
 	i = -1;
 	while (string[++i])
 	{
-		
-		size += 1;
+		if (!argument_verification_size(arg, string + i, envp))
+			break;
+		arg->lstring += 1;
 	}
-	return (size - jumps);
+	arg->lstring -= jumps;
 }

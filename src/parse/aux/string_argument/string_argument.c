@@ -68,9 +68,8 @@ char	*string_argument(char *string, char **envp, int *len, int to_expand)
 	int		i;
 
 	ft_bzero(&arg, sizeof(arg));
-	arg.len = len;
-	arg.to_expand = to_expand;
-	arg.lstring = string_argument_size(string, envp, to_expand, !len);
+	arg = (t_arg){.to_expand = to_expand, .len = len};
+	string_argument_size(&arg, string, envp);
 	arg.string = ft_calloc(arg.lstring + 1, 1);
 	if (!arg.string)
 		return (NULL);
@@ -84,9 +83,7 @@ char	*string_argument(char *string, char **envp, int *len, int to_expand)
 			i = (string_updated - string);
 		i += 1;
 	}
-	if (arg.string[arg.pos - 1] == arg.quotes.quote)
-		arg.string[arg.pos - 1] = '\0';
-	arg.string[arg.pos] = '\0';
+	arg.string[arg.pos - (arg.string[arg.pos - 1] == arg.quotes.quote)] = '\0';
 	if (len && to_expand)
 		*len += i;
 	return (arg.string);

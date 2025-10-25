@@ -44,7 +44,7 @@ char	*get_valid_path(t_env *env, char *command);
 
 // parse/aux/string_argument/
 char	*string_argument(char *string, char **envp, int *len, int to_expand);
-int		string_argument_size(char *string, char **envp, int to_expand, int is_hdoc);
+void	string_argument_size(t_arg *arg, char *string, char **envp);
 // parse/aux/string_argument/aux/
 int		is_tohandle_backslash(char *c, char quote);
 int		is_var_char(char c);
