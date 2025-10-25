@@ -48,7 +48,7 @@ static void	set_cmd_args(t_head *head, t_cmd *cmd, char *prompt)
 			i = 0;
 			continue;
 		}
-		i++;
+		i += !op;
 	}
 }
 
