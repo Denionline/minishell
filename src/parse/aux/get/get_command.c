@@ -18,10 +18,10 @@ static char	**realloc_args(char **old_args, int new_len, char *new_value)
 			new_args[i] = old_args[i];
 			i++;
 		}
-		// new_args[i++] = new_value;
-		new_args[i] = NULL;
 		free(old_args);
 	}
+	new_args[new_len - 1] = new_value;
+	new_args[new_len] = NULL;
 	return (new_args);
 }
 
@@ -42,7 +42,7 @@ static void	set_cmd_args(t_head *head, t_cmd *cmd, char *prompt)
 			break ;
 		if (!ft_isspace(prompt[i]) && (i == 0 || ft_isspace(prompt[i - 1])))
 		{
-			cmd->args = realloc_args(cmd->args, size_args + 1,
+			cmd->args = realloc_args(cmd->args, ++size_args,
 				string_argument(head, prompt + i,
 					(t_arg){.len = &i, .to_expand = TRUE}
 				)
@@ -50,7 +50,7 @@ static void	set_cmd_args(t_head *head, t_cmd *cmd, char *prompt)
 			prompt += i;
 			i = 0;
 		}
-		i += !op;
+		i += (prompt[i] && !op);
 	}
 }
 
