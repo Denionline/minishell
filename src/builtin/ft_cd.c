@@ -4,6 +4,7 @@
 int	ft_cd(char *path)
 {
 	chdir(path);
+	printf("testing cd function\n");
 	return (0);
 }
 
