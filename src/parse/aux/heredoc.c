@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 10:58:28 by dximenes          #+#    #+#             */
-/*   Updated: 2025/10/19 11:48:43 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/10/24 21:39:51 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_file	heredoc(char *eof, char **envp)
 	while (TRUE)
 	{
 		line = readline("> ");
-		if ((!ft_strncmp(eof, line, ft_strlen(line))) || !line)
+		if ((!line || !ft_strncmp(eof, line, ft_strlen(line))))
 			break ;
 		line = string_argument(line, envp, NULL, TRUE);
 		ft_putstr_fd(line, heredoc_file.fd);
