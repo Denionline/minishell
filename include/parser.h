@@ -18,6 +18,7 @@ typedef struct s_arg {
 	int			lstring;
 	int			pos;
 	int			i;
+	int			new_len;
 	int			*len;
 	int			to_expand;
 }	t_arg;

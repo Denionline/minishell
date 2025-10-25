@@ -26,11 +26,10 @@ static int	variable(t_arg *arg, char *string, char **envp)
 	int		var_size;
 	int		i;
 
-	string++;
-	var_size = 0;
+	var_size = 1;
 	while (string[var_size] && is_var_char(string[var_size]))
 		var_size++;
-	name = ft_substr(string, 0, var_size);
+	name = ft_substr(string, 1, var_size - 1);
 	if (!name)
 		return (free(arg->string), 0);
 	prefix = ft_strjoin(name, "=");
@@ -45,25 +44,26 @@ static int	variable(t_arg *arg, char *string, char **envp)
 	return (free(name), free(prefix), free(variable), var_size);
 }
 
-static int	argument_verification(t_arg *arg, char *string, char **envp)
+static char	*argument_verification(t_arg *arg, char *string, char **envp)
 {
 	if (is_tohandle_backslash(string, arg->quotes.quote))
 		string++;
 	if (string[0] == '\'' || string[0] == '\"')
 		if (!verify_quotes(&arg->quotes, string[0], !arg->len))
-			return (1);
+			return (string);
 	if (is_quote_closed(&arg->quotes) && get_operator(string) && arg->len)
-		return (0);
+		return (NULL);
 	if (is_quote_closed(&arg->quotes) && ft_isspace(string[0]) && arg->len)
-		return (0);
+		return (NULL);
 	if (is_to_handle_variable(arg, string, envp, arg->to_expand))
 		string += variable(arg, string, envp);
 	arg->string[arg->pos++] = string[0];
-	return (1);
+	return (string);
 }
 
 char	*string_argument(char *string, char **envp, int *len, int to_expand)
 {
+	char	*string_updated;
 	t_arg	arg;
 	int		i;
 
@@ -77,14 +77,17 @@ char	*string_argument(char *string, char **envp, int *len, int to_expand)
 	i = 0;
 	while (string[i] && arg.pos <= arg.lstring)
 	{
-		if (!argument_verification(&arg, string + i, envp))
+		string_updated = argument_verification(&arg, string + i, envp);
+		if (!string_updated)
 			break;
-		i++;
+		if (string_updated - string)
+			i = (string_updated - string);
+		i += 1;
 	}
 	if (arg.string[arg.pos - 1] == arg.quotes.quote)
 		arg.string[arg.pos - 1] = '\0';
 	arg.string[arg.pos] = '\0';
-		if (len && to_expand)
-		*len += arg.i;
+	if (len && to_expand)
+		*len += i;
 	return (arg.string);
 }

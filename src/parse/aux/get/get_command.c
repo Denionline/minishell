@@ -67,6 +67,3 @@ t_cmd	*get_command(t_head *head, char *prompt)
 		return (NULL);
 	return (cmd);
 }
-
-
-// echo hello > outfile world > outfile1 ne
