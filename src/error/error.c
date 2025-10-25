@@ -21,8 +21,6 @@ void	ft_error_infile(t_head *head, t_btree *node)
 	}
 }
 
-
-
 void	ft_error(t_head *head, t_btree *node, int error_type)
 {
 	if (error_type == 0)

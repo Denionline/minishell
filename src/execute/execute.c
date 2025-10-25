@@ -1,24 +1,6 @@
 
 #include "minishell.h"
 
-void	fd_organizer(t_head *head, t_btree *node)
-{
-//	if (node->files.in.exists == 1)
-//	{
-//		node->files.in.fd = open(node->files.in.name, node->files.in.flags);
-//		if (node->files.in.fd == -1)
-//			ft_error(head, node, 0);
-//	}
-//	if (node->files.out.exists == 1)
-//		node->files.out.fd = open(node->files.out.name,
-//				node->files.out.flags, 0644);
-	(void)*node;
-	if (head->n_cmds > 1 && head->index < (head->n_cmds -1))
-		head->pipe.flag = 1;
-	else
-		head->pipe.flag = 0;
-}
-
 void	redirect(t_head *head, t_btree *node)
 {
 	if (node->files.in.exists)
@@ -52,21 +34,10 @@ void	parent_process(t_head *head, t_btree *node, int *fd)
 
 void	child_process(t_head *head, t_btree *node, int *fd)
 {
-//	if (node->files.in.exists)
-//	{
-//		if ((node->files.in.fd = open(node->files.in.name, node->files.in.flags)) == -1)
-//			ft_error(head, node, 0);
-//		dup2(node->files.in.fd, STDIN_FILENO);
-//	}
 	if (node->files.in.exists || node->files.out.exists)
 		redirect(head, node);
 	if (head->pipe.pipe_fd[0] != -1)
 		dup2(head->pipe.pipe_fd[0], STDIN_FILENO);
-//	if (node->files.out.exists)
-//	{
-//		node->files.out.fd = open(node->files.out.name, node->files.out.flags, 0664);
-//		dup2(node->files.out.fd, STDOUT_FILENO);
-//	}
 	if (head->pipe.flag == 1)
 	{
 		dup2(fd[1], STDOUT_FILENO);
@@ -81,7 +52,12 @@ void	process(t_head *head, t_btree *node)
 	int		fd[2];
 	pid_t	pid;
 
-	fd_organizer(head, node);
+	if (is_parent_builtin(head, node) == 0)
+		return ;
+	if (head->n_cmds > 1 && head->index < (head->n_cmds -1))
+		head->pipe.flag = 1;
+	else
+		head->pipe.flag = 0;
 	if (head->pipe.flag == 1)
 	{
 		if (pipe(fd) == -1)
@@ -91,9 +67,7 @@ void	process(t_head *head, t_btree *node)
 	if (pid == -1)
 		close_fd(fd);
 	if (pid == 0)
-	{
 		child_process(head, node, fd);
-	}
 	else
 		parent_process(head, node, fd);
 	head->pid[head->index] = pid;
@@ -103,7 +77,6 @@ void	process(t_head *head, t_btree *node)
 
 void	ft_execute(t_head *head, t_btree *node)
 {
-	//nao e melhor mandar direto o head e node para call_builtin?
 	if (is_builtin(node->cmd->args[0], ft_strlen(node->cmd->args[0])))
 		call_builtin(head, node, node->cmd->args[0],
 			ft_strlen(node->cmd->args[0]));
