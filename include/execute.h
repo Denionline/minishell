@@ -41,4 +41,8 @@ void	signal_handler(void);
 void	signal_tty(void);
 void	signal_child(void);
 
+//error
+void	ft_error(t_head *head, t_btree *node, int error_type);
+void	ft_not_readable(t_head *head, t_btree *node);
+
 #endif

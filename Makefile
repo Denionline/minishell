@@ -46,6 +46,7 @@ VPATH			+= src/execute
 VPATH			+= src/signal
 VPATH			+= src/builtin
 VPATH			+= src/builtin/aux
+VPATH			+= src/error
 
 LIBFT_PATH		= $(INC_PATH)/libft/
 
@@ -91,6 +92,8 @@ FILES			+= ft_cd
 FILES			+= ft_env
 FILES			+= ft_export
 FILES			+= ft_echo
+#error
+FILES			+= error
 
 
 SRCS			= $(addprefix ./, $(addsuffix .c, $(FILES)))
