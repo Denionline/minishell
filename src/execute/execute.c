@@ -77,9 +77,8 @@ void	process(t_head *head, t_btree *node)
 
 void	ft_execute(t_head *head, t_btree *node)
 {
-	if (is_builtin(node->cmd->args[0], ft_strlen(node->cmd->args[0])))
-		call_builtin(head, node, node->cmd->args[0],
-			ft_strlen(node->cmd->args[0]));
+	if (is_builtin(node->cmd->args[0]))
+		call_builtin(head, node);
 	else if (execve(node->cmd->path, node->cmd->args, head->env.vars) == -1)
 		free_node(node);
 }

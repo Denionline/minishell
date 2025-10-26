@@ -1,33 +1,37 @@
 
 #include "minishell.h"
 
-int	is_builtin(char *command, int lcommand)
+int	is_builtin(char *command)
 {
-	if (!ft_strncmp(command, "pwd", lcommand))
+	if (!ft_strncmp("pwd", command, ft_strlen("pwd")))
 		return (TRUE);
-	if (!ft_strncmp(command, "cd", lcommand))
+	if (!ft_strncmp("cd", command, ft_strlen("cd")))
 		return (TRUE);
-	if (!ft_strncmp(command, "env", lcommand))
+	if (!ft_strncmp("env", command, ft_strlen("env")))
 		return (TRUE);
-	if (!ft_strncmp(command, "export", lcommand))
+	if (!ft_strncmp("export", command, ft_strlen("export")))
 		return (TRUE);
-	if (!ft_strncmp(command, "echo", lcommand))
+	if (!ft_strncmp("echo", command, ft_strlen("echo")))
 		return (TRUE);
 	return (FALSE);
 }
 
-void	call_builtin(t_head *head, t_btree *node, char *command, int lcommand)
+void	call_builtin(t_head *head, t_btree *node)
 {
-	if (!ft_strncmp(command, "pwd", lcommand))
+	const char	*command = node->cmd->args[0];
+
+	if (!ft_strncmp("pwd", command, ft_strlen("pwd")))
 		exit(ft_pwd(node));
-//	if (!ft_strncmp(command, "cd", lcommand))
-//		exit(ft_cd(node->cmd->args[1]));
-	if (!ft_strncmp(command, "env", lcommand))
+	if (!ft_strncmp("env", command, ft_strlen("env")))
 		exit(ft_env(head->env.vars));
-//	if (!ft_strncmp(command, "export", lcommand))
-//		exit(ft_export(node->cmd, &head->env));
-	if (!ft_strncmp(command, "echo", lcommand))
+	if (!ft_strncmp("echo", command, ft_strlen("echo")))
 		exit(ft_echo(node->cmd));
+	/*
+	if (!ft_strncmp("cd", command, ft_strlen("cd")))
+		exit(ft_cd(node->cmd->args[1]));
+	if (!ft_strncmp("export", command, ft_strlen("export")))
+		exit(ft_export(node->cmd, &head->env));
+	*/
 }
 
 int	is_parent_builtin(t_head *head, t_btree *node)

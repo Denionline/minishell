@@ -30,9 +30,9 @@ void	free_db_str(char **db_str);
 void	close_fd(int *fd);
 
 //built-ins
-int		is_builtin(char *command, int lcommand);
-int	is_parent_builtin(t_head *head, t_btree *btree);
-void	call_builtin(t_head *head, t_btree *node, char *command, int lcommand);
+int		is_builtin(char *command);
+int		is_parent_builtin(t_head *head, t_btree *btree);
+void	call_builtin(t_head *head, t_btree *node);
 int		ft_pwd(t_btree *node);
 int		ft_cd(char *path);
 int		ft_exit(t_head *head);

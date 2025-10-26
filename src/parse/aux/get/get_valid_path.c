@@ -8,7 +8,7 @@ char	*get_valid_path(t_env *env, char *command)
 	char	*path_bar;
 	int		j;
 
-	if (is_builtin(command, ft_strlen(command)))
+	if (is_builtin(command))
 		return (ft_strdup("built-in"));
 	paths = ft_split(get_var_path("PATH", env->vars), ':');
 	j = 0;
