@@ -75,6 +75,7 @@ FILES			+= string_argument_size
 FILES			+= is_tohandle_backslash
 FILES			+= is_var_char
 FILES			+= quotes
+FILES			+= get_realloc_args
 #binary_tree
 FILES			+= btree_create
 FILES			+= btree_add_last_left
