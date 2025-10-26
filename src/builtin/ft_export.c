@@ -22,7 +22,8 @@ static t_env	handle_variable(char *var, int lvar, char *value, t_env *env)
 		{
 			free(env->vars[new_env.n_vars]);
 			env->vars[new_env.n_vars] = ft_strdup(value);
-			return (free(var), (t_env){.n_vars = 0, .vars = NULL});
+			free(var);
+			return (*env);
 		}
 		new_env.n_vars++;
 	}
