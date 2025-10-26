@@ -46,16 +46,16 @@ static char	*argument_verification(t_arg *arg, char *string, t_head *head)
 {
 	if (is_tohandle_backslash(string, arg->quotes.quote))
 		string++;
-	if (string[0] == '\'' || string[0] == '\"')
-		if (!verify_quotes(&arg->quotes, string[0], !arg->len))
+	if (*string == '\'' || *string == '\"')
+		if (!verify_quotes(&arg->quotes, *string, !arg->len))
 			return (string);
 	if (is_quote_closed(&arg->quotes) && get_operator(string) && arg->len)
 		return (NULL);
-	if (is_quote_closed(&arg->quotes) && ft_isspace(string[0]) && arg->len)
+	if (is_quote_closed(&arg->quotes) && ft_isspace(*string) && arg->len)
 		return (NULL);
 	if (is_to_handle_variable(arg, string, head->env.vars, arg->to_expand))
 		string += variable(arg, string, head);
-	arg->string[arg->pos++] = string[0];
+	arg->string[arg->pos++] = *string;
 	return (string);
 }
 
