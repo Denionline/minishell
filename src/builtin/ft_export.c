@@ -1,16 +1,6 @@
 
 #include "minishell.h"
 
-static int	get_number_of_args(char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args[i])
-		i++;
-	return (i);
-}
-
 static t_env	handle_variable(char *var, int lvar, char *value, t_env *env)
 {
 	t_env	new_env;
@@ -33,7 +23,7 @@ static t_env	handle_variable(char *var, int lvar, char *value, t_env *env)
 }
 int	ft_export(t_cmd *cmd, t_env *env)
 {
-	const int	n_args = get_number_of_args(cmd->args);
+	const int	n_args = get_size_double_array(cmd->args);
 	char		*current;
 	int			var_size;
 	int			i;

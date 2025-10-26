@@ -11,6 +11,8 @@ int	is_builtin(char *command)
 		return (TRUE);
 	if (!ft_strncmp("export", command, ft_strlen("export")))
 		return (TRUE);
+	if (!ft_strncmp("unset", command, ft_strlen("unset")))
+		return (TRUE);
 	if (!ft_strncmp("echo", command, ft_strlen("echo")))
 		return (TRUE);
 	return (FALSE);
@@ -41,9 +43,14 @@ int	is_parent_builtin(t_head *head, t_btree *node)
 		ft_cd(node->cmd->args[1]);
 		return (0);
 	}
-	if (!ft_strncmp(node->cmd->args[0], "export", 6))
+	if (!ft_strncmp(node->cmd->args[0], "export", 7))
 	{
 		ft_export(node->cmd, &head->env);
+		return (0);
+	}
+	if (!ft_strncmp(node->cmd->args[0], "unset", 6))
+	{
+		ft_unset(node->cmd, &head->env);
 		return (0);
 	}
 	//add unset 

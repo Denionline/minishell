@@ -62,7 +62,9 @@ FILES			+= end
 FILES			+= signal_handler
 FILES			+= free_all
 FILES			+= new_shlvl
+FILES			+= is_variable_exist
 #parsing
+FILES			+= get_size_double_array
 FILES			+= parse
 FILES			+= heredoc
 FILES			+= get_operator
@@ -91,8 +93,9 @@ FILES			+= builtin
 FILES			+= ft_pwd
 FILES			+= ft_cd
 FILES			+= ft_env
-FILES			+= ft_export
 FILES			+= ft_echo
+FILES			+= ft_export
+FILES			+= ft_unset
 #error
 FILES			+= error
 
