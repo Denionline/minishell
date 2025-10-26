@@ -66,6 +66,9 @@ t_cmd	*get_command(t_head *head, char *prompt)
 		return (NULL);
 	cmd->path = get_valid_path(&head->env, cmd->args[0]);
 	if (!cmd->path)
+	{
+		printf("Command not found\n");
 		return (NULL);
+	}
 	return (cmd);
 }
