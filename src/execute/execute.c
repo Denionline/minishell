@@ -43,6 +43,8 @@ void	child_process(t_head *head, t_btree *node, int *fd)
 		dup2(fd[1], STDOUT_FILENO);
 		close_fd(fd);
 	}
+	if (!node->cmd->path)
+		ft_error(head, node, fd, 2);
 	close_all_fds(head, node, 0);
 	ft_execute(head, node);
 }
