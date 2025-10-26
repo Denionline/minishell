@@ -1,18 +1,18 @@
 
 #include "minishell.h"
 
-static int	set_file_values(t_file *file, int flags, char *string, char **envp)
+static int	manage_file(t_file *file, t_head *head, char *string, t_file data)
 {
 	int	complete_size;
 
-	if (envp)
+	if (data.exists)
 	{
-		if (flags < 0)
-			*file = heredoc(string, envp);
+		if (data.flags < 0)
+			*file = heredoc(head, string);
 		else
 		{
 			file->name = ft_strdup(string);
-			file->flags = flags;
+			file->flags = data.flags;
 			file->fd = open(file->name, file->flags, 0644);
 			close(file->fd);
 			file->exists = TRUE;
@@ -23,30 +23,39 @@ static int	set_file_values(t_file *file, int flags, char *string, char **envp)
 	return (complete_size);
 }
 
+static int	get_flags(int op)
+{
+	if (op == ARROW_LEFT)
+		return (O_RDONLY);
+	if (op == DOUBLE_ARROW_LEFT)
+		return (-1);
+	if (op == ARROW_RIGHT)
+		return (O_CREAT | O_WRONLY | O_TRUNC);
+	if (op == DOUBLE_ARROW_RIGHT)
+		return (O_CREAT | O_WRONLY | O_APPEND);
+	return (0);
+}
+
 int	handle_file(t_head *head, t_files *files, char *prompt, int op)
 {
+	t_file	data;
 	char	*string;
-	char	**envp;
 	int		pos;
 
-	envp = head->env.vars;
-	if (!files)
-		envp = NULL;
+	data = (t_file){ .flags = get_flags(op) , .exists = !(!files)};
 	pos = get_operator_size(op);
 	while (ft_isspace(prompt[pos]))
 		pos++;
-	string = string_argument(prompt + pos, envp, &pos, FALSE);
+	string = string_argument(head, prompt + pos,
+		(t_arg){.len = &pos, .to_expand = FALSE}
+	);
 	if (op == ARROW_LEFT)
-		pos += set_file_values(&files->in, O_RDONLY, string, envp);
-	else if (op == DOUBLE_ARROW_LEFT)
-		pos += set_file_values(&files->in, -1, string, envp);
-	else if (op == ARROW_RIGHT)
-		pos += set_file_values(&files->out,
-			O_CREAT | O_WRONLY | O_TRUNC, string, envp
-		);
-	else if (op == DOUBLE_ARROW_RIGHT)
-		pos += set_file_values(&files->out,
-			O_CREAT | O_WRONLY | O_APPEND, string, envp
-		);
+		return (pos + manage_file(&files->in, head, string, data));
+	if (op == DOUBLE_ARROW_LEFT)
+		return (pos + manage_file(&files->in, head, string, data));
+	if (op == ARROW_RIGHT)
+		return (pos + manage_file(&files->out, head, string, data));
+	if (op == DOUBLE_ARROW_RIGHT)
+		return (pos + manage_file(&files->out, head, string, data));
 	return (pos);
 }

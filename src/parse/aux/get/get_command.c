@@ -1,11 +1,12 @@
 
 #include "minishell.h"
 
-static char	**realloc_args(char **old_args, int new_len)
+static char	**realloc_args(char **old_args, int new_len, char *new_value)
 {
 	char	**new_args;
 	int		i;
 
+	(void)new_value;
 	new_args = ft_calloc(new_len + 1, sizeof(char *));
 	if (!new_args)
 		return (NULL);
@@ -17,9 +18,10 @@ static char	**realloc_args(char **old_args, int new_len)
 			new_args[i] = old_args[i];
 			i++;
 		}
-		new_args[i] = NULL;
 		free(old_args);
 	}
+	new_args[new_len - 1] = new_value;
+	new_args[new_len] = NULL;
 	return (new_args);
 }
 
@@ -29,8 +31,6 @@ static void	set_cmd_args(t_head *head, t_cmd *cmd, char *prompt)
 	int	op;
 	int	i;
 
-	if (!prompt || !*prompt)
-		return ;
 	size_args = 0;
 	i = 0;
 	while (prompt[i])
@@ -42,13 +42,15 @@ static void	set_cmd_args(t_head *head, t_cmd *cmd, char *prompt)
 			break ;
 		if (!ft_isspace(prompt[i]) && (i == 0 || ft_isspace(prompt[i - 1])))
 		{
-			cmd->args = realloc_args(cmd->args, size_args + 1);
-			cmd->args[size_args++] = string_argument(prompt + i, head->env.vars, &i, TRUE);
-			prompt += i;
+			cmd->args = realloc_args(cmd->args, ++size_args,
+				string_argument(head, prompt + i,
+					(t_arg){.len = &i, .to_expand = TRUE}
+				)
+			);
+			prompt += i - 1;
 			i = 0;
-			continue;
 		}
-		i++;
+		i += !op;
 	}
 }
 
@@ -67,6 +69,3 @@ t_cmd	*get_command(t_head *head, char *prompt)
 		return (NULL);
 	return (cmd);
 }
-
-
-// echo hello > outfile world > outfile1 ne

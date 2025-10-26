@@ -18,10 +18,13 @@ typedef struct s_arg {
 	int			lstring;
 	int			pos;
 	int			i;
+	int			new_len;
+	int			*len;
+	int			to_expand;
 }	t_arg;
 
 void	parse(t_head *head, char *prompt);
-t_file	heredoc(char *eof, char **envp);
+t_file	heredoc(t_head *head, char *eof);
 void	new_shlvl(char **env);
 
 // parse/aux/
@@ -34,14 +37,14 @@ void	print(t_btree *token);
 int		get_operator_size(int operator);
 int		is_arrow_operator(int operator);
 int		verify_quotes(t_quotes *quotes, char c, int is_heredoc);
-int		is_main_quote_closed(t_quotes *quotes);
+int		is_quote_closed(t_quotes *quotes);
 
 t_cmd	*get_command(t_head *head, char *prompt);
 char	*get_valid_path(t_env *env, char *command);
 
 // parse/aux/string_argument/
-char	*string_argument(char *string, char **envp, int *len, int to_expand);
-int		string_argument_size(char *string, char **envp, int to_expand, int is_hdoc);
+char	*string_argument(t_head *head, char *string, t_arg arg);
+void	string_argument_size(t_arg *arg, char *string, char **envp);
 // parse/aux/string_argument/aux/
 int		is_tohandle_backslash(char *c, char quote);
 int		is_var_char(char c);
@@ -52,7 +55,7 @@ void	btree_set_file_last_cmd(t_btree **root, t_files **files);
 // functions/env/
 int		ft_env(char **env);
 int		ft_export(t_cmd *cmd, t_env *env);
-int		ft_echo(t_head *head, t_cmd *cmd);
+int		ft_echo(t_cmd *cmd);
 
 
 #endif
