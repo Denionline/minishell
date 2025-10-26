@@ -47,10 +47,10 @@ static void	set_cmd_args(t_head *head, t_cmd *cmd, char *prompt)
 					(t_arg){.len = &i, .to_expand = TRUE}
 				)
 			);
-			prompt += i;
+			prompt += i - 1;
 			i = 0;
 		}
-		i += (prompt[i] && !op);
+		i += !op;
 	}
 }
 

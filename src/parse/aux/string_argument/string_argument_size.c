@@ -11,7 +11,6 @@ static int variable_size(char *string, char **envp)
 	while (string[var_size] && is_var_char(string[var_size]))
 		var_size++;
 	name = ft_substr(string, 1, var_size - 1);
-	free(name);
 	if (name)
 	{
 		variable = get_var_path(name, envp);
