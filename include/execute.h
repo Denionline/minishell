@@ -11,7 +11,7 @@ int		hierarchy_btree(t_head *head, t_btree *node);
 int		wait_process(t_head *head);
 
 //execute
-void	redirect(t_head *head, t_btree *node);
+void	redirect(t_head *head, t_btree *node, int *fd);
 void	parent_process(t_head *head, t_btree *node, int *fd);
 void	child_process(t_head *head, t_btree *node, int *fd);
 void	process(t_head *head, t_btree *node);
@@ -43,7 +43,7 @@ void	signal_tty(void);
 void	signal_child(void);
 
 //error
-void	ft_error(t_head *head, t_btree *node, int error_type);
-void	ft_not_readable(t_head *head, t_btree *node);
+void	ft_error(t_head *head, t_btree *node, int *fd, int error_type);
+void	ft_error_file(t_head *head, t_btree *node, int *fd, int error_type);
 
 #endif
