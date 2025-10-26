@@ -1,18 +1,18 @@
 
 #include "minishell.h"
 
-static int	manage_file(t_file *file, int flags, char *string, t_head *head)
+static int	manage_file(t_file *file, t_head *head, char *string, t_file data)
 {
 	int	complete_size;
 
-	if (head)
+	if (data.exists)
 	{
-		if (flags < 0)
+		if (data.flags < 0)
 			*file = heredoc(head, string);
 		else
 		{
 			file->name = ft_strdup(string);
-			file->flags = flags;
+			file->flags = data.flags;
 			file->fd = open(file->name, file->flags, 0644);
 			close(file->fd);
 			file->exists = TRUE;
@@ -23,13 +23,26 @@ static int	manage_file(t_file *file, int flags, char *string, t_head *head)
 	return (complete_size);
 }
 
+static int	get_flags(int op)
+{
+	if (op == ARROW_LEFT)
+		return (O_RDONLY);
+	if (op == DOUBLE_ARROW_LEFT)
+		return (-1);
+	if (op == ARROW_RIGHT)
+		return (O_CREAT | O_WRONLY | O_TRUNC);
+	if (op == DOUBLE_ARROW_RIGHT)
+		return (O_CREAT | O_WRONLY | O_APPEND);
+	return (0);
+}
+
 int	handle_file(t_head *head, t_files *files, char *prompt, int op)
 {
+	t_file	data;
 	char	*string;
 	int		pos;
 
-	if (!files)
-		head = NULL;
+	data = (t_file){ .flags = get_flags(op) , .exists = !(!files)};
 	pos = get_operator_size(op);
 	while (ft_isspace(prompt[pos]))
 		pos++;
@@ -37,16 +50,12 @@ int	handle_file(t_head *head, t_files *files, char *prompt, int op)
 		(t_arg){.len = &pos, .to_expand = FALSE}
 	);
 	if (op == ARROW_LEFT)
-		return (pos + manage_file(&files->in, O_RDONLY, string, head));
+		return (pos + manage_file(&files->in, head, string, data));
 	if (op == DOUBLE_ARROW_LEFT)
-		return (pos + manage_file(&files->in, -1, string, head));
+		return (pos + manage_file(&files->in, head, string, data));
 	if (op == ARROW_RIGHT)
-		return (pos + manage_file(&files->out,
-			O_CREAT | O_WRONLY | O_TRUNC, string, head
-		));
+		return (pos + manage_file(&files->out, head, string, data));
 	if (op == DOUBLE_ARROW_RIGHT)
-		return (pos + manage_file(&files->out,
-			O_CREAT | O_WRONLY | O_APPEND, string, head
-		));
+		return (pos + manage_file(&files->out, head, string, data));
 	return (pos);
 }

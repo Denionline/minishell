@@ -3,7 +3,6 @@
 
 static int variable_size(char *string, char **envp)
 {
-	char	*prefix;
 	char	*name;
 	char	*variable;
 	int		var_size;
