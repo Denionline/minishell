@@ -55,5 +55,7 @@ void	string_argument_size(t_arg *arg, char *string, char **envp)
 			break;
 		arg->lstring += 1;
 	}
+	if (!is_quote_closed(&arg->quotes))
+		printf("Command not found\n");
 	arg->lstring -= jumps;
 }
