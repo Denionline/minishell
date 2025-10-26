@@ -1,13 +1,13 @@
 
 #include "minishell.h"
 
-void	redirect(t_head *head, t_btree *node)
+void	redirect(t_head *head, t_btree *node, int *fd)
 {
 	if (node->files.in.exists)
 	{
 		if ((node->files.in.fd = open(node->files.in.name,
 			node->files.in.flags)) == -1)
-			ft_error(head, node, 0);
+			ft_error(head, node, fd, 0);
 		dup2(node->files.in.fd, STDIN_FILENO);
 		close(node->files.in.fd);
 	}
@@ -15,7 +15,7 @@ void	redirect(t_head *head, t_btree *node)
 	{
 		if ((node->files.out.fd = open(node->files.out.name,
 			node->files.out.flags, 0664)) == -1)
-			ft_error(head, node, 1);
+			ft_error(head, node, fd, 1);
 		dup2(node->files.out.fd, STDOUT_FILENO);
 		close(node->files.out.fd);
 	}
@@ -35,7 +35,7 @@ void	parent_process(t_head *head, t_btree *node, int *fd)
 void	child_process(t_head *head, t_btree *node, int *fd)
 {
 	if (node->files.in.exists || node->files.out.exists)
-		redirect(head, node);
+		redirect(head, node, fd);
 	if (head->pipe.pipe_fd[0] != -1)
 		dup2(head->pipe.pipe_fd[0], STDIN_FILENO);
 	if (head->pipe.flag == 1)

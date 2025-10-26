@@ -176,4 +176,4 @@ get_libft:
 	@git clone $(LIBFT_URL) $(LIBFT_PATH)
 	@printf "$(C_GREEN)libft$(C_STD) successfully downloaded\n"
 
-#valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --trace-children=yes
+#valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --trace-children=yes

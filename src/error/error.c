@@ -1,29 +1,31 @@
 
 #include "minishell.h"
 
-void	ft_error_infile(t_head *head, t_btree *node)
+void	ft_error_file(t_head *head, t_btree *node, int *fd, int error)
 {
-	if (access(node->files.in.name, F_OK) == -1)
-	{
-		ft_putstr_fd("minishell: ", 1);
+	ft_putstr_fd("minishell: ", 1);
+	if (error == 0)
 		ft_putstr_fd(node->files.in.name, 1);
+	else if (error == 1)
+		ft_putstr_fd(node->files.out.name, 1);
+	if (error == 0 && access(node->files.in.name, F_OK) == -1)
 		ft_putstr_fd(": No such file or directory\n", 1);
-		free_btree(head->root);
-		exit(1);
-	}
-	else if (access(node->files.in.name, R_OK) == -1)
-	{
-		ft_putstr_fd("minishell: ", 1);
-		ft_putstr_fd(node->files.in.name, 1);
+	else if (error == 0 && access(node->files.in.name, R_OK) == -1)
 		ft_putstr_fd(": Permission denied\n", 1);
-		free_btree(head->root);
-		exit(1);	
-	}
+	else if (error == 1 && access(node->files.out.name, W_OK) == -1)
+		ft_putstr_fd(": Permission denied\n", 1);
+	free(head->pid);
+	if (head->pipe.flag == 1)
+		close_fd(fd);
+	dup2(head->files.in.fd, STDIN_FILENO);
+        dup2(head->files.out.fd, STDOUT_FILENO);
+	close_all_fds(head, node, 0);
+	exit(1);
 }
 
-void	ft_error(t_head *head, t_btree *node, int error_type)
+void	ft_error(t_head *head, t_btree *node, int *fd, int error)
 {
-	if (error_type == 0)
-		ft_error_infile(head, node);
+	if (error == 0 || error == 1)
+		ft_error_file(head, node, fd, error);
 }
 
