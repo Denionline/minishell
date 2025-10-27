@@ -6,6 +6,7 @@ static void	remove_variable(t_env **env, char *variable_to_remove)
 	char	**new_vars;
 	int		pos_var;
 	int		i;
+	int		pos;
 
 	pos_var = is_variable_exist(variable_to_remove, (*env)->vars);
 	if (pos_var < 0)
@@ -15,13 +16,15 @@ static void	remove_variable(t_env **env, char *variable_to_remove)
 	new_vars = ft_calloc((*env)->n_vars + 1, 1);
 	if (!new_vars)
 		return ;
+	pos = 0;
 	i = 0;
-	while ((*env)->vars[i])
+	while (i < (*env)->n_vars)
 	{
 		if (pos_var != i)
-			new_vars[i] = (*env)->vars[i];
+			new_vars[pos++] = (*env)->vars[i];
 		i++;
 	}
+	new_vars[pos] = NULL;
 	(*env)->vars = new_vars;
 }
 
