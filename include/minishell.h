@@ -27,6 +27,9 @@
 void	initializer(t_head **head, int argc, char *argv[], char *envp[]);
 int		minishell(t_head *head);
 
+// aux/get/
+int		get_size_double_array(char **array);
+
 // aux/btree/
 t_btree	*btree_create(int identifier, t_cmd *cmd, t_btree *left, t_btree *right);
 void	btree_add_last_left(t_btree **root, t_btree *new_token);

@@ -26,6 +26,7 @@ typedef struct s_arg {
 void	parse(t_head *head, char *prompt);
 t_file	heredoc(t_head *head, char *eof);
 void	new_shlvl(char **env);
+int		is_variable_exist(char *variable, char **vars);
 
 // parse/aux/
 int		handle_file(t_head *head, t_files *files, char *prompt, int op);
@@ -55,8 +56,9 @@ void	btree_set_file_last_cmd(t_btree **root, t_files **files);
 
 // functions/env/
 int		ft_env(char **env);
-int		ft_export(t_cmd *cmd, t_env *env);
 int		ft_echo(t_cmd *cmd);
+int		ft_export(t_cmd *cmd, t_env *env);
+int		ft_unset(t_cmd *cmd, t_env *env);
 
 
 #endif
