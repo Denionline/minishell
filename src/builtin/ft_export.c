@@ -1,25 +1,24 @@
 
 #include "minishell.h"
 
-static t_env	handle_variable(char *var, int lvar, char *value, t_env *env)
+static void	handle_variable(char *variable, char *value, t_env *env)
 {
-	t_env	new_env;
+	int		pos;
 
-	ft_bzero(&new_env, sizeof(new_env));
-	while (env->vars[new_env.n_vars])
+	pos = is_variable_exist(variable, env->vars);
+	if (pos >= 0)
 	{
-		if (!ft_strncmp(var, env->vars[new_env.n_vars], lvar))
-		{
-			free(env->vars[new_env.n_vars]);
-			env->vars[new_env.n_vars] = ft_strdup(value);
-			free(var);
-			return (*env);
-		}
-		new_env.n_vars++;
+		free(env->vars[pos]);
+		env->vars[pos] = ft_strdup(value);
 	}
-	new_env.vars = get_realloc_args(env->vars, new_env.n_vars, ft_strdup(value));
-	free(var);
-	return (new_env);
+	else
+	{
+		env->vars = get_realloc_args(env->vars,
+			++env->n_vars,
+			ft_strdup(value)
+		);
+	}
+	free(variable);
 }
 int	ft_export(t_cmd *cmd, t_env *env)
 {
@@ -36,12 +35,11 @@ int	ft_export(t_cmd *cmd, t_env *env)
 		while (is_var_char(current[var_size]))
 			var_size++;
 		if (current[var_size] != '=')
-			return (1);
-		(*env) = handle_variable(ft_substr(current, 0, var_size + 1),
-			var_size,
-			current,
-			env
-		);
+		{
+			printf("%s: not a valid identifier\n", current);
+			continue;
+		}
+		handle_variable(ft_substr(current, 0, var_size), current, env);
 	}
 	return (0);
 }
