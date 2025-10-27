@@ -25,6 +25,8 @@ void	ft_error_file(t_head *head, t_btree *node, int *fd, int error)
 
 void	ft_error_command(t_head *head, t_btree *node, int *fd)
 {
+	ft_putstr_fd(node->cmd->args[0], 1);
+	ft_putstr_fd(": command not found\n", 1);
 	free(head->pid);
 	if (head->pipe.flag == 1)
 		close_fd(fd);
@@ -32,7 +34,7 @@ void	ft_error_command(t_head *head, t_btree *node, int *fd)
         dup2(head->files.out.fd, STDOUT_FILENO);
 	close_all_fds(head, node, 0);
 	head->exit_code = 127;
-	exit(1);
+	exit(127);
 }
 
 void	ft_error(t_head *head, t_btree *node, int *fd, int error)
