@@ -11,20 +11,20 @@ static void	remove_variable(t_env **env, char *variable_to_remove)
 	pos_var = is_variable_exist(variable_to_remove, (*env)->vars);
 	if (pos_var < 0)
 		return (free(variable_to_remove));
-	printf("Var => %s on the pos => %d\n", (*env)->vars[pos_var], pos_var);
 	(*env)->n_vars -= 1;
-	new_vars = ft_calloc((*env)->n_vars + 1, 1);
+	new_vars = ft_calloc((*env)->n_vars + 1, sizeof(char *));
 	if (!new_vars)
 		return ;
 	pos = 0;
 	i = 0;
-	while (i < (*env)->n_vars)
+	while (pos < (*env)->n_vars)
 	{
 		if (pos_var != i)
 			new_vars[pos++] = (*env)->vars[i];
 		i++;
 	}
 	new_vars[pos] = NULL;
+	free((*env)->vars[pos_var]);
 	(*env)->vars = new_vars;
 }
 
@@ -42,7 +42,7 @@ int	ft_unset(t_cmd *cmd, t_env *env)
 		var_size = 0;
 		while (is_var_char(current[var_size]))
 			var_size++;
-		remove_variable(&env, ft_substr(current, 0, var_size + 1));
+		remove_variable(&env, ft_substr(current, 0, var_size));
 	}
 	return (0);
 }

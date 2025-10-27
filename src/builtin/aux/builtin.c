@@ -38,17 +38,17 @@ void	call_builtin(t_head *head, t_btree *node)
 
 int	is_parent_builtin(t_head *head, t_btree *node)
 {
-	if (!ft_strncmp(node->cmd->args[0], "cd", 2))
+	if (!ft_strncmp(node->cmd->args[0], "cd", ft_strlen("cd")))
 	{
 		ft_cd(node->cmd->args[1]);
 		return (0);
 	}
-	if (!ft_strncmp(node->cmd->args[0], "export", 7))
+	if (!ft_strncmp(node->cmd->args[0], "export", ft_strlen("export")))
 	{
 		ft_export(node->cmd, &head->env);
 		return (0);
 	}
-	if (!ft_strncmp(node->cmd->args[0], "unset", 6))
+	if (!ft_strncmp(node->cmd->args[0], "unset", ft_strlen("unset")))
 	{
 		ft_unset(node->cmd, &head->env);
 		return (0);

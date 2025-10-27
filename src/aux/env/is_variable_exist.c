@@ -3,15 +3,22 @@
 
 int	is_variable_exist(char *variable, char **vars)
 {
-	const int	lvariable = ft_strlen(variable);
-	int			pos;
-
+	char	*name;
+	int		lname;
+	int		pos;
+	
+	name = ft_strjoin(variable, "=");
+	lname = ft_strlen(name);
 	pos = 0;
 	while (vars[pos])
 	{
-		if (!ft_strncmp(variable, vars[pos], lvariable))
+		if (!ft_strncmp(name, vars[pos], lname))
+		{
+			free(name);
 			return (pos);
+		}
 		pos++;
 	}
+	free(name);
 	return (-1);
 }
