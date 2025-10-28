@@ -8,6 +8,8 @@ char	*get_valid_path(t_env *env, char *command)
 	char	*path_bar;
 	int		j;
 
+	if (!command)
+		return (NULL);
 	if (is_builtin(command))
 		return (ft_strdup("built-in"));
 	paths = ft_split(get_var_path("PATH", env->vars), ':');
@@ -26,4 +28,3 @@ char	*get_valid_path(t_env *env, char *command)
 		return (command);
 	return (NULL);
 }
-
