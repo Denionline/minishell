@@ -24,8 +24,6 @@ void	close_all_fds(t_head *head, t_btree *node, int process);
 void	close_all(t_head *head, t_btree *node, int *fd);
 
 //free
-void	free_all(t_head *head, t_btree *node, int *fd);
-void	free_btree(t_btree *node);
 void	free_node(t_btree *node);
 void	free_db_str(char **db_str);
 void	close_fd(int *fd);
@@ -36,7 +34,7 @@ int		is_parent_builtin(t_head *head, t_btree *btree);
 void	call_builtin(t_head *head, t_btree *node);
 int		ft_pwd(t_btree *node);
 int		ft_cd(char *path);
-int		ft_exit(t_head *head);
+void		ft_exit(t_head *head);
 
 //signals
 void	signal_handler(void);

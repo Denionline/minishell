@@ -96,6 +96,7 @@ FILES			+= ft_env
 FILES			+= ft_echo
 FILES			+= ft_export
 FILES			+= ft_unset
+FILES			+= ft_exit
 #error
 FILES			+= error
 
