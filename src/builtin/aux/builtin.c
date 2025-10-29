@@ -38,6 +38,8 @@ void	call_builtin(t_head *head, t_btree *node)
 
 int	is_parent_builtin(t_head *head, t_btree *node)
 {
+	if (!node->cmd->args)
+		return (1);
 	if (!ft_strncmp(node->cmd->args[0], "cd", ft_strlen("cd")))
 	{
 		ft_cd(node->cmd->args[1]);

@@ -31,7 +31,7 @@ static void	add_node_on_tree(t_head *head, int op, char *prompt)
 
 static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 {
-	int		pos;
+	int	pos;
 
 	if (is_arrow_operator(op))
 		return (handle_file(head, files, prompt, op));
@@ -58,9 +58,7 @@ void	parse(t_head *head, char *prompt)
 	int		operator;
 	int		i;
 
-	ft_bzero(&files, sizeof(files));
-	files.in.fd = -1;
-	files.out.fd = -1;
+	files = (t_files){.in.fd = -1, .out.fd = -1};
 	i = 0;
 	while (prompt[i])
 	{
