@@ -21,6 +21,7 @@ void	ft_execute(t_head *head, t_btree *node);
 int		count_cmds(t_btree *node, int j);
 void	reset_pipe(t_head *head);
 void	close_all_fds(t_head *head, t_btree *node, int process);
+void	close_all(t_head *head, t_btree *node, int *fd);
 
 //free
 void	free_all(t_head *head, t_btree *node, int *fd);
@@ -43,7 +44,8 @@ void	signal_tty(void);
 void	signal_child(void);
 
 //error
-void	ft_error(t_head *head, t_btree *node, int *fd, int error_type);
-void	ft_error_file(t_head *head, t_btree *node, int *fd, int error_type);
+void	ft_error(t_head *head, t_btree *node, int *fd, int error);
+void	ft_error_file(t_btree *node, int error);
+void	ft_error_command(t_btree *node);
 
 #endif

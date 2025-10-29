@@ -29,7 +29,7 @@ void	reset_pipe(t_head *head)
 
 void	close_all_fds(t_head *head, t_btree *node, int process)
 {
-	if (head->pipe.pipe_fd[0] != -1)	
+	if (head->pipe.pipe_fd[0] != -1)
 		close(head->pipe.pipe_fd[0]);
 	if (head->pipe.pipe_fd[1] != -1)
 		close(head->pipe.pipe_fd[1]);
@@ -45,8 +45,16 @@ void	close_all_fds(t_head *head, t_btree *node, int process)
 		close(head->files.in.fd);
 		close(head->files.out.fd);
 	}
-	//if (head->pipe.flag == 1)
-		//close_fd(fd);
 	head->pipe.pipe_fd[0] = -1;
 	head->pipe.pipe_fd[1] = -1;
+}
+
+void	close_all(t_head *head, t_btree *node, int *fd)
+{
+	dup2(head->files.in.fd, STDIN_FILENO);
+	dup2(head->files.out.fd, STDOUT_FILENO);
+	free(head->pid);
+	if (head->pipe.flag == 1)
+		close_fd(fd);
+	close_all_fds(head, node, 0);
 }

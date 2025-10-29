@@ -13,10 +13,7 @@ void	execute_manager(t_head *head)
 	reset_pipe(head);
 	hierarchy_btree(head, head->root);
 	wait_process(head);
-	free(head->pid);
-	dup2(head->files.in.fd, STDIN_FILENO);
-	dup2(head->files.out.fd, STDOUT_FILENO);
-	close_all_fds(head, NULL, 0);
+	close_all(head, NULL, NULL);
 }
 
 int	hierarchy_btree(t_head *head, t_btree *node)
