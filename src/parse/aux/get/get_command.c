@@ -1,7 +1,7 @@
 
 #include "minishell.h"
 
-static void	set_cmd_args(t_head *head, t_cmd *cmd, char *prompt)
+static void	handle_command_arguments(t_head *head, t_cmd *cmd, char *prompt)
 {
 	int	size_args;
 	int	op;
@@ -32,12 +32,14 @@ static void	set_cmd_args(t_head *head, t_cmd *cmd, char *prompt)
 
 t_cmd	*get_command(t_head *head, char *prompt)
 {
-	t_cmd	*cmd;
+	t_cmd	*command;
 
-	cmd = ft_calloc(1, sizeof(t_cmd));
-	if (!cmd)
+	command = ft_calloc(1, sizeof(t_cmd));
+	if (!command)
 		return (NULL);
-	set_cmd_args(head, cmd, prompt);
-	cmd->path = get_valid_path(&head->env, cmd->args[0]);
-	return (cmd);
+	handle_command_arguments(head, command, prompt);
+	command->path = NULL;
+	if (command->args)
+		command->path = get_valid_path(&head->env, command->args[0]);
+	return (command);
 }
