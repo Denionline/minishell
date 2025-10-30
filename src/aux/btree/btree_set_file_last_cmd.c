@@ -37,9 +37,9 @@ static void	set_or_replace_file(t_file **to_change, t_file *source)
 static void	check_to_change(t_btree **node, t_files **files)
 {
 	if ((*files)->in[0].exists)
-		set_or_replace_file((*node)->files.in, (*files)->in);
+		set_or_replace_file(&(*node)->files.in, (*files)->in);
 	if ((*files)->out[0].exists)
-		set_or_replace_file((*node)->files.out, (*files)->out);
+		set_or_replace_file(&(*node)->files.out, (*files)->out);
 }
 
 void	btree_set_file_last_cmd(t_btree **root, t_files **files)

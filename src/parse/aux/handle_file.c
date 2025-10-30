@@ -50,12 +50,12 @@ int	handle_file(t_head *head, t_files *files, char *prompt, int op)
 		(t_arg){.len = &pos, .to_expand = FALSE}
 	);
 	if (op == ARROW_LEFT)
-		return (pos + manage_file(&files->in, head, string, data));
+		return (pos + manage_file(files->in, head, string, data));
 	if (op == DOUBLE_ARROW_LEFT)
-		return (pos + manage_file(&files->in, head, string, data));
+		return (pos + manage_file(files->in, head, string, data));
 	if (op == ARROW_RIGHT)
-		return (pos + manage_file(&files->out, head, string, data));
+		return (pos + manage_file(files->out, head, string, data));
 	if (op == DOUBLE_ARROW_RIGHT)
-		return (pos + manage_file(&files->out, head, string, data));
+		return (pos + manage_file(files->out, head, string, data));
 	return (pos);
 }
