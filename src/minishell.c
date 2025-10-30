@@ -11,8 +11,11 @@ int	minishell(t_head *head)
 		prompt = readline("\001\033[1;92m\002minishell\001\033[1;94m\002> \001\033[0;39m\002");
 		if (!prompt && ft_putendl_fd("exit", 1))
 			break ;
-		if (!ft_strncmp("exit", prompt, 5) && ft_putendl_fd("exit", 1))
+		if (!ft_strncmp("exit", prompt, 5))
+		{
+			ft_exit(head);
 			break ;
+		}
 		if (!(*prompt))
 			continue ;
 		add_history(prompt);
