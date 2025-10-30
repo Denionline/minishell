@@ -13,16 +13,35 @@ static void	print_operator(t_btree *node)
 		printf("(unknown)\n");
 }
 
+static void	print_redirs(t_files files)
+{
+	if (files.in[0].exists) {
+		printf(" (in) associated [");
+		for (int i = 0; files.in[i].exists; i++) {
+			printf("%s", files.in[i].name);
+			if (files.in[i + 1].exists)
+				printf(" ,");
+		}
+		printf("] ");
+	}
+	if (files.out[0].exists) {
+		printf(" (out) associated [");
+		for (int i = 0; files.out[i].exists; i++) {
+			printf("%s", files.out[i].name);
+			if (files.out[i + 1].exists)
+				printf(" ,");
+		}
+		printf("] ");
+	}
+}
+
 static void	print_command(t_btree *node)
 {
 	printf("path: %s and args:", node->cmd->path);
 	for (int i = 0; node->cmd->args[i]; i++) {
 		printf(" arg[%d]: %s", i, node->cmd->args[i]);
 	}
-	if (node->files.out.exists)
-		printf(" (out) associated [%s]", node->files.out.name);
-	if (node->files.in.exists)
-		printf(" (in) associated [%s]", node->files.in.name);
+	print_redirs(node->files);
 	printf("\n");
 }
 
