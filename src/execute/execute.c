@@ -5,16 +5,17 @@ void	redirect(t_head *head, t_btree *node, int *fd)
 {
 	if (node->files.in.exists)
 	{
-		if ((node->files.in.fd = open(node->files.in.name,
-			node->files.in.flags)) == -1)
+		node->files.in.fd = open(node->files.in.name, node->files.in.flags);
+		if (node->files.in.fd == -1)
 			ft_error(head, node, fd, 0);
 		dup2(node->files.in.fd, STDIN_FILENO);
 		close(node->files.in.fd);
 	}
 	if (node->files.out.exists)
 	{
-		if ((node->files.out.fd = open(node->files.out.name,
-			node->files.out.flags, 0664)) == -1)
+		node->files.out.fd = open(node->files.out.name,
+				node->files.out.flags, 0664);
+		if (node->files.out.fd == -1)
 			ft_error(head, node, fd, 1);
 		dup2(node->files.out.fd, STDOUT_FILENO);
 		close(node->files.out.fd);

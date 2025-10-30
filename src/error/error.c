@@ -1,47 +1,39 @@
 
 #include "minishell.h"
 
-void	ft_error_file(t_head *head, t_btree *node, int *fd, int error)
+void	ft_error_file(t_btree *node, int error)
 {
-	ft_putstr_fd("minishell: ", 1);
-	if (error == 0)
-		ft_putstr_fd(node->files.in.name, 1);
-	else if (error == 1)
-		ft_putstr_fd(node->files.out.name, 1);
-	if (error == 0 && access(node->files.in.name, F_OK) == -1)
-		ft_putstr_fd(": No such file or directory\n", 1);
+	if (error == 1 && access(node->files.out.name, W_OK) == -1)
+	{
+		write(2, "minishell: Permission denied: ", 30);
+		ft_putendl_fd(node->files.in.name, 2);
+	}
+	else if (error == 0 && access(node->files.in.name, F_OK) == -1)
+	{
+		write(2, "minishell: No such file or directory: ", 38);
+		ft_putendl_fd(node->files.in.name, 2);
+	}
 	else if (error == 0 && access(node->files.in.name, R_OK) == -1)
-		ft_putstr_fd(": Permission denied\n", 1);
-	else if (error == 1 && access(node->files.out.name, W_OK) == -1)
-		ft_putstr_fd(": Permission denied\n", 1);
-	free(head->pid);
-	if (head->pipe.flag == 1)
-		close_fd(fd);
-	dup2(head->files.in.fd, STDIN_FILENO);
-        dup2(head->files.out.fd, STDOUT_FILENO);
-	close_all_fds(head, node, 0);
+	{
+		write(2, "minishell: Permission denied: ", 30);
+		ft_putendl_fd(node->files.in.name, 2);
+	}
 	exit(1);
 }
 
-void	ft_error_command(t_head *head, t_btree *node, int *fd)
+void	ft_error_command(t_btree *node)
 {
-	ft_putstr_fd(node->cmd->args[0], 1);
-	ft_putstr_fd(": command not found\n", 1);
-	free(head->pid);
-	if (head->pipe.flag == 1)
-		close_fd(fd);
-	dup2(head->files.in.fd, STDIN_FILENO);
-        dup2(head->files.out.fd, STDOUT_FILENO);
-	close_all_fds(head, node, 0);
-	head->exit_code = 127;
+	write(2, "minishell: command not found: ", 30);
+	ft_putendl_fd(node->cmd->args[0], 2);
 	exit(127);
 }
 
 void	ft_error(t_head *head, t_btree *node, int *fd, int error)
 {
+	close_all(head, node, fd);
 	if (error == 0 || error == 1)
-		ft_error_file(head, node, fd, error);
+		ft_error_file(node, error);
 	else if (error == 2)
-		ft_error_command(head, node, fd);
+		ft_error_command(node);
 }
 

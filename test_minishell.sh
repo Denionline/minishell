@@ -64,21 +64,22 @@ tests=(
 #	"echo "user: $USER, home: $HOME""
 
 	# Exit codes ----> in progress
-#	/bin/false
+#	"/bin/false"
 #	echo $?
-#	/bin/true
+#	"/bin/true"
 #	echo $?
-#	ls non_existent
+#	"ls non_existent"
 #	echo $?
-
-#	nosuchcommand
-#	/bin/ls no_such_file
-#	cat no_such_file
-#	echo > /no_permission
+#	"nosuchcommand"
+#	"/bin/ls no_such_file"
+#	"cat no_such_file"
+#	"echo > /no_permission"
 
 	# Super duper tests
 	"seq 1 10 | grep 5 | cat | grep 1 | wc -l"
 #	"echo hi > a | cat < a | grep hi > b"
+
+	"< echo"
 )
 
 run_test() {
