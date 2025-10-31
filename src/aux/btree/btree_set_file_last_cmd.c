@@ -23,6 +23,7 @@ static t_file	*realloc_files(t_file *files_array, t_file *source)
 		.fd = source->fd,
 	};
 	reallocated_files[i] = (t_file){.fd = -1};
+	free(files_array);
 	(*source) = (t_file){.fd = -1};
 	return (reallocated_files);
 }
