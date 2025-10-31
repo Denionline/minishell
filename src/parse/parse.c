@@ -56,7 +56,10 @@ void	parse(t_head *head, char *prompt)
 	int		operator;
 	int		i;
 
-	files = (t_files){ .in = &(t_file){}, .out = &(t_file){}};
+	files = (t_files){
+		.in = &(t_file){.fd = -1},
+		.out = &(t_file){.fd = -1}
+	};
 	i = 0;
 	while (prompt[i])
 	{
