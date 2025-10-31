@@ -3,9 +3,9 @@
 
 static int	is_file_pending(t_files *files)
 {
-	if (files->in.exists)
+	if (files->in[0].exists)
 		return (TRUE);
-	if (files->out.exists)
+	if (files->out[0].exists)
 		return (TRUE);
 	return (FALSE);
 }
@@ -16,8 +16,6 @@ static void	add_node_on_tree(t_head *head, int op, char *prompt)
 	t_cmd	*cmd;
 
 	cmd = get_command(head, prompt);
-	if (!cmd)
-		return ;
 	node_command = btree_create(COMMAND, cmd, NULL, NULL);
 	if (op)
 		btree_add_as_first(&head->root,
@@ -58,7 +56,10 @@ void	parse(t_head *head, char *prompt)
 	int		operator;
 	int		i;
 
-	files = (t_files){.in.fd = -1, .out.fd = -1};
+	files = (t_files){
+		.in = &(t_file){.fd = -1},
+		.out = &(t_file){.fd = -1}
+	};
 	i = 0;
 	while (prompt[i])
 	{

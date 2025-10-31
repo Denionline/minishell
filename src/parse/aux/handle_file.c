@@ -1,22 +1,24 @@
 
 #include "minishell.h"
 
-static int	manage_file(t_file *file, t_head *head, char *string, t_file data)
+static int	manage_file(t_file **file, t_head *head, char *string, t_file data)
 {
 	int	complete_size;
 
 	if (data.exists)
 	{
 		if (data.flags < 0)
-			*file = heredoc(head, string);
+			(*file)[0] = heredoc(head, string);
 		else
-		{
-			file->name = ft_strdup(string);
-			file->flags = data.flags;
-			file->fd = open(file->name, file->flags, 0644);
-			close(file->fd);
-			file->exists = TRUE;
-		}
+			(*file)[0] = (t_file){
+				.name = ft_strdup(string),
+				.flags = data.flags,
+				.exists = TRUE,
+				.fd = -1,
+				// .fd = open(file->name, file->flags, 0644),
+			};
+		// if ((*file)->fd == -1)
+		// 	close((*file)->fd);
 	}
 	complete_size = ft_strlen(string);
 	free(string);

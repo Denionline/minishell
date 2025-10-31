@@ -178,3 +178,4 @@ get_libft:
 	@printf "$(C_GREEN)libft$(C_STD) successfully downloaded\n"
 
 #valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --trace-children=yes
+# -fsanitize=address,undefined -fno-omit-frame-pointer
