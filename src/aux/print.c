@@ -52,6 +52,8 @@ static void	print_command(t_btree *node)
 
 void	print(t_btree *token)
 {
+	if (!token)
+		return ;
 	if (token->left)
 		print(token->left);
 	if (token->identifier == COMMAND)
