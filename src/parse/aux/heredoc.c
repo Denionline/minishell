@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 10:58:28 by dximenes          #+#    #+#             */
-/*   Updated: 2025/10/31 14:37:59 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/10/31 15:06:57 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ static int	get_idx(t_btree *node)
 	t_file	*files;
 	int		i;
 
-	if (node->right->identifier)
+	if (!node)
+		return (0);
+	if (node->right)
 		files = node->right->files.in;
 	else
 		files = node->files.in;

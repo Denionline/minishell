@@ -16,7 +16,7 @@ static void	handle_command_arguments(t_head *head, t_cmd *cmd, char *prompt)
 			prompt += handle_file(head, 0, prompt + i, op);
 		else if (op)
 			break ;
-		if (!ft_isspace(prompt[i]) && (i == 0 || ft_isspace(prompt[i - 1])))
+		else if (!ft_isspace(prompt[i]) && (i == 0 || ft_isspace(prompt[i - 1])))
 		{
 			cmd->args = get_realloc_args(cmd->args, ++size_args,
 				string_argument(head, prompt + i,
