@@ -8,14 +8,12 @@ void	ft_error_file(t_btree *node, int error)
 		write(2, "minishell: Permission denied: ", 30);
 		ft_putendl_fd(node->files.in.name, 2);
 	}
-	else if (error == 0 && access(node->files.in.name, F_OK) == -1)
+	else if (error == 0)
 	{
-		write(2, "minishell: No such file or directory: ", 38);
-		ft_putendl_fd(node->files.in.name, 2);
-	}
-	else if (error == 0 && access(node->files.in.name, R_OK) == -1)
-	{
-		write(2, "minishell: Permission denied: ", 30);
+		if (access(node->files.in.name, F_OK) == -1)
+			write(2, "minishell: No such file or directory: ", 38);
+		else if (access(node->files.in.name, R_OK) == -1)
+			write(2, "minishell: Permission denied: ", 30);
 		ft_putendl_fd(node->files.in.name, 2);
 	}
 	exit(1);

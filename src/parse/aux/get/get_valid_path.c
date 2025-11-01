@@ -27,5 +27,6 @@ char	*get_valid_path(t_env *env, char *command)
 			return (complete_path);
 		free(complete_path);
 	}
+	free_db_str(paths);
 	return (NULL);
 }

@@ -28,12 +28,6 @@ void	call_builtin(t_head *head, t_btree *node)
 		exit(ft_env(head->env.vars));
 	if (!ft_strncmp("echo", command, ft_strlen("echo")))
 		exit(ft_echo(node->cmd));
-	/*
-	if (!ft_strncmp("cd", command, ft_strlen("cd")))
-		exit(ft_cd(node->cmd->args[1]));
-	if (!ft_strncmp("export", command, ft_strlen("export")))
-		exit(ft_export(node->cmd, &head->env));
-	*/
 }
 
 int	is_parent_builtin(t_head *head, t_btree *node)

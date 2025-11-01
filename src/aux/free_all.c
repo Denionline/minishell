@@ -24,13 +24,15 @@ void	free_node(t_btree *node)
 {
 	if (node->cmd)
 	{
-		free_db_str(node->cmd->args);
-		free(node->cmd->path);
+		if (node->cmd->args)
+			free_db_str(node->cmd->args);
+		if (node->cmd->path)
+			free(node->cmd->path);
 		free(node->cmd);
 	}
 	free(node);
 }
-/*
+
 void	free_btree(t_btree *node)
 {
 	if (node->left)
@@ -39,9 +41,10 @@ void	free_btree(t_btree *node)
 		if (node->right)
 			free_btree(node->right);
 	}
-	free_node(node);
+	if (node)
+		free_node(node);
 }
-
+/*
 void	free_all(t_head *head, t_btree *btree, int *fd)
 {
 	(void)*head;
