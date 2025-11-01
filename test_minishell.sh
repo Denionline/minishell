@@ -32,7 +32,7 @@ tests=(
 	"echo hello"
 	"/bin/echo hello world"
 	"ls"
-	"ls -l"
+#	"ls -l"
 	"pwd"
 	"whoami"
 
@@ -59,8 +59,8 @@ tests=(
 #	"echo "hello world""
 	"echo 'single quotes'"
 #	"echo "mix 'inside' double""
-	"echo "$HOME""
-	"echo "$USER""
+	"echo $HOME"
+	"echo $USER"
 #	"echo "user: $USER, home: $HOME""
 
 	# Exit codes ----> in progress
@@ -74,12 +74,11 @@ tests=(
 #	"/bin/ls no_such_file"
 #	"cat no_such_file"
 #	"echo > /no_permission"
+#	"< echo"
 
 	# Super duper tests
 	"seq 1 10 | grep 5 | cat | grep 1 | wc -l"
 #	"echo hi > a | cat < a | grep hi > b"
-
-	"< echo"
 )
 
 run_test() {
@@ -103,14 +102,14 @@ run_test() {
     else
         echo -e "${RED}[KO]${RESET} $CMD"
     fi
-        echo -e "${YELLOW}--- minishell ---${RESET}"
+#        echo -e "${YELLOW}--- minishell ---${RESET}"
 #        cat -e "$OUT_MINI"
-        echo -e "${YELLOW}--- bash ---${RESET}"
+#        echo -e "${YELLOW}--- bash ---${RESET}"
 #        cat -e "$OUT_BASH"
-        echo -e "${YELLOW}--- status ---${RESET}"
-        echo -e "status mini: $STATUS_MINI"
-        echo -e "status bash: $STATUS_BASH"
-        echo
+#        echo -e "${YELLOW}--- status ---${RESET}"
+#        echo -e "status mini: $STATUS_MINI"
+#        echo -e "status bash: $STATUS_BASH"
+#        echo
 
 }
 

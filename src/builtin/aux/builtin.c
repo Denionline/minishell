@@ -23,11 +23,15 @@ void	call_builtin(t_head *head, t_btree *node)
 	const char	*command = node->cmd->args[0];
 
 	if (!ft_strncmp("pwd", command, ft_strlen("pwd")))
-		exit(ft_pwd(node));
+		ft_pwd(node);
 	if (!ft_strncmp("env", command, ft_strlen("env")))
 		exit(ft_env(head->env.vars));
 	if (!ft_strncmp("echo", command, ft_strlen("echo")))
 		exit(ft_echo(node->cmd));
+	free_node(node);
+//	free(head->pid);
+	head->exit_code = 0;
+	exit(0);
 }
 
 int	is_parent_builtin(t_head *head, t_btree *node)
