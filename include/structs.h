@@ -17,8 +17,8 @@ typedef struct s_file
 
 typedef struct s_files
 {
-	t_file	*in;
-	t_file	*out;
+	t_file	in;
+	t_file	out;
 }	t_files;
 
 typedef struct s_cmd
