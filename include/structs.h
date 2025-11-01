@@ -13,6 +13,7 @@ typedef struct s_file
 	int		flags;
 	int		exists;
 	int		fd;
+	int		access;
 }	t_file;
 
 typedef struct s_files
