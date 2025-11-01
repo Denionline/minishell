@@ -35,10 +35,12 @@ static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 	pos = get_operator_size(op);
 	while (ft_isspace(prompt[pos]))
 		pos++;
-	if (!is_valid_argument(prompt + pos))
-		return (-1);
 	if (is_arrow_operator(op))
+	{
+		if (!is_valid_argument(prompt + pos))
+			return (-1);
 		return (handle_file(head, files, prompt, op));
+	}
 	add_node_on_tree(head, op, prompt + pos);
 	if (is_file_pending(files))
 		btree_set_file_last_cmd(&head->root, &files);

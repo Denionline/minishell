@@ -10,12 +10,18 @@ static int	manage_file(t_file *file, t_head *head, char *string, t_file data)
 		if (data.flags < 0)
 			(*file) = heredoc(head, string);
 		else
+		{
 			(*file) = (t_file){
 				.name = ft_strdup(string),
 				.flags = data.flags,
 				.exists = TRUE,
-				.fd = -1,
+				.fd = open(string, data.flags, 0644),
 			};
+			(*file).access = (*file).fd;
+			close((*file).fd);
+			(*file).fd = -1;
+		}
+
 	}
 	complete_size = ft_strlen(string);
 	free(string);
@@ -35,6 +41,22 @@ static int	get_flags(int op)
 	return (0);
 }
 
+static int	is_infile_invalid(t_btree *root)
+{
+	t_btree	*to_change;
+
+	if (root)
+	{
+		to_change = root;
+		if (root->right)
+			to_change = root->right;
+		if (to_change->files.in.exists && to_change->files.in.access == -1)
+			return (TRUE);
+		return (FALSE);
+	}
+	return (FALSE);
+}
+
 int	handle_file(t_head *head, t_files *files, char *prompt, int op)
 {
 	t_file	data;
@@ -42,6 +64,8 @@ int	handle_file(t_head *head, t_files *files, char *prompt, int op)
 	int		pos;
 
 	data = (t_file){ .flags = get_flags(op) , .exists = !(!files)};
+	if (is_infile_invalid(head->root))
+		data.exists = FALSE;
 	pos = get_operator_size(op);
 	while (ft_isspace(prompt[pos]))
 		pos++;
