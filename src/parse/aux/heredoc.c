@@ -6,28 +6,11 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 10:58:28 by dximenes          #+#    #+#             */
-/*   Updated: 2025/10/31 15:06:57 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/01 14:08:59 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	get_idx(t_btree *node)
-{
-	t_file	*files;
-	int		i;
-
-	if (!node)
-		return (0);
-	if (node->right)
-		files = node->right->files.in;
-	else
-		files = node->files.in;
-	i = 0;
-	while (files[i].exists)
-		i++;
-	return (i);
-}
 
 static void	get_lines(t_head *head, t_file *hdoc, char *eof)
 {
@@ -53,7 +36,7 @@ t_file	heredoc(t_head *head, char *eof)
 	t_file	heredoc_file;
 	char	*idx;
 
-	idx = ft_itoa(get_idx(head->root));
+	idx = ft_itoa(head->n_cmds);
 	heredoc_file.name = ft_strjoin(".heredoc_", idx);
 	free(idx);
 	heredoc_file.flags = O_CREAT | O_RDWR;
