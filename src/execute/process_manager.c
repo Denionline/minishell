@@ -15,6 +15,7 @@ void	execute_manager(t_head *head)
 	free_btree(head->root);
 	wait_process(head);
 	close_all(head, NULL, NULL);
+	head->root = NULL;
 }
 
 int	hierarchy_btree(t_head *head, t_btree *node)

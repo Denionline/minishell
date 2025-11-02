@@ -31,6 +31,8 @@ void	parent_process(t_head *head, t_btree *node, int *fd)
 		head->pipe.pipe_fd[1] = dup(fd[1]);
 		close_fd(fd);
 	}
+	//free_node(node);
+	//free_head(head);
 }
 
 void	child_process(t_head *head, t_btree *node, int *fd)
