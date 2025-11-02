@@ -1,6 +1,31 @@
 
 #include "minishell.h"
 
+static char	*is_path_already(char *command)
+{
+	if (!access(command, F_OK | X_OK))
+		return (command);
+	if (command[0] == '.' && !access(command, F_OK | X_OK))
+		return (command);
+	if (is_builtin(command))
+		return (ft_strdup("built-in"));
+	return (NULL);
+}
+
+static char	**get_paths(t_env *env)
+{
+	char	*variable;
+	char	*prefix;
+	char	**paths;
+
+	prefix = ft_strdup("PATH");
+	variable = get_var_path(prefix, env->vars);
+	free(prefix);
+	paths = ft_split(variable, ':');
+	free(variable);
+	return (paths);
+}
+
 char	*get_valid_path(t_env *env, char *command)
 {
 	char	*complete_path;
@@ -10,13 +35,10 @@ char	*get_valid_path(t_env *env, char *command)
 
 	if (!command)
 		return (NULL);
-	if (!access(command, F_OK | X_OK))
-		return (command);
-	if (command[0] == '.' && !access(command, F_OK | X_OK))
-		return (command);
-	if (is_builtin(command))
-		return (ft_strdup("built-in"));
-	paths = ft_split(get_var_path("PATH", env->vars), ':');
+	complete_path = is_path_already(command);
+	if (complete_path)
+		return (complete_path);
+	paths = get_paths(env);
 	i = -1;
 	while (paths[++i])
 	{
