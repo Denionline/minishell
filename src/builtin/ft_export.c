@@ -1,6 +1,41 @@
 
 #include "minishell.h"
 
+static void	swap_vars(char **s1, char **s2)
+{
+	char	*temp;
+
+	temp = *s1;
+	*s1 = *s2;
+	*s2 = temp;
+}
+
+static char	**get_ascii_order(char **vars)
+{
+	char	**ordered;
+	int		v;
+	int		i;
+	int		j;
+
+	ordered = vars;
+	i = 0;
+	while (ordered[i])
+	{
+		j = i + 1;
+		while (ordered[j])
+		{
+			v = 0;
+			while (is_var_char(ordered[j][v]))
+				v++;
+			if (ft_strncmp(ordered[i], ordered[j], v) > 0)
+				swap_vars(&ordered[i], &ordered[j]);
+			j++;
+		}
+		i++;
+	}
+	return (ordered);
+}
+
 static void	handle_variable(char *variable, char *value, t_env *env)
 {
 	int		pos;
@@ -20,6 +55,7 @@ static void	handle_variable(char *variable, char *value, t_env *env)
 	}
 	free(variable);
 }
+
 int	ft_export(t_cmd *cmd, t_env *env)
 {
 	const int	n_args = get_size_double_array(cmd->args);
@@ -27,6 +63,11 @@ int	ft_export(t_cmd *cmd, t_env *env)
 	int			var_size;
 	int			i;
 
+	if (n_args == 1)
+	{
+		ft_env(get_ascii_order(env->vars), TRUE);
+		return (0);
+	}
 	i = 0;
 	while (++i < n_args)
 	{
@@ -34,11 +75,6 @@ int	ft_export(t_cmd *cmd, t_env *env)
 		var_size = 0;
 		while (is_var_char(current[var_size]))
 			var_size++;
-		if (current[var_size] != '=')
-		{
-			printf("%s: not a valid identifier\n", current);
-			continue;
-		}
 		handle_variable(ft_substr(current, 0, var_size), current, env);
 	}
 	return (0);
