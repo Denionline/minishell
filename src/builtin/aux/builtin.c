@@ -27,7 +27,7 @@ void	call_builtin(t_head *head, t_btree *node)
 	if (!ft_strncmp("pwd", command, ft_strlen("pwd")))
 		ft_pwd(node);
 	if (!ft_strncmp("env", command, ft_strlen("env")))
-		exit(ft_env(head->env.vars, FALSE));
+		ft_env(head->env.vars);
 	if (!ft_strncmp("echo", command, ft_strlen("echo")))
 		ft_echo(node->cmd);
 	free_node(node);
