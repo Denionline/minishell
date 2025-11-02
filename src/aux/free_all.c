@@ -44,6 +44,17 @@ void	free_btree(t_btree *node)
 	if (node)
 		free_node(node);
 }
+
+void	free_head(t_head *head)
+{
+	if (head->pid)
+		free(head->pid);
+	if (head->env.vars)
+		free_db_str(head->env.vars);
+	free(head);
+}
+
+
 /*
 void	free_all(t_head *head, t_btree *btree, int *fd)
 {

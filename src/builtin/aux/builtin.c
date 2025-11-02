@@ -27,12 +27,11 @@ void	call_builtin(t_head *head, t_btree *node)
 	if (!ft_strncmp("pwd", command, ft_strlen("pwd")))
 		ft_pwd(node);
 	if (!ft_strncmp("env", command, ft_strlen("env")))
-		exit(ft_env(head->env.vars, FALSE));
+		ft_env(head->env.vars, FALSE);
 	if (!ft_strncmp("echo", command, ft_strlen("echo")))
-		exit(ft_echo(node->cmd));
+		ft_echo(node->cmd);
 	free_node(node);
-//	free(head->pid);
-	head->exit_code = 0;
+	free_head(head);
 	exit(0);
 }
 
@@ -44,7 +43,7 @@ int	is_parent_builtin(t_head *head, t_btree *node)
 		return (1);
 	if (!ft_strncmp("exit", command, ft_strlen("exit")) && head->n_cmds == 1)
 	{
-		ft_exit(head);
+		ft_exit(head, node);
 		return (0);
 	}
 	if (!ft_strncmp("cd", command, ft_strlen("cd")))
