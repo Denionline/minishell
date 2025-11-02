@@ -6,6 +6,7 @@ void	redirect(t_head *head, t_btree *node, int *fd)
 	if (node->files.in.exists)
 	{
 		node->files.in.fd = open(node->files.in.name, node->files.in.flags);
+		free(node->files.in.name);
 		if (node->files.in.fd == -1)
 			ft_error(head, node, fd, 0);
 		dup2(node->files.in.fd, STDIN_FILENO);
@@ -15,6 +16,7 @@ void	redirect(t_head *head, t_btree *node, int *fd)
 	{
 		node->files.out.fd = open(node->files.out.name,
 				node->files.out.flags, 0664);
+		free(node->files.out.name);
 		if (node->files.out.fd == -1)
 			ft_error(head, node, fd, 1);
 		dup2(node->files.out.fd, STDOUT_FILENO);
@@ -31,8 +33,6 @@ void	parent_process(t_head *head, t_btree *node, int *fd)
 		head->pipe.pipe_fd[1] = dup(fd[1]);
 		close_fd(fd);
 	}
-	//free_node(node);
-	//free_head(head);
 }
 
 void	child_process(t_head *head, t_btree *node, int *fd)
