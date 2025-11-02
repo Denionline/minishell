@@ -9,7 +9,7 @@ int	minishell(t_head *head)
 	{
 //		signal_handler();
 		prompt = readline("\001\033[1;92m\002minishell\001\033[1;94m\002> \001\033[0;39m\002");
-		if (!ft_strncmp("exit", prompt, 5) || !prompt)
+		if (!prompt)
 		{
 			ft_exit(head);
 			break ;
