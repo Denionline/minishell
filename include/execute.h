@@ -24,6 +24,7 @@ void	close_all_fds(t_head *head, t_btree *node, int process);
 void	close_all(t_head *head, t_btree *node, int *fd);
 
 //free
+void	free_head(t_head *head);
 void	free_btree(t_btree *node);
 void	free_node(t_btree *node);
 void	free_db_str(char **db_str);
