@@ -3,8 +3,7 @@
 
 void	ft_exit(t_head *head, t_btree *node)
 {
-	free_db_str(head->env.vars);
-//	head = NULL;
+
 	ft_putendl_fd("exit", 1);
 	if (node)
 	{
@@ -13,6 +12,9 @@ void	ft_exit(t_head *head, t_btree *node)
 	}
 	close(head->files.in.fd);
 	close(head->files.out.fd);
-	end(head, 0, "SUCESS");
+	// if (head->root)
+	// 	free_btree(head->root);
+	free_db_str(head->env.vars);
+	free(head);
 	exit (0);
 }
