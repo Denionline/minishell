@@ -35,7 +35,7 @@ int		is_parent_builtin(t_head *head, t_btree *btree);
 void	call_builtin(t_head *head, t_btree *node);
 int		ft_pwd(t_btree *node);
 int		ft_cd(char *path);
-void		ft_exit(t_head *head);
+void		ft_exit(t_head *head, t_btree *node);
 
 //signals
 void	signal_handler(void);
