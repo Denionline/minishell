@@ -69,6 +69,9 @@ char	*string_argument(t_head *head, char *string, t_arg arg)
 	int		i;
 
 	string_argument_size(&arg, string, head->env.vars);
+	if (!is_quote_closed(&arg.quotes))
+		ft_exit(head, NULL);
+	arg.quotes = (t_quotes){};
 	arg.string = ft_calloc(arg.lstring + 1, 1);
 	if (!arg.string)
 		return (NULL);
@@ -84,6 +87,6 @@ char	*string_argument(t_head *head, char *string, t_arg arg)
 	}
 	arg.string[arg.pos - (arg.string[arg.pos - 1] == arg.quotes.quote)] = '\0';
 	if (arg.len && arg.to_expand)
-		*(arg.len) += i;
+		*(arg.len) += i + (arg.string[arg.pos - 1] == arg.quotes.quote);
 	return (arg.string);
 }
