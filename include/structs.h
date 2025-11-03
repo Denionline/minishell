@@ -49,6 +49,7 @@ typedef struct s_head
 	t_env	env;
 	int		exit_code;
 	int		n_cmds;
+	int		cmd_size;
 	t_files	files;
 	pid_t	*pid;
 	int		index;

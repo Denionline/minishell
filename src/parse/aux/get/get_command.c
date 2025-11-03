@@ -20,11 +20,10 @@ static void	handle_command_arguments(t_head *head, t_cmd *cmd, char *prompt)
 		{
 			cmd->args = get_realloc_args(cmd->args, ++size_args,
 				string_argument(head, prompt + i,
-					(t_arg){.len = &i, .to_expand = TRUE}
-				)
-			);
-			prompt += i - 1;
-			i = 0;
+					(t_arg){.len = &i, .to_expand = TRUE}));
+			head->cmd_size += i;
+			prompt += i;
+			i = 0 - !op;
 		}
 		i += !op;
 	}
