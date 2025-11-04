@@ -33,7 +33,7 @@ static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 	pos = get_operator_size(op);
 	while (ft_isspace(prompt[pos]))
 		pos++;
-	if (!is_valid_argument(prompt + pos, &op))
+	if (!is_valid_argument(prompt + pos, &op, &pos))
 		ft_exit(head, NULL);
 	if (is_arrow_operator(op))
 		return (pos + handle_file(head, files, prompt, op));
