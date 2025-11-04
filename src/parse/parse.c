@@ -23,9 +23,7 @@ static void	add_node_on_tree(t_head *head, int op, char *prompt)
 			btree_create(op, NULL, NULL, node_command)
 		);
 	else
-		btree_add_as_first(&head->root,
-			node_command
-		);
+		btree_add_as_first(&head->root, node_command);
 }
 
 static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
@@ -35,12 +33,10 @@ static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 	pos = get_operator_size(op);
 	while (ft_isspace(prompt[pos]))
 		pos++;
+	if (!is_valid_argument(prompt + pos, &op))
+		ft_exit(head, NULL);
 	if (is_arrow_operator(op))
-	{
-		if (!is_valid_argument(prompt + pos))
-			ft_exit(head, NULL);
-		return (handle_file(head, files, prompt, op));
-	}
+		return (pos + handle_file(head, files, prompt, op));
 	add_node_on_tree(head, op, prompt + pos);
 	if (is_file_pending(files))
 		btree_set_file_last_cmd(&head->root, &files);
@@ -71,6 +67,8 @@ void	parse(t_head *head, char *prompt)
 			i += handle_operator(head, prompt + i, operator, &files);
 		if (!head->root || is_file_pending(&files))
 			handle_first_command(head, prompt + i, &files);
-		i += !operator + head->cmd_size;
+		i += head->cmd_size + (!head->cmd_size && !operator);
 	}
 }
+
+// "/bin/echo hello"

@@ -60,6 +60,6 @@ int		ft_echo(t_cmd *cmd);
 int		ft_export(t_cmd *cmd, t_env *env);
 int		ft_unset(t_cmd *cmd, t_env *env);
 
-int	is_valid_argument(char *arg);
+int	is_valid_argument(char *arg, int *op);
 
 #endif
