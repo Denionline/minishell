@@ -70,7 +70,7 @@ char	*string_argument(t_head *head, char *string, t_arg arg)
 
 	string_argument_size(&arg, string, head->env.vars);
 	if (!is_quote_closed(&arg.quotes))
-		ft_exit(head, NULL);
+		ft_error(head, NULL, NULL, 777);
 	arg.quotes = (t_quotes){};
 	arg.string = ft_calloc(arg.lstring + 1, 1);
 	if (!arg.string)

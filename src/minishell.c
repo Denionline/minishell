@@ -16,7 +16,7 @@ int	minishell(t_head *head)
 		add_history(prompt);
 		parse(head, prompt);
 		execute_manager(head);
-//		print(head->root);
+		// print(head);
 	}
 	return (0);
 }

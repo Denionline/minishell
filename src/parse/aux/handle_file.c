@@ -41,7 +41,7 @@ static int	get_flags(int op)
 	return (0);
 }
 
-static int	is_infile_invalid(t_btree *root)
+static int	is_infile_invalid(t_btree *root, t_files *files)
 {
 	t_btree	*to_change;
 
@@ -54,6 +54,8 @@ static int	is_infile_invalid(t_btree *root)
 			return (TRUE);
 		return (FALSE);
 	}
+	if (files->in.exists && files->in.access == -1)
+		return (TRUE);
 	return (FALSE);
 }
 
@@ -64,7 +66,7 @@ int	handle_file(t_head *head, t_files *files, char *prompt, int op)
 	int		pos;
 
 	data = (t_file){ .flags = get_flags(op) , .exists = !(!files)};
-	if (is_infile_invalid(head->root))
+	if (is_infile_invalid(head->root, files))
 		data.exists = FALSE;
 	pos = get_operator_size(op);
 	while (ft_isspace(prompt[pos]))
