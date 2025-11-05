@@ -15,6 +15,7 @@
 # include "parser.h"
 # include "execute.h"
 
+# define EMPTY				99
 # define COMMAND			42
 # define AND				11
 # define OR					10

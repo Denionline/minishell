@@ -27,9 +27,9 @@ void	btree_set_file_last_cmd(t_btree **root, t_files **files)
 {
 	if (*root)
 	{
-		if ((*root)->right && (*root)->right->identifier == COMMAND)
+		if ((*root)->right)
 			return (check_to_change(&(*root)->right, files));
-		else if ((*root)->identifier == COMMAND)
+		else
 			return (check_to_change(root, files));
 	}
 }
