@@ -32,7 +32,7 @@ static void	print_command(t_btree *node)
 	printf("\n");
 }
 
-void	print(t_btree *token)
+static void	run_tree(t_btree *token)
 {
 	if (!token)
 		return ;
@@ -44,4 +44,10 @@ void	print(t_btree *token)
 		print_operator(token);
 	if (token->right)
 		print(token->right);
+}
+
+void	print(t_head *head)
+{
+	run_tree(head->root);
+	head->root = NULL;
 }

@@ -32,9 +32,9 @@ int		is_variable_exist(char *variable, char **vars);
 int		handle_file(t_head *head, t_files *files, char *prompt, int op);
 
 // parse/aux/get/
+void	print(t_head* head);
 char	*get_var_path(char *prefix, char **envp);
 int		get_operator(char *value);
-void	print(t_btree *token);
 int		get_operator_size(int operator);
 int		is_arrow_operator(int operator);
 int		verify_quotes(t_quotes *quotes, char c, int is_heredoc);
