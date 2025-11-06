@@ -37,10 +37,11 @@ void	call_builtin(t_head *head, t_btree *node)
 
 int	is_parent_builtin(t_head *head, t_btree *node)
 {
-	const char	*command = node->cmd->args[0];
+	char	*command;
 
 	if (!node->cmd->args)
 		return (1);
+	command = node->cmd->args[0];
 	if (!ft_strncmp("exit", command, ft_strlen("exit")) && head->n_cmds == 1)
 	{
 		ft_exit(head, node);
