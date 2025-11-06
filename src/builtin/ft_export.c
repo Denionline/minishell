@@ -41,6 +41,8 @@ static void	handle_variable(char *variable, char *value, t_env *env)
 	int		pos;
 
 	pos = is_variable_exist(variable, env->vars);
+	ft_putnbr_fd(pos, 1);
+	ft_putchar_fd('\n', 1);
 	if (pos >= 0)
 	{
 		free(env->vars[pos]);
@@ -64,10 +66,7 @@ int	ft_export(t_cmd *cmd, t_env *env)
 	int			i;
 
 	if (n_args == 1)
-	{
-		ft_env(get_ascii_order(env->vars), TRUE);
-		return (0);
-	}
+		return (ft_env(get_ascii_order(env->vars), TRUE));
 	i = 0;
 	while (++i < n_args)
 	{
@@ -75,7 +74,14 @@ int	ft_export(t_cmd *cmd, t_env *env)
 		var_size = 0;
 		while (is_var_char(current[var_size]))
 			var_size++;
-		handle_variable(ft_substr(current, 0, var_size), current, env);
+		if (current[var_size] == '=' || current[var_size + 1] == '\0')
+			handle_variable(ft_substr(current, 0, var_size), current, env);
+		else
+		{
+			// ft_putchar_fd(current[var_size + 1], 1);
+			ft_putendl_fd("Invalid variable", 1);
+			continue;
+		}
 	}
 	return (0);
 }
