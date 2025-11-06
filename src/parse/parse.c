@@ -46,7 +46,7 @@ static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 	return (pos);
 }
 
-static void	handle_first_command(t_head *head, char *prompt, t_files *files)
+static void	handle_command(t_head *head, char *prompt, t_files *files)
 {
 	if (!head->root)
 		add_node_on_tree(head, 0, prompt, files);
@@ -69,7 +69,7 @@ void	parse(t_head *head, char *prompt)
 		if (operator)
 			i += handle_operator(head, prompt + i, operator, &files);
 		if (!head->root || is_file_pending(&files))
-			handle_first_command(head, prompt + i, &files);
+			handle_command(head, prompt + i, &files);
 		i += head->cmd_size + (!head->cmd_size && !operator);
 	}
 }

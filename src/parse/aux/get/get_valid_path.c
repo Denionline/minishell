@@ -21,6 +21,8 @@ static char	**get_paths(t_env *env)
 	prefix = ft_strdup("PATH");
 	variable = get_var_path(prefix, env->vars);
 	free(prefix);
+	if (!variable)
+		return (NULL);
 	paths = ft_split(variable, ':');
 	free(variable);
 	return (paths);
@@ -39,6 +41,8 @@ char	*get_valid_path(t_env *env, char *command)
 	if (complete_path)
 		return (complete_path);
 	paths = get_paths(env);
+	if (!paths)
+		return (NULL);
 	i = -1;
 	while (paths[++i])
 	{
