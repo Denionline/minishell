@@ -37,13 +37,13 @@ static void	run_tree(t_btree *token)
 	if (!token)
 		return ;
 	if (token->left)
-		print(token->left);
+		run_tree(token->left);
 	if (token->identifier == COMMAND || token->identifier == EMPTY)
 		print_command(token);
 	else
 		print_operator(token);
 	if (token->right)
-		print(token->right);
+		run_tree(token->right);
 }
 
 void	print(t_head *head)
