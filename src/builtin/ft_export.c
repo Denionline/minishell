@@ -74,7 +74,7 @@ int	ft_export(t_cmd *cmd, t_env *env)
 		var_size = 0;
 		while (is_var_char(current[var_size]))
 			var_size++;
-		if (current[var_size] == '=' || current[var_size + 1] == '\0')
+		if (current[var_size] == '=' || current[var_size] == '\0')
 			handle_variable(ft_substr(current, 0, var_size), current, env);
 		else
 		{
