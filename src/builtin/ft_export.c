@@ -41,8 +41,6 @@ static void	handle_variable(char *variable, char *value, t_env *env)
 	int		pos;
 
 	pos = is_variable_exist(variable, env->vars);
-	ft_putnbr_fd(pos, 1);
-	ft_putchar_fd('\n', 1);
 	if (pos >= 0)
 	{
 		free(env->vars[pos]);
@@ -78,8 +76,8 @@ int	ft_export(t_cmd *cmd, t_env *env)
 			handle_variable(ft_substr(current, 0, var_size), current, env);
 		else
 		{
-			// ft_putchar_fd(current[var_size + 1], 1);
-			ft_putendl_fd("Invalid variable", 1);
+			ft_putstr_fd("export: not valid in this context: ", 1);
+			ft_putendl_fd(current, 1);
 			continue;
 		}
 	}
