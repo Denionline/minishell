@@ -14,13 +14,6 @@ void	signal_handler(void)
 	}*/
 }
 
-//nao sei se precisa dessa, seria para add a main
-void	signal_tty(void)
-{
-	signal(SIGTTIN, SIG_IGN);
-	signal(SIGTTOU, SIG_IGN);
-}
-
 //se nao fizer a signal_tty, nao precisa dessa, seria para a child
 void	signal_child(void)
 {

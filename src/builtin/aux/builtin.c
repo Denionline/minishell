@@ -49,7 +49,7 @@ int	is_parent_builtin(t_head *head, t_btree *node)
 	}
 	if (!ft_strncmp("cd", command, ft_strlen("cd")))
 	{
-		ft_cd(node->cmd->args[1]);
+		ft_cd(head, node);
 		return (0);
 	}
 	if (!ft_strncmp("export", command, ft_strlen("export")))
