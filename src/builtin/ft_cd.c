@@ -1,20 +1,13 @@
 
 #include "minishell.h"
 
-int	ft_cd(char *path)
+int	ft_cd(t_head *head, t_btree *node)
 {
-	chdir(path);
-	printf("testing cd function\n");
+	if (chdir(node->cmd->args[1]) == -1)
+	{
+		write(2, "minishell: No such file or directory: ", 38);
+		ft_putendl_fd(node->cmd->args[1], 2);
+		head->exit_code = 1;
+	}
 	return (0);
 }
-
-/*
-int	main(void)
-{
-	char buffer[100];
-
-	printf("initial %s\n", getcwd(buffer, 100));
-	chdir("..");
-	printf("final %s\n", getcwd(buffer, 100));
-	return (0);
-}*/
