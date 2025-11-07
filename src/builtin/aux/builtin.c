@@ -62,7 +62,5 @@ int	is_parent_builtin(t_head *head, t_btree *node)
 		ft_unset(node->cmd, &head->env);
 		return (0);
 	}
-	//add unset 
-	//add exit?
 	return (1);
 }
