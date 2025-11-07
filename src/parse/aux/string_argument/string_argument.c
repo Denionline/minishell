@@ -42,7 +42,7 @@ static int	variable(t_arg *arg, char *string, t_head *head)
 	else
 		variable = get_var_path(name, head->env.vars);
 	if (!variable)
-		return (free(name), 0);
+		return (free(name), var_size);
 	i = 0;
 	while (variable[i])
 		arg->string[arg->pos++] = variable[i++];
@@ -61,7 +61,7 @@ static char	*argument_verification(t_arg *arg, char *string, t_head *head)
 	if (is_quote_closed(&arg->quotes) && ft_isspace(*string) && arg->len)
 		return (NULL);
 	if (is_to_handle_variable(arg, string, head->env.vars, arg->to_expand))
-		string += variable(arg, string, head);
+		return (string + variable(arg, string, head) - 1);
 	arg->string[arg->pos++] = *string;
 	return (string);
 }
