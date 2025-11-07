@@ -39,7 +39,7 @@ void	child_process(t_head *head, t_btree *node, int *fd)
 {
 	if (node->files.in.exists || node->files.out.exists)
 		redirect(head, node, fd);
-	if (head->pipe.pipe_fd[0] != -1)
+	else if (head->pipe.pipe_fd[0] != -1)
 		dup2(head->pipe.pipe_fd[0], STDIN_FILENO);
 	if (head->pipe.flag == 1)
 	{
