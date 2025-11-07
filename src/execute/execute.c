@@ -6,7 +6,6 @@ void	redirect(t_head *head, t_btree *node, int *fd)
 	if (node->files.in.exists)
 	{
 		node->files.in.fd = open(node->files.in.name, node->files.in.flags);
-//		free(node->files.in.name);
 		if (node->files.in.fd == -1)
 			ft_error(head, node, fd, 0);
 		dup2(node->files.in.fd, STDIN_FILENO);
@@ -16,7 +15,6 @@ void	redirect(t_head *head, t_btree *node, int *fd)
 	{
 		node->files.out.fd = open(node->files.out.name,
 				node->files.out.flags, 0664);
-//		free(node->files.out.name);
 		if (node->files.out.fd == -1)
 			ft_error(head, node, fd, 1);
 		dup2(node->files.out.fd, STDOUT_FILENO);
@@ -37,10 +35,6 @@ void	parent_process(t_head *head, t_btree *node, int *fd)
 
 void	child_process(t_head *head, t_btree *node, int *fd)
 {
-//	if (node->files.in.exists || node->files.out.exists)
-//		redirect(head, node, fd);
-//	else if (head->pipe.pipe_fd[0] != -1)
-//		dup2(head->pipe.pipe_fd[0], STDIN_FILENO);
 	if (head->pipe.pipe_fd[0] != -1)
 		dup2(head->pipe.pipe_fd[0], STDIN_FILENO);
 	if (head->pipe.flag == 1)
@@ -61,7 +55,7 @@ void	process(t_head *head, t_btree *node)
 	int		fd[2];
 	pid_t	pid;
 
-	if (is_parent_builtin(head, node) == 0)
+	if (is_parent_builtin(head, node) == 0 && head->n_cmds == 1)
 		return ;
 	if (head->n_cmds > 1 && head->index < (head->n_cmds -1))
 		head->pipe.flag = 1;
@@ -86,7 +80,7 @@ void	process(t_head *head, t_btree *node)
 
 void	ft_execute(t_head *head, t_btree *node)
 {
-	if (is_builtin(node->cmd->args[0]))
+	if (ft_strncmp("built-in", node->cmd->path, ft_strlen(node->cmd->path)) == 0)
 		call_builtin(head, node);
 	else if (execve(node->cmd->path, node->cmd->args, head->env.vars) == -1)
 		free_node(node);

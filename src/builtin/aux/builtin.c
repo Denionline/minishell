@@ -30,6 +30,7 @@ void	call_builtin(t_head *head, t_btree *node)
 		ft_env(head->env.vars, FALSE);
 	if (!ft_strncmp("echo", command, ft_strlen("echo")))
 		ft_echo(node->cmd);
+	is_parent_builtin(head, node);
 	free_node(node);
 	free_head(head);
 	exit(0);
@@ -43,24 +44,14 @@ int	is_parent_builtin(t_head *head, t_btree *node)
 		return (1);
 	command = node->cmd->args[0];
 	if (!ft_strncmp("exit", command, ft_strlen("exit")) && head->n_cmds == 1)
-	{
 		ft_exit(head, node);
-		return (0);
-	}
 	if (!ft_strncmp("cd", command, ft_strlen("cd")))
-	{
 		ft_cd(head, node);
-		return (0);
-	}
 	if (!ft_strncmp("export", command, ft_strlen("export")))
-	{
 		ft_export(node->cmd, &head->env);
-		return (0);
-	}
 	if (!ft_strncmp("unset", command, ft_strlen("unset")))
-	{
 		ft_unset(node->cmd, &head->env);
-		return (0);
-	}
-	return (1);
+	else 
+		return (1);
+	return (0);
 }
