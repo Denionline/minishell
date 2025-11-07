@@ -1,11 +1,15 @@
 
 #include "minishell.h"
 
-int	ft_exit_number(t_head *head, t_btree *node)
+int	ft_exit_number(t_btree *node)
 {
 	int	n;
 
-	(void)*head;
+	if (node->cmd->args[2])
+	{
+		write(2, "minishell: exit: too many arguments\n", 36);
+		return (1);
+	}
 	n = ft_atoi(node->cmd->args[1]);
 	if (n > 255)
 		n = n % 256;
@@ -26,7 +30,7 @@ void	ft_exit(t_head *head, t_btree *node)
 	if (node)
 	{
 		if (node->cmd->args[1])
-			exit_status = ft_exit_number(head, node);
+			exit_status = ft_exit_number(node);
 		close_all(head, node, NULL);
 		free_node(node);
 	}
