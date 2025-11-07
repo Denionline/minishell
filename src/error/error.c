@@ -16,6 +16,7 @@ void	ft_error_file(t_btree *node, int error)
 			write(2, "minishell: Permission denied: ", 30);
 		ft_putendl_fd(node->files.in.name, 2);
 	}
+	//free(node->files.in.name)????
 	exit(1);
 }
 
