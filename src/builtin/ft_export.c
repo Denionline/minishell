@@ -36,15 +36,18 @@ static char	**get_ascii_order(char **vars)
 	return (ordered);
 }
 
-static void	handle_variable(char *variable, char *value, t_env *env)
+static void	handle_variable(char *variable, int lvar, char *value, t_env *env)
 {
 	int		pos;
 
 	pos = is_variable_exist(variable, env->vars);
 	if (pos >= 0)
 	{
-		free(env->vars[pos]);
-		env->vars[pos] = ft_strdup(value);
+		if (value[lvar] == '=')
+		{
+			free(env->vars[pos]);
+			env->vars[pos] = ft_strdup(value);
+		}
 	}
 	else
 	{
@@ -60,7 +63,7 @@ int	ft_export(t_cmd *cmd, t_env *env)
 {
 	const int	n_args = get_size_double_array(cmd->args);
 	char		*current;
-	int			var_size;
+	int			lvar;
 	int			i;
 
 	if (n_args == 1)
@@ -69,11 +72,11 @@ int	ft_export(t_cmd *cmd, t_env *env)
 	while (++i < n_args)
 	{
 		current = cmd->args[n_args - i];
-		var_size = 0;
-		while (is_var_char(current[var_size]))
-			var_size++;
-		if (current[var_size] == '=' || current[var_size] == '\0')
-			handle_variable(ft_substr(current, 0, var_size), current, env);
+		lvar = 0;
+		while (is_var_char(current[lvar]))
+			lvar++;
+		if (current[lvar] == '=' || current[lvar] == '\0')
+			handle_variable(ft_substr(current, 0, lvar), lvar, current, env);
 		else
 		{
 			ft_putstr_fd("export: not valid in this context: ", 1);

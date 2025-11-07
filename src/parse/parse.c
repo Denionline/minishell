@@ -17,10 +17,10 @@ static void	add_node_on_tree(t_head *head, int op, char *prompt, t_files *files)
 
 	head->n_cmds += 1;
 	cmd = get_command(head, prompt, files);
-	if (cmd->path)
-		node_command = btree_create(COMMAND, cmd, NULL, NULL);
-	else
+	if ((files->in.exists || files->out.exists) && !cmd->path)
 		node_command = btree_create(EMPTY, cmd, NULL, NULL);
+	else
+		node_command = btree_create(COMMAND, cmd, NULL, NULL);
 	if (op)
 		btree_add_as_first(&head->root,
 			btree_create(op, NULL, NULL, node_command)

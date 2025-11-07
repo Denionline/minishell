@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/18 10:58:28 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/01 14:08:59 by dximenes         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -19,7 +8,7 @@ static void	get_lines(t_head *head, t_file *hdoc, char *eof)
 	while (TRUE)
 	{
 		line = readline("> ");
-		if ((!line || !ft_strncmp(eof, line, ft_strlen(eof))))
+		if ((!line || !ft_strncmp(line, eof, ft_strlen(line))))
 			break ;
 		line = string_argument(head, line,
 			(t_arg){.to_expand = TRUE}
