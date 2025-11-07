@@ -28,9 +28,12 @@ static int	variable(t_arg *arg, char *string, t_head *head)
 	int		i;
 
 	var_size = 1;
-	while (string[var_size] && is_var_char(string[var_size++]))
+	while (string[var_size] && is_var_char(string[var_size]))
+	{
 		if (string[1] == '?')
 			break;
+		var_size++;
+	}
 	name = ft_substr(string, 1, var_size - 1);
 	if (!name)
 		return (free(arg->string), 0);
