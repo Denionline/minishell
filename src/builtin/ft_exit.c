@@ -10,13 +10,19 @@ int	ft_exit_number(t_btree *node)
 		write(2, "minishell: exit: too many arguments\n", 36);
 		return (1);
 	}
-	n = ft_atoi(node->cmd->args[1]);
-	if (n > 255)
-		n = n % 256;
-	else if (n < 0)
+	else if (ft_isdigit(node->cmd->args[1][0]) == 0)
 	{
-		n = n % 256;
-		n = 256 + n;
+		write(2, "minishell: numeric argument required: exit: ", 44);
+		ft_putendl_fd(node->cmd->args[1], 2);
+		return (2);
+	}
+	else
+	{
+		n = ft_atoi(node->cmd->args[1]);
+		if (n > 255)
+			n = n % 256;
+		else if (n < 0)
+			n = 256 + (n % 256);
 	}
 	return (n);
 }
