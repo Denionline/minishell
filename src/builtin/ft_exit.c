@@ -11,11 +11,6 @@ int	ft_exit_number(t_btree *node)
 		ft_putendl_fd(node->cmd->args[1], 2);
 		return (2);
 	}
-	// else if ( node->cmd->args[2])
-	// {	
-	// 	ft_error(NULL, node, NULL, 4);
-	// 	return (1);
-	// }
 	else
 	{
 		n = ft_atoi(node->cmd->args[1]);
@@ -47,9 +42,11 @@ int	ft_exit(t_head *head, t_btree *node)
 	if (node)
 	{
 		if (node->cmd->args[1])
+		{
 			exit_status = ft_exit_number(node);
-		if (ft_args_error(head, node) == 1)
-			return (0);
+			if (ft_args_error(head, node) == 1)
+				return (0);
+		}
 		close_all(head, node, NULL);
 		free_node(node);
 	}

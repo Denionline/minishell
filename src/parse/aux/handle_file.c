@@ -20,8 +20,6 @@ static int	manage_file(t_file *file, t_head *head, char *string, t_file data)
 			(*file).access = (*file).fd;
 			if ((*file).fd != -1)
 				close((*file).fd);
-			// else
-			// 	ft_error(head, NULL, NULL, 1);
 			(*file).fd = -1;
 		}
 

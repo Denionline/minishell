@@ -58,13 +58,24 @@ void	free_head(t_head *head)
 	free(head);
 }
 
-
-/*
-void	free_all(t_head *head, t_btree *btree, int *fd)
+void	free_error(t_head *head, t_btree *node, int *fd)
 {
-	(void)*head;
-	if (fd)
-		close_fd(fd);
-	if (btree)
-		free_btree(btree);
-}*/
+	close_all(head, node, fd);
+	free_node(node);
+	free_db_str(head->env.vars);
+	free(head);
+}
+
+// void	ft_free(t_head *head, t_btree *node)
+// {
+// 	if (head->pipe.flag == 0) //free head and all
+// 	{
+// 		free_btree(head->root);
+// 		free_head(head);
+// 	}
+// 	else //free before exit on child
+// 	{
+// 		free_node(node);
+// 		free_db_str(head->env.vars);
+// 	}
+// }
