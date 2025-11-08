@@ -11,9 +11,9 @@ void	execute_manager(t_head *head)
 		return ;
 	reset_head(head);
 	hierarchy_btree(head, head->root);
-//	free_btree(head->root);
 	wait_process(head);
 	close_all(head, NULL, NULL);
+	free_btree(head->root);
 	head->root = NULL;
 }
 

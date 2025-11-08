@@ -16,8 +16,7 @@ void	ft_error_file(t_head *head, t_btree *node, int *fd, int error)
 			write(2, "minishell: Permission denied: ", 30);
 		ft_putendl_fd(node->files.in.name, 2);
 	}
-	//free(node->files.in.name)????
-	close_all(head, node, fd);
+	free_error(head, node, fd);
 	exit(1);
 }
 
@@ -25,7 +24,7 @@ void	ft_error_command(t_head *head, t_btree *node, int *fd)
 {
 	write(2, "minishell: command not found: ", 30);
 	ft_putendl_fd(node->cmd->args[0], 2);
-	close_all(head, node, fd);
+	free_error(head, node, fd);
 	exit(127);
 }
 
@@ -44,7 +43,6 @@ void	ft_error_args(t_btree *node)
 
 void	ft_error(t_head *head, t_btree *node, int *fd, int error)
 {
-	//close_all(head, node, fd);
 	(void)*fd;
 	if (error == 0 || error == 1)
 		ft_error_file(head, node, fd, error);
