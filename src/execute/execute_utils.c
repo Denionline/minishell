@@ -20,8 +20,10 @@ int	count_cmds(t_btree *node, int j)
 	return (i);
 }
 
-void	reset_pipe(t_head *head)
+void	reset_head(t_head *head)
 {
+	head->index = 0;
+	head->is_parent = -1;
 	head->pipe.pipe_fd[0] = -1;
 	head->pipe.pipe_fd[1] = -1;
 	head->pipe.flag = 0;

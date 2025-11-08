@@ -6,11 +6,11 @@ int	ft_exit_number(t_btree *node)
 	int	n;
 
 	if (node->cmd->args[2])
-	{
-		write(2, "minishell: exit: too many arguments\n", 36);
+	{	
+		ft_error(NULL, node, NULL, 4);
 		return (1);
 	}
-	else if (ft_isdigit(node->cmd->args[1][0]) == 0)
+	else if (ft_isalpha(node->cmd->args[1][0]) == 1)
 	{
 		write(2, "minishell: numeric argument required: exit: ", 44);
 		ft_putendl_fd(node->cmd->args[1], 2);

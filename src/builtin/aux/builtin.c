@@ -39,19 +39,20 @@ void	call_builtin(t_head *head, t_btree *node)
 int	is_parent_builtin(t_head *head, t_btree *node)
 {
 	char	*command;
+	int		ok;
 
+	ok = 1;
 	if (!node->cmd->args)
 		return (1);
 	command = node->cmd->args[0];
 	if (!ft_strncmp("exit", command, ft_strlen("exit")) && head->n_cmds == 1)
 		ft_exit(head, node);
 	if (!ft_strncmp("cd", command, ft_strlen("cd")))
-		ft_cd(head, node);
+		ok = ft_cd(head, node);
 	if (!ft_strncmp("export", command, ft_strlen("export")))
-		ft_export(node->cmd, &head->env);
+		ok = ft_export(head, node);
 	if (!ft_strncmp("unset", command, ft_strlen("unset")))
-		ft_unset(node->cmd, &head->env);
-	else 
-		return (1);
-	return (0);
+		ok = ft_unset(node->cmd, &head->env);
+	head->is_parent = ok;
+	return (ok);
 }

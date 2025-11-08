@@ -46,6 +46,7 @@ static int	variable(t_arg *arg, char *string, t_head *head)
 	i = 0;
 	while (variable[i])
 		arg->string[arg->pos++] = variable[i++];
+	arg->pos++;
 	return (free(name), free(variable), var_size);
 }
 

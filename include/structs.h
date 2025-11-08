@@ -53,6 +53,7 @@ typedef struct s_head
 	t_files	files;
 	pid_t	*pid;
 	int		index;
+	int		is_parent;
 	t_pipe	pipe;
 }	t_head;
 

@@ -19,7 +19,7 @@ void	ft_execute(t_head *head, t_btree *node);
 
 //execute utils
 int		count_cmds(t_btree *node, int j);
-void	reset_pipe(t_head *head);
+void	reset_head(t_head *head);
 void	close_all_fds(t_head *head, t_btree *node, int process);
 void	close_all(t_head *head, t_btree *node, int *fd);
 

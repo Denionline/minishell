@@ -59,30 +59,60 @@ static void	handle_variable(char *variable, int lvar, char *value, t_env *env)
 	free(variable);
 }
 
-int	ft_export(t_cmd *cmd, t_env *env)
+int	ft_export(t_head *head, t_btree *node)
 {
-	const int	n_args = get_size_double_array(cmd->args);
+	const int	n_args = get_size_double_array(node->cmd->args);
 	char		*current;
 	int			lvar;
 	int			i;
 
 	if (n_args == 1)
-		return (ft_env(get_ascii_order(env->vars), TRUE));
+		return (ft_env(get_ascii_order(head->env.vars), TRUE));
 	i = 0;
 	while (++i < n_args)
 	{
-		current = cmd->args[n_args - i];
+		current = node->cmd->args[n_args - i];
 		lvar = 0;
 		while (is_var_char(current[lvar]))
 			lvar++;
 		if (current[lvar] == '=' || current[lvar] == '\0')
-			handle_variable(ft_substr(current, 0, lvar), lvar, current, env);
+			handle_variable(ft_substr(current, 0, lvar), lvar, current, &head->env);
 		else
 		{
-			ft_putstr_fd("export: not valid in this context: ", 1);
-			ft_putendl_fd(current, 1);
-			continue;
+			ft_error(head, node, NULL, 3);
+			break;
 		}
 	}
 	return (0);
 }
+
+// int	ft_export(t_cmd *cmd, t_env *env)
+// {
+// 	const int	n_args = get_size_double_array(cmd->args);
+// 	char		*current;
+// 	int			lvar;
+// 	int			i;
+
+// 	if (n_args == 1)
+// 		return (ft_env(get_ascii_order(env->vars), TRUE));
+// 	i = 0;
+// 	while (++i < n_args)
+// 	{
+// 		current = cmd->args[n_args - i];
+// 		lvar = 0;
+// 		while (is_var_char(current[lvar]))
+// 			lvar++;
+// 		if (current[lvar] == '=' || current[lvar] == '\0')
+// 			handle_variable(ft_substr(current, 0, lvar), lvar, current, env);
+// 		else
+// 		{
+// 			//ft_error(NULL, NULL, NULL, 3);
+// 			write(2, "minishell: not a valid identifier: export: ", 44);
+// 			//ft_putstr_fd("export: not valid in this context: ", 1);
+// 			ft_putendl_fd(current, 2);
+// 			//head->exit_code = 1;
+// 			//continue;
+// 		}
+// 	}
+// 	return (0);
+// }
