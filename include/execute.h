@@ -36,7 +36,7 @@ int		is_parent_builtin(t_head *head, t_btree *btree);
 void	call_builtin(t_head *head, t_btree *node);
 int		ft_pwd(t_btree *node);
 int		ft_cd(t_head *head, t_btree *node);
-void		ft_exit(t_head *head, t_btree *node);
+int		ft_exit(t_head *head, t_btree *node);
 
 //signals
 void	signal_handler(void);
@@ -45,7 +45,7 @@ void	signal_child(void);
 
 //error
 void	ft_error(t_head *head, t_btree *node, int *fd, int error);
-void	ft_error_file(t_btree *node, int error);
-void	ft_error_command(t_btree *node);
+void	ft_error_file(t_head *head, t_btree *node, int *fd, int error);
+void	ft_error_command(t_head *head, t_btree *node, int *fd);
 
 #endif

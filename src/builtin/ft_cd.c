@@ -8,7 +8,7 @@ int	ft_cd(t_head *head, t_btree *node)
 		ft_error(head, node, NULL, 4);
 		head->exit_code = 1;
 	}
-	if (chdir(node->cmd->args[1]) == -1)
+	else if (chdir(node->cmd->args[1]) == -1)
 	{
 		write(2, "minishell: No such file or directory: cd: ", 42);
 		ft_putendl_fd(node->cmd->args[1], 2);
