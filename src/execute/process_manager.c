@@ -9,8 +9,7 @@ void	execute_manager(t_head *head)
 	head->pid = malloc(sizeof(pid_t) * head->n_cmds);
 	if (!head->pid)
 		return ;
-	head->index = 0;
-	reset_pipe(head);
+	reset_head(head);
 	hierarchy_btree(head, head->root);
 //	free_btree(head->root);
 	wait_process(head);
@@ -44,6 +43,8 @@ int	wait_process(t_head *head)
 	int	i;
 
 //	signal_handler();
+	if (head->is_parent == 0)
+		return (head->exit_code);
 	i = 0;
 	while (i < head->n_cmds)
 	{
