@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int	ft_cd(t_head *head, t_btree *node)

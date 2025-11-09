@@ -1,11 +1,10 @@
-
 #include "minishell.h"
 
 int	is_variable_exist(char *variable, char **vars)
 {
 	const int	lvariable = ft_strlen(variable);
-	int		pos;
-	
+	int			pos;
+
 	pos = -1;
 	while (vars[++pos])
 	{

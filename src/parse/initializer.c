@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 static int	envp_size(char **envp)

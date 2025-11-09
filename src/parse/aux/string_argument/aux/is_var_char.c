@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int	is_var_char(char c)

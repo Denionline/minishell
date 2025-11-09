@@ -1,7 +1,6 @@
-
 #include "minishell.h"
 
-static int variable_size(char *string, char **envp)
+static int	variable_size(char *string, char **envp)
 {
 	char	*name;
 	char	*variable;
@@ -52,7 +51,7 @@ void	string_argument_size(t_arg *arg, char *string, char **envp)
 	while (string[++i])
 	{
 		if (!argument_verification_size(arg, string + i, envp))
-			break;
+			break ;
 		arg->lstring += 1;
 	}
 	arg->lstring -= jumps;

@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 static void	get_lines(t_head *head, t_file *hdoc, char *eof)
@@ -10,9 +9,7 @@ static void	get_lines(t_head *head, t_file *hdoc, char *eof)
 		line = readline("> ");
 		if ((!line || !ft_strncmp(line, eof, ft_strlen(line))))
 			break ;
-		line = string_argument(head, line,
-			(t_arg){.to_expand = TRUE}
-		);
+		line = string_argument(head, line, (t_arg){.to_expand = TRUE});
 		ft_putstr_fd(line, hdoc->fd);
 		ft_putstr_fd("\n", hdoc->fd);
 		free(line);

@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 void	signal_handler(void)
@@ -18,8 +17,9 @@ void	signal_handler(void)
 void	signal_child(void)
 {
 	signal(SIGTTIN, SIG_DFL);
-	signal(SIGTTOU, SIG_DFL);	
+	signal(SIGTTOU, SIG_DFL);
 }
+
 void	ft_handle_ctrl_c(int sig)
 {
 	//free all from head, but not head

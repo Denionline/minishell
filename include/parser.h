@@ -11,7 +11,8 @@ typedef struct s_quotes
 	int		d;
 }	t_quotes;
 
-typedef struct s_arg {
+typedef struct s_arg
+{
 	t_quotes	quotes;
 	int			current_size;
 	char		*string;
@@ -32,7 +33,7 @@ int		is_variable_exist(char *variable, char **vars);
 int		handle_file(t_head *head, t_files *files, char *prompt, int op);
 
 // parse/aux/get/
-void	print(t_head* head);
+void	print(t_head *head);
 char	*get_var_path(char *prefix, char **envp);
 int		get_operator(char *value);
 int		get_operator_size(int operator);
@@ -60,6 +61,6 @@ int		ft_echo(t_cmd *cmd);
 int		ft_export(t_head *head, t_btree *node);
 int		ft_unset(t_cmd *cmd, t_env *env);
 
-int	is_valid_argument(char *arg, int op, int op_after);
+int		is_valid_argument(char *arg, int op, int op_after);
 
 #endif

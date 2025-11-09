@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int	is_quote_closed(t_quotes *quotes)

@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 static char	*get_newlvl_string(char *variable, int newlvl)
@@ -17,7 +16,7 @@ void	new_shlvl(char **env)
 {
 	const char	*prefix = "SHLVL=";
 	const int	lprefix = ft_strlen(prefix);
-	int	i;
+	int			i;
 
 	i = 0;
 	while (env && env[i])

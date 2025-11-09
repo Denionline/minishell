@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 static int	is_to_handle_variable(t_arg *arg, char *s, char **envp, int expand)
@@ -31,7 +30,7 @@ static int	variable(t_arg *arg, char *string, t_head *head)
 	while (string[var_size] && is_var_char(string[var_size]))
 	{
 		if (string[1] == '?')
-			break;
+			break ;
 		var_size++;
 	}
 	name = ft_substr(string, 1, var_size - 1);
@@ -84,7 +83,7 @@ char	*string_argument(t_head *head, char *string, t_arg arg)
 	{
 		string_updated = argument_verification(&arg, string + i, head);
 		if (!string_updated)
-			break;
+			break ;
 		if (string_updated - string)
 			i = (string_updated - string);
 		i += 1;

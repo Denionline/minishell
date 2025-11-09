@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 void	redirect(t_head *head, t_btree *node, int *fd)
@@ -80,9 +79,9 @@ void	process(t_head *head, t_btree *node)
 
 void	ft_execute(t_head *head, t_btree *node)
 {
-	if (ft_strncmp("built-in", node->cmd->path, ft_strlen(node->cmd->path)) == 0)
+	if (ft_strncmp("built-in", node->cmd->path,
+			ft_strlen(node->cmd->path)) == 0)
 		call_builtin(head, node);
 	else if (execve(node->cmd->path, node->cmd->args, head->env.vars) == -1)
 		free_node(node);
 }
-

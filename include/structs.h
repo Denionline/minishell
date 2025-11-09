@@ -1,11 +1,11 @@
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-typedef struct  s_pipe
+typedef struct s_pipe
 {
-        int     pipe_fd[2];
-        int     flag;
-}               t_pipe;
+	int	pipe_fd[2];
+	int	flag;
+}		t_pipe;
 
 typedef struct s_file
 {
