@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 static void	handle_command_arguments(t_head *head, t_cmd *cmd, char *prompt, t_files *files)
@@ -16,11 +15,12 @@ static void	handle_command_arguments(t_head *head, t_cmd *cmd, char *prompt, t_f
 			i += handle_file(head, files, prompt + i, op);
 		else if (op)
 			break ;
-		else if (!ft_isspace(prompt[i]) && (i == 0 || ft_isspace(prompt[i - 1])))
+		else if (!ft_isspace(prompt[i])
+			&& (i == 0 || ft_isspace(prompt[i - 1])))
 		{
 			cmd->args = get_realloc_args(cmd->args, ++size_args,
-				string_argument(head, prompt + i,
-					(t_arg){.len = &i, .to_expand = TRUE}));
+					string_argument(head, prompt + i,
+						(t_arg){.len = &i, .to_expand = TRUE}));
 			head->cmd_size += i;
 			prompt += i;
 			i = 0 - !op;

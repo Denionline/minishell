@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int	ft_exit_number(t_btree *node)
@@ -22,7 +21,7 @@ int	ft_exit_number(t_btree *node)
 	return (n);
 }
 
-int		ft_args_error(t_head *head, t_btree *node)
+int	ft_args_error(t_head *head, t_btree *node)
 {
 	if (node->cmd->args[2])
 	{

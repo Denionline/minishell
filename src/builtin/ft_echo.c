@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 static int	is_flag(char *string)
@@ -22,10 +21,10 @@ int	ft_echo(t_cmd *cmd)
 		if (i == 1 && is_flag(cmd->args[i]))
 		{
 			flag_exists = TRUE;
-			continue;
+			continue ;
 		}
 		if (flag_exists && is_flag(cmd->args[i]) && is_flag(cmd->args[i - 1]))
-			continue;
+			continue ;
 		ft_putstr_fd(cmd->args[i], STDOUT_FILENO);
 		if (cmd->args[i + 1])
 			ft_putchar_fd(' ', 1);

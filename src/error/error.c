@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 void	ft_error_file(t_head *head, t_btree *node, int *fd, int error)
@@ -53,4 +52,3 @@ void	ft_error(t_head *head, t_btree *node, int *fd, int error)
 	else if (error == 4)
 		ft_error_args(node);
 }
-

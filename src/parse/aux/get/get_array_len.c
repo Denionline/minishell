@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int	get_array_len(char **array)

@@ -1,6 +1,4 @@
-
 #include "minishell.h"
-#include "structs.h"
 
 static void	set_or_replace_file(t_file *to_change, t_file *source)
 {

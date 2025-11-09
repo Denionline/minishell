@@ -1,4 +1,3 @@
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -32,7 +31,8 @@ int		minishell(t_head *head);
 int		get_size_double_array(char **array);
 
 // aux/btree/
-t_btree	*btree_create(int identifier, t_cmd *cmd, t_btree *left, t_btree *right);
+t_btree	*btree_create(int identifier, t_cmd *cmd, t_btree *left,
+			t_btree *right);
 void	btree_add_last_left(t_btree **root, t_btree *new_token);
 void	btree_add_last_right(t_btree **root, t_btree *new_token);
 

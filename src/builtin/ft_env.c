@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int	ft_env(char **env, int by_export)
@@ -7,14 +6,15 @@ int	ft_env(char **env, int by_export)
 	int	j;
 
 	i = -1;
-	while (env && env[++i]) {
+	while (env && env[++i])
+	{
 		if (!by_export)
 		{
 			j = 0;
 			while (is_var_char(env[i][j]))
 				j++;
 			if (env[i][j] != '=')
-				continue;
+				continue ;
 		}
 		else
 		{
@@ -22,5 +22,5 @@ int	ft_env(char **env, int by_export)
 		}
 		ft_putendl_fd(env[i], STDOUT_FILENO);
 	}
-	return(0);
+	return (0);
 }

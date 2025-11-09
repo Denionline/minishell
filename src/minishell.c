@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int	minishell(t_head *head)
@@ -16,7 +15,7 @@ int	minishell(t_head *head)
 		add_history(prompt);
 		parse(head, prompt);
 		execute_manager(head);
-		// print(head);
+		//print(head);
 	}
 	return (0);
 }

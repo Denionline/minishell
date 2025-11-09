@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 static char	*is_path_already(char *command)
