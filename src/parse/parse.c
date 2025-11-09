@@ -17,10 +17,7 @@ static void	add_node_on_tree(t_head *head, int op, char *str, t_files *files)
 
 	head->n_cmds += 1;
 	cmd = get_command(head, str, files);
-	if ((files->in.exists || files->out.exists) && !cmd->path)
-		node_command = btree_create(EMPTY, cmd, NULL, NULL);
-	else
-		node_command = btree_create(COMMAND, cmd, NULL, NULL);
+	node_command = btree_create(COMMAND, cmd, NULL, NULL);
 	if (op)
 		btree_add_as_first(&head->root,
 			btree_create(op, NULL, NULL, node_command)
@@ -64,12 +61,12 @@ void	parse(t_head *head, char *prompt)
 	i = 0;
 	while (prompt[i])
 	{
-		if (!head->root || is_file_pending(&files))
-			handle_command(head, prompt + i, &files);
 		head->cmd_size = 0;
 		operator = get_operator(prompt + i);
-		if (operator)
+		if (head->root && operator)
 			i += handle_operator(head, prompt + i, operator, &files);
+		else if (!head->root || is_file_pending(&files))
+			handle_command(head, prompt + i, &files);
 		i += head->cmd_size + (!head->cmd_size && !operator);
 	}
 }

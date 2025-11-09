@@ -80,6 +80,7 @@ tests=(
 	"seq 1 10 | grep 5 | cat | grep 1 | wc -l"
 #	"echo hi > a | cat < a | grep hi > b"
 	"export a | ls"
+	"echo '> >> < * ? [ ] | ; [ ] || && ( ) & # $  <<'"
 )
 
 run_test() {
@@ -104,12 +105,12 @@ run_test() {
         echo -e "${RED}[KO]${RESET} $CMD"
     fi
 #        echo -e "${YELLOW}--- minishell ---${RESET}"
-#        cat -e "$OUT_MINI"
+        # cat -e "$OUT_MINI"
 #        echo -e "${YELLOW}--- bash ---${RESET}"
-#        cat -e "$OUT_BASH"
+        # cat -e "$OUT_BASH"
 #        echo -e "${YELLOW}--- status ---${RESET}"
-#        echo -e "status mini: $STATUS_MINI"
-#        echo -e "status bash: $STATUS_BASH"
+        # echo -e "status mini: $STATUS_MINI"
+        # echo -e "status bash: $STATUS_BASH"
 #        echo
 
 }
