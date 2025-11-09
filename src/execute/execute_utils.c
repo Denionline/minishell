@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int	count_cmds(t_btree *node, int j)
@@ -49,6 +48,12 @@ void	close_all_fds(t_head *head, t_btree *node, int process)
 	}
 	head->pipe.pipe_fd[0] = -1;
 	head->pipe.pipe_fd[1] = -1;
+}
+
+void	close_fd(int *fd)
+{
+	close(fd[0]);
+	close(fd[1]);
 }
 
 void	close_all(t_head *head, t_btree *node, int *fd)

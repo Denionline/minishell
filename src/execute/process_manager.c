@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 void	execute_manager(t_head *head)

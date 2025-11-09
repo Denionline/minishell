@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 static void	remove_variable(t_env **env, char *variable_to_remove)

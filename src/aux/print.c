@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 static void	print_operator(t_btree *node)
@@ -17,11 +16,14 @@ static void	print_command(t_btree *node)
 {
 	if (node->identifier == EMPTY)
 		printf("(empty node)");
-	if (node->cmd->path) {
+	if (node->cmd->path)
+	{
 		printf("path: %s and args: ", node->cmd->path);
 	}
-	if (node->cmd->args) {
-		for (int i = 0; node->cmd->args[i]; i++) {
+	if (node->cmd->args)
+	{
+		for (int i = 0; node->cmd->args[i]; i++)
+		{
 			printf("arg[%d]: %s ", i, node->cmd->args[i]);
 		}
 	}

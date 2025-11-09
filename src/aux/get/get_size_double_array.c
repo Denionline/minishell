@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int	get_size_double_array(char **array)

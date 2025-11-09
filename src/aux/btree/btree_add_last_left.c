@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 void	btree_add_last_left(t_btree **root, t_btree *new_token)

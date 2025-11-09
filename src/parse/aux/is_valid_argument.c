@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int	is_valid_argument(char *arg, int op, int op_after)

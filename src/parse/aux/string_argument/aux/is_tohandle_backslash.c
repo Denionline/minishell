@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int	is_tohandle_backslash(char *c, char quote)

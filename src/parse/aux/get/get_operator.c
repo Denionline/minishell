@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int	get_operator_size(int operator)
