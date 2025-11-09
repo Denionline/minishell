@@ -62,7 +62,7 @@ static char	*argument_verification(t_arg *arg, char *string, t_head *head)
 	if (is_quote_closed(&arg->quotes) && ft_isspace(*string) && arg->len)
 		return (NULL);
 	if (is_to_handle_variable(arg, string, head->env.vars, arg->to_expand))
-		return (string + variable(arg, string, head) - 1);
+		return (string + (variable(arg, string, head) - 1));
 	arg->string[arg->pos++] = *string;
 	return (string);
 }
