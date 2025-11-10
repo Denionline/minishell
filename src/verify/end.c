@@ -10,8 +10,6 @@ int	end(t_head *head, int status, char *description)
 	if (status != 0)
 		show_error(status, description);
 	if (head)
-	{
-		free(head);
-	}
+		free_head(head);
 	exit(status);
 }

@@ -18,5 +18,6 @@ char	*get_var_path(char *prefix, char **envp)
 		}
 		i++;
 	}
+	free(name);
 	return (NULL);
 }

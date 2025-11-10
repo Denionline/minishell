@@ -60,7 +60,11 @@ void	close_all(t_head *head, t_btree *node, int *fd)
 {
 	dup2(head->files.in.fd, STDIN_FILENO);
 	dup2(head->files.out.fd, STDOUT_FILENO);
-	free(head->pid);
+	if (head->pid)
+	{
+		free(head->pid);
+		head->pid = NULL;
+	}
 	if (head->pipe.flag == 1)
 		close_fd(fd);
 	close_all_fds(head, node, 0);
