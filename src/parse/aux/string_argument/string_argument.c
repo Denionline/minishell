@@ -51,7 +51,7 @@ static char	*argument_verification(t_arg *arg, char *string, t_head *head)
 	if (is_tohandle_backslash(string, arg->quotes.quote))
 		string++;
 	if (*string == '\'' || *string == '\"')
-		if (!verify_quotes(&arg->quotes, *string, !arg->len))
+		if (verify_quotes(&arg->quotes, *string, !arg->len))
 			return (string);
 	if (is_quote_closed(&arg->quotes) && get_operator(string) && arg->len)
 		return (NULL);
@@ -70,7 +70,10 @@ char	*string_argument(t_head *head, char *string, t_arg arg)
 
 	string_argument_size(&arg, string, head->env.vars);
 	if (!is_quote_closed(&arg.quotes))
+	{
+		ft_putendl_fd("Quotes unclosed", 1);
 		ft_error(head, NULL, NULL, 777);
+	}
 	arg.quotes = (t_quotes){};
 	arg.string = ft_calloc(arg.lstring + 1, 1);
 	if (!arg.string)

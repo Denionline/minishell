@@ -11,24 +11,27 @@ int	is_quote_closed(t_quotes *quotes)
 	return (FALSE);
 }
 
-int	verify_quotes(t_quotes *quotes, char c, int is_heredoc)
+static void	increase_quote(t_quotes *quotes, char c)
 {
-	int	verify;
-
-	verify = 1;
-	if (!quotes->quote && !is_heredoc)
-	{
-		quotes->quote = c;
-		verify = 0;
-	}
-	else if (quotes->quote == c && !is_heredoc)
-	{
-		quotes->quote = '\0';
-		verify = 0;
-	}
 	if (c == '\'' && quotes->quote == '\'')
 		quotes->s += 1;
 	else if (c == '\"' && quotes->quote == '\"')
 		quotes->d += 1;
-	return (verify);
+}
+
+int	verify_quotes(t_quotes *quotes, char c, int is_heredoc)
+{
+	if (!quotes->quote && !is_heredoc)
+	{
+		quotes->quote = c;
+		increase_quote(quotes, c);
+		return (TRUE);
+	}
+	if (quotes->quote == c && !is_heredoc)
+	{
+		increase_quote(quotes, c);
+		quotes->quote = '\0';
+		return (TRUE);
+	}
+	return (FALSE);
 }
