@@ -3,7 +3,7 @@
 static char	*is_path_already(char *command)
 {
 	DIR	*dir;
-
+	
 	dir = opendir(command);
 	if (dir)
 	{
