@@ -10,17 +10,14 @@ static int	is_file_pending(t_files *files)
 	return (FALSE);
 }
 
-static void	add_node_on_tree(t_head *head, int op, char *prompt, t_files *files)
+static void	add_node_on_tree(t_head *head, int op, char *str, t_files *files)
 {
 	t_btree	*node_command;
 	t_cmd	*cmd;
 
 	head->n_cmds += 1;
-	cmd = get_command(head, prompt, files);
-	if ((files->in.exists || files->out.exists) && !cmd->path)
-		node_command = btree_create(EMPTY, cmd, NULL, NULL);
-	else
-		node_command = btree_create(COMMAND, cmd, NULL, NULL);
+	cmd = get_command(head, str, files);
+	node_command = btree_create(COMMAND, cmd, NULL, NULL);
 	if (op)
 		btree_add_as_first(&head->root,
 			btree_create(op, NULL, NULL, node_command)
@@ -39,7 +36,7 @@ static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 	if (!is_valid_argument(prompt + pos, op, get_operator(prompt + pos)))
 		ft_error(head, NULL, NULL, 777);
 	if (is_arrow_operator(op))
-		return (handle_file(head, files, prompt, op));
+		return (handle_file(head, 0, prompt, op));
 	add_node_on_tree(head, op, prompt + pos, files);
 	if (is_file_pending(files))
 		btree_set_file_last_cmd(&head->root, &files);
@@ -66,9 +63,9 @@ void	parse(t_head *head, char *prompt)
 	{
 		head->cmd_size = 0;
 		operator = get_operator(prompt + i);
-		if (operator)
+		if (head->root && operator)
 			i += handle_operator(head, prompt + i, operator, &files);
-		if (!head->root || is_file_pending(&files))
+		else if (!head->root || is_file_pending(&files))
 			handle_command(head, prompt + i, &files);
 		i += head->cmd_size + (!head->cmd_size && !operator);
 	}

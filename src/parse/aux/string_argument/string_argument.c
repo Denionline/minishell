@@ -28,11 +28,9 @@ static int	variable(t_arg *arg, char *string, t_head *head)
 
 	var_size = 1;
 	while (string[var_size] && is_var_char(string[var_size]))
-	{
-		if (string[1] == '?')
-			break ;
 		var_size++;
-	}
+	if (string[1] == '?' )
+		var_size = 2;
 	name = ft_substr(string, 1, var_size - 1);
 	if (!name)
 		return (free(arg->string), 0);
@@ -45,7 +43,6 @@ static int	variable(t_arg *arg, char *string, t_head *head)
 	i = 0;
 	while (variable[i])
 		arg->string[arg->pos++] = variable[i++];
-	arg->pos++;
 	return (free(name), free(variable), var_size);
 }
 
@@ -54,14 +51,14 @@ static char	*argument_verification(t_arg *arg, char *string, t_head *head)
 	if (is_tohandle_backslash(string, arg->quotes.quote))
 		string++;
 	if (*string == '\'' || *string == '\"')
-		if (!verify_quotes(&arg->quotes, *string, !arg->len))
+		if (verify_quotes(&arg->quotes, *string, !arg->len))
 			return (string);
 	if (is_quote_closed(&arg->quotes) && get_operator(string) && arg->len)
 		return (NULL);
 	if (is_quote_closed(&arg->quotes) && ft_isspace(*string) && arg->len)
 		return (NULL);
 	if (is_to_handle_variable(arg, string, head->env.vars, arg->to_expand))
-		return (string + variable(arg, string, head) - 1);
+		return (string + (variable(arg, string, head) - 1));
 	arg->string[arg->pos++] = *string;
 	return (string);
 }
@@ -73,7 +70,10 @@ char	*string_argument(t_head *head, char *string, t_arg arg)
 
 	string_argument_size(&arg, string, head->env.vars);
 	if (!is_quote_closed(&arg.quotes))
+	{
+		ft_putendl_fd("Quotes unclosed", 1);
 		ft_error(head, NULL, NULL, 777);
+	}
 	arg.quotes = (t_quotes){};
 	arg.string = ft_calloc(arg.lstring + 1, 1);
 	if (!arg.string)

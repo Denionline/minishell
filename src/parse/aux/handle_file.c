@@ -57,9 +57,9 @@ static int	is_file_invalid(t_btree *root, t_files *files)
 			return (TRUE);
 		return (FALSE);
 	}
-	if (files->in.exists && files->in.access == -1)
+	if (files && files->in.exists && files->in.access == -1)
 		return (TRUE);
-	if (files->out.exists && files->out.access == -1)
+	if (files && files->out.exists && files->out.access == -1)
 		return (TRUE);
 	return (FALSE);
 }
