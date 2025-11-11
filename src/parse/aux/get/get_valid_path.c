@@ -3,8 +3,8 @@
 static char	*is_path_already(char *command)
 {
 	DIR	*dir;
-
-	dir= opendir(command);
+	
+	dir = opendir(command);
 	if (dir)
 	{
 		closedir(dir);
