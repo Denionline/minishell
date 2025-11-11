@@ -39,9 +39,8 @@ int		ft_cd(t_head *head, t_btree *node);
 int		ft_exit(t_head *head, t_btree *node);
 
 //signals
-void	signal_handler(void);
-void	signal_tty(void);
-void	signal_child(void);
+void	signal_handler(t_head *head);
+void	ft_handle_ctrl_c(int sig);
 
 //error
 void	ft_error(t_head *head, t_btree *node, int *fd, int error);

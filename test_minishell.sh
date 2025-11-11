@@ -109,8 +109,8 @@ run_test() {
 #        echo -e "${YELLOW}--- bash ---${RESET}"
         # cat -e "$OUT_BASH"
 #        echo -e "${YELLOW}--- status ---${RESET}"
-        # echo -e "status mini: $STATUS_MINI"
-        # echo -e "status bash: $STATUS_BASH"
+#         echo -e "status mini: $STATUS_MINI"
+#         echo -e "status bash: $STATUS_BASH"
 #        echo
 
 }
