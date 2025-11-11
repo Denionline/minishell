@@ -2,8 +2,9 @@
 
 static char	*is_path_already(char *command)
 {
-	const DIR	*dir = opendir(command);
+	DIR	*dir;
 
+	dir= opendir(command);
 	if (dir)
 	{
 		closedir(dir);
