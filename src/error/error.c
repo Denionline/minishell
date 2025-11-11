@@ -41,6 +41,7 @@ void	ft_syntax_error(t_head *head, int error)
 	else if (error == 6)
 		write(2, "minishell: quotes unclosed\n", 27);
 	head->exit_code = 2;
+	reset_prompt();
 }
 
 void	ft_error_args(t_btree *node)

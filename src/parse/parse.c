@@ -34,7 +34,10 @@ static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 	while (ft_isspace(prompt[pos]))
 		pos++;
 	if (!is_valid_argument(prompt + pos, op, get_operator(prompt + pos)))
-		return (ft_error(head, NULL, NULL, 5), -1);
+	{
+		ft_error(head, NULL, NULL, 5);
+		//precisa ter uma saida dessa funcao, pra voltar ao prompt
+	}
 	if (is_arrow_operator(op))
 		return (handle_file(head, 0, prompt, op));
 	add_node_on_tree(head, op, prompt + pos, files);

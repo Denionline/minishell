@@ -69,6 +69,12 @@ char	*string_argument(t_head *head, char *string, t_arg arg)
 	int		i;
 
 	string_argument_size(&arg, string, head->env.vars);
+	if (!is_quote_closed(&arg.quotes))
+	{
+		//ft_putendl_fd("Quotes unclosed", 1);
+		ft_error(head, NULL, NULL, 6);
+		//return NULL; //precisa de um exit aqui de volta pro prompt
+	}
 	arg.quotes = (t_quotes){};
 	arg.string = ft_calloc(arg.lstring + 1, 1);
 	if (!arg.string)
