@@ -34,7 +34,7 @@ static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 	while (ft_isspace(prompt[pos]))
 		pos++;
 	if (!is_valid_argument(prompt + pos, op, get_operator(prompt + pos)))
-		ft_error(head, NULL, NULL, 777);
+		ft_error(head, NULL, NULL, 5);
 	if (is_arrow_operator(op))
 		return (handle_file(head, 0, prompt, op));
 	add_node_on_tree(head, op, prompt + pos, files);
@@ -43,18 +43,27 @@ static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 	return (pos);
 }
 
-static void	handle_command(t_head *head, char *prompt, t_files *files)
+static int	handle_command(t_head *head, int op, char *prompt, t_files *files)
 {
+	int	pos;
+
+	pos = get_operator_size(op);
+	while (ft_isspace(prompt[pos]))
+		pos++;
+	if (!is_valid_argument(prompt + pos, op, get_operator(prompt + pos)))
+		return (ft_error(head, NULL, NULL, 5), -1);
 	if (!head->root)
 		add_node_on_tree(head, 0, prompt, files);
 	if (is_file_pending(files))
 		btree_set_file_last_cmd(&head->root, &files);
+	return (0);
 }
 
 void	parse(t_head *head, char *prompt)
 {
 	t_files	files;
 	int		operator;
+	int		next;
 	int		i;
 	
 	files = (t_files){.in.fd = -1, .out.fd = -1};
@@ -62,12 +71,16 @@ void	parse(t_head *head, char *prompt)
 	while (prompt[i])
 	{
 		head->cmd_size = 0;
+		next = 0;
 		operator = get_operator(prompt + i);
 		if (head->root && operator)
-			i += handle_operator(head, prompt + i, operator, &files);
+			next = handle_operator(head, prompt + i, operator, &files);
 		else if (!head->root || is_file_pending(&files))
-			handle_command(head, prompt + i, &files);
-		i += head->cmd_size + (!head->cmd_size && !operator);
+			next = handle_command(head, operator, prompt + i, &files);
+		if (next < 0)
+			break ;
+		i += next + head->cmd_size;
+		i += (!head->cmd_size && !operator);
 	}
 }
 
