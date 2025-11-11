@@ -31,10 +31,3 @@ void	ft_handle_ctrl_c(int sig)
 	rl_redisplay(); //redraw input and input line
 }
 
-void	reset_prompt(void)
-{
-	write(1, "\n", 1);
-	rl_on_new_line(); //para readline descer linha
-	rl_replace_line("", 0); //replace the input line with nothing
-	rl_redisplay(); //redraw input and input line
-}

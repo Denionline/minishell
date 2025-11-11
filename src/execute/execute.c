@@ -54,7 +54,7 @@ void	process(t_head *head, t_btree *node)
 	int		fd[2];
 	pid_t	pid;
 
-	if (is_parent_builtin(head, node) == 0 && head->n_cmds == 1)
+	if (head->n_cmds == 1 && is_parent_builtin(head, node) == 0)
 		return ;
 	if (head->n_cmds > 1 && head->index < (head->n_cmds -1))
 		head->pipe.flag = 1;
