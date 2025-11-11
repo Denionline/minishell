@@ -50,8 +50,11 @@ static void	handle_variable(char *variable, int lvar, char *value, t_env *env)
 	}
 	else
 	{
-		env->vars = get_realloc_args(env->vars, ++env->n_vars,
-				ft_strdup(value));
+		env->vars = get_realloc_args(
+			env->vars,
+			++env->n_vars,
+			ft_strdup(value)
+		);
 	}
 	free(variable);
 }
@@ -73,12 +76,13 @@ int	ft_export(t_head *head, t_btree *node)
 		while (is_var_char(current[lvar]))
 			lvar++;
 		if (current[lvar] == '=' || current[lvar] == '\0')
-			handle_variable(ft_substr(current, 0, lvar), lvar,
-				current, &head->env);
+			handle_variable(
+				ft_substr(current, 0, lvar), lvar, current, &head->env
+			);
 		else
 		{
-			ft_error(head, node, NULL, 3);
-			break ;
+			ft_error_export(head, current);
+			continue ;
 		}
 	}
 	return (0);
