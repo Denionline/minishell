@@ -2,10 +2,17 @@
 
 static char	*is_path_already(char *command)
 {
+	const DIR	*dir = opendir(command);
+
+	if (dir)
+	{
+		closedir(dir);
+		return (ft_strdup("dir"));
+	}
 	if (!access(command, F_OK | X_OK))
-		return (command);
+		return (ft_strdup(command));
 	if (command[0] == '.' && !access(command, F_OK | X_OK))
-		return (command);
+		return (ft_strdup(command));
 	if (is_builtin(command))
 		return (ft_strdup("built-in"));
 	return (NULL);
@@ -49,7 +56,10 @@ char	*get_valid_path(t_env *env, char *command)
 		complete_path = ft_strjoin(path_bar, command);
 		free(path_bar);
 		if (!access(complete_path, F_OK | X_OK))
+		{
+			free_db_str(paths);
 			return (complete_path);
+		}
 		free(complete_path);
 	}
 	free_db_str(paths);

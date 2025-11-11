@@ -6,6 +6,7 @@
 # include <stdio.h>
 # include <errno.h>
 # include <unistd.h>
+# include <dirent.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <readline/history.h>

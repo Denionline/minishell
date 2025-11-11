@@ -3,28 +3,37 @@
 static void	remove_variable(t_env **env, char *variable_to_remove)
 {
 	char	**new_vars;
+	char	**old_vars;
 	int		pos_var;
-	int		i;
 	int		pos;
+	int		i;
 
 	pos_var = is_variable_exist(variable_to_remove, (*env)->vars);
 	if (pos_var < 0)
 		return (free(variable_to_remove));
 	(*env)->n_vars -= 1;
+	old_vars = (*env)->vars;
 	new_vars = ft_calloc((*env)->n_vars + 1, sizeof(char *));
 	if (!new_vars)
+	{
+		free(variable_to_remove);
 		return ;
+	}
 	pos = 0;
 	i = 0;
-	while (pos < (*env)->n_vars)
+	while (old_vars[i])
 	{
-		if (pos_var != i)
-			new_vars[pos++] = (*env)->vars[i];
+		if (i != pos_var)
+			new_vars[pos++] = old_vars[i];
 		i++;
 	}
 	new_vars[pos] = NULL;
-	free((*env)->vars[pos_var]);
+	free(old_vars[pos_var]);
+	free(old_vars);
 	(*env)->vars = new_vars;
+
+	/* free the substring passed by the caller (ft_substr) */
+	free(variable_to_remove);
 }
 
 int	ft_unset(t_cmd *cmd, t_env *env)
