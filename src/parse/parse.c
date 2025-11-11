@@ -34,7 +34,7 @@ static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 	while (ft_isspace(prompt[pos]))
 		pos++;
 	if (!is_valid_argument(prompt + pos, op, get_operator(prompt + pos)))
-		ft_error(head, NULL, NULL, 5);
+		return (ft_error(head, NULL, NULL, 5), -1);
 	if (is_arrow_operator(op))
 		return (handle_file(head, 0, prompt, op));
 	add_node_on_tree(head, op, prompt + pos, files);
@@ -66,6 +66,8 @@ void	parse(t_head *head, char *prompt)
 	int		next;
 	int		i;
 	
+	if (!is_quotes_valid(prompt))
+		return (ft_error(head, NULL, NULL, 5));
 	files = (t_files){.in.fd = -1, .out.fd = -1};
 	i = 0;
 	while (prompt[i])
@@ -83,5 +85,3 @@ void	parse(t_head *head, char *prompt)
 		i += (!head->cmd_size && !operator);
 	}
 }
-
-// "/bin/echo hello"
