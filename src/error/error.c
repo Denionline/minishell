@@ -34,6 +34,16 @@ void	ft_error_export(t_head *head, t_btree *node)
 	head->exit_code = 1;
 }
 
+void	ft_syntax_error(t_head *head, int error)
+{
+	if (error == 5)
+		write(2, "minishell: syntax error near unexpected token\n", 46);
+	else if (error == 6)
+		write(2, "minishell: quotes unclosed\n", 27);
+	head->exit_code = 2;
+	reset_prompt();
+}
+
 void	ft_error_args(t_btree *node)
 {
 	write(2, "minishell: too many arguments: ", 31);
@@ -51,4 +61,6 @@ void	ft_error(t_head *head, t_btree *node, int *fd, int error)
 		ft_error_export(head, node);
 	else if (error == 4)
 		ft_error_args(node);
+	else if (error == 5 || error == 6)
+		ft_syntax_error(head, error);
 }

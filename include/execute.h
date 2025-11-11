@@ -42,6 +42,7 @@ int		ft_exit(t_head *head, t_btree *node);
 void	signal_handler(void);
 void	signal_tty(void);
 void	signal_child(void);
+void	reset_prompt(void);
 
 //error
 void	ft_error(t_head *head, t_btree *node, int *fd, int error);
