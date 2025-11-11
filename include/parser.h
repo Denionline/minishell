@@ -40,6 +40,7 @@ int		get_operator_size(int operator);
 int		is_arrow_operator(int operator);
 int		verify_quotes(t_quotes *quotes, char c, int is_heredoc);
 int		is_quote_closed(t_quotes *quotes);
+int		is_quotes_valid(char *s);
 char	**get_realloc_args(char **old_args, int new_len, char *new_value);
 
 t_cmd	*get_command(t_head *head, char *prompt, t_files *files);

@@ -2,6 +2,8 @@
 
 void	execute_manager(t_head *head)
 {
+	if (!head->root)
+		return ;
 	head->files.in.fd = dup(STDIN_FILENO);
 	head->files.out.fd = dup(STDOUT_FILENO);
 	head->n_cmds = count_cmds(head->root, 0);
