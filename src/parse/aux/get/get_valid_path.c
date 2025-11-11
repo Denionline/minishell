@@ -2,6 +2,13 @@
 
 static char	*is_path_already(char *command)
 {
+	const DIR	*dir = opendir(command);
+
+	if (dir)
+	{
+		closedir(dir);
+		return (ft_strdup("dir"));
+	}
 	if (!access(command, F_OK | X_OK))
 		return (ft_strdup(command));
 	if (command[0] == '.' && !access(command, F_OK | X_OK))
