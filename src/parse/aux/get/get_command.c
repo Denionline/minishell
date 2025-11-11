@@ -3,11 +3,9 @@
 static void	update_args(t_cmd *cmd, char *new_arg)
 {
 	if (!(*new_arg))
-	{
-		free(new_arg);
-		return ;
-	}
-	cmd->args[cmd->args_len++] = new_arg;
+		return (free(new_arg));
+	cmd->args_len += 1;
+	cmd->args = get_realloc_args(cmd->args, cmd->args_len, new_arg);
 }
 
 static void	handle_args(t_head *head, t_cmd *cmd, char *prompt, t_files *files)
