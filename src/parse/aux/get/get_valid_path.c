@@ -3,9 +3,9 @@
 static char	*is_path_already(char *command)
 {
 	if (!access(command, F_OK | X_OK))
-		return (command);
+		return (ft_strdup(command));
 	if (command[0] == '.' && !access(command, F_OK | X_OK))
-		return (command);
+		return (ft_strdup(command));
 	if (is_builtin(command))
 		return (ft_strdup("built-in"));
 	return (NULL);
