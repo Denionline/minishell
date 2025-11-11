@@ -26,6 +26,7 @@ typedef struct s_cmd
 {
 	char	**args;
 	char	*path;
+	int		args_len;
 }	t_cmd;
 
 typedef struct s_btree
