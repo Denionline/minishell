@@ -47,7 +47,9 @@ void	child_process(t_head *head, t_btree *node, int *fd)
 		ft_error(head, node, fd, 126);
 	if ((node->cmd->args[0][0] == '/' || node->cmd->args[0][1] == '/'))
 	{
-		if (access(node->cmd->args[0], X_OK))
+		if (access(node->cmd->args[0], F_OK))
+			ft_error(head, node, fd, 7);
+		else if (access(node->cmd->args[0], X_OK))
 			ft_error(head, node, fd, 10);
 	}
 	if (!node->cmd->path)
