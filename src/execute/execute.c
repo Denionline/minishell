@@ -43,7 +43,7 @@ void	child_process(t_head *head, t_btree *node, int *fd)
 	}
 	if (node->files.in.exists || node->files.out.exists)
 		redirect(head, node, fd);
-	if (!ft_strncmp("dir", node->cmd->path, 4))
+	if (node->cmd->path && !ft_strncmp("dir", node->cmd->path, 4))
 		ft_error(head, node, fd, 126);
 	if ((node->cmd->args[0][0] == '/' || node->cmd->args[0][1] == '/'))
 	{
