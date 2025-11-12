@@ -43,7 +43,7 @@ int	wait_process(t_head *head)
 	int	status;
 	int	i;
 
-//	signal_handler();
+	//signal_handler(head);
 	if (head->is_parent == 0)
 		return (head->exit_code);
 	i = 0;

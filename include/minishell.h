@@ -41,9 +41,4 @@ void	btree_add_last_right(t_btree **root, t_btree *new_token);
 // verify/
 int		end(t_head *head, int status, char *description);
 
-//execute/
-
-//signal/
-void	signal_handler(void);
-
 #endif
