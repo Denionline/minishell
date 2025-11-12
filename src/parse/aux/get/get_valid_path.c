@@ -10,9 +10,7 @@ static char	*is_path_already(char *command)
 		closedir(dir);
 		return (ft_strdup("dir"));
 	}
-	if (!access(command, F_OK | X_OK))
-		return (ft_strdup(command));
-	if (command[0] == '.' && !access(command, F_OK | X_OK))
+	if ((command[0] == '/' || command[1] == '/') && !access(command, F_OK))
 		return (ft_strdup(command));
 	if (is_builtin(command))
 		return (ft_strdup("built-in"));

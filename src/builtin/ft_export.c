@@ -24,7 +24,7 @@ static char	**get_ascii_order(char **vars)
 		while (ordered[j])
 		{
 			v = 0;
-			while (is_var_char(ordered[j][v]))
+			while (is_var_char(ordered[j][v], v))
 				v++;
 			if (ft_strncmp(ordered[i], ordered[j], v) > 0)
 				swap_vars(&ordered[i], &ordered[j]);
@@ -73,9 +73,9 @@ int	ft_export(t_head *head, t_btree *node)
 	{
 		current = node->cmd->args[n_args - i];
 		lvar = 0;
-		while (is_var_char(current[lvar]))
+		while (is_var_char(current[lvar], lvar))
 			lvar++;
-		if (current[lvar] == '=' || current[lvar] == '\0')
+		if ((current[lvar] == '=' || current[lvar] == '\0') && lvar > 0)
 			handle_variable(
 				ft_substr(current, 0, lvar), lvar, current, &head->env
 			);

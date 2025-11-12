@@ -12,7 +12,7 @@ static int	is_to_handle_variable(t_arg *arg, char *s, char **envp, int expand)
 			return (TRUE);
 		if (!s[1])
 			return (FALSE);
-		if (!is_var_char(s[1]))
+		if (!is_var_char(s[1], 0))
 			return (FALSE);
 		return (TRUE);
 	}
@@ -27,7 +27,7 @@ static int	variable(t_arg *arg, char *string, t_head *head)
 	int		i;
 
 	var_size = 1;
-	while (string[var_size] && is_var_char(string[var_size]))
+	while (string[var_size] && is_var_char(string[var_size], var_size))
 		var_size++;
 	if (string[1] == '?' )
 		var_size = 2;

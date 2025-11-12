@@ -26,6 +26,23 @@ void	ft_error_command(t_head *head, t_btree *node, int *fd)
 	free_error(head, node, fd);
 	exit(127);
 }
+void	ft_error_directory(t_head *head, t_btree *node, int *fd)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(node->cmd->args[0], 2);
+	ft_putendl_fd(": Is a directory", 2);
+	free_error(head, node, fd);
+	exit(126);
+}
+
+void	ft_error_permission(t_head *head, t_btree *node, int *fd)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(node->cmd->args[0], 2);
+	ft_putendl_fd(": Permission denied", 2);
+	free_error(head, node, fd);
+	exit(126);
+}
 
 void	ft_error_export(t_head *head, char *arg)
 {
@@ -56,8 +73,12 @@ void	ft_error(t_head *head, t_btree *node, int *fd, int error)
 		ft_error_file(head, node, fd, error);
 	else if (error == 2)
 		ft_error_command(head, node, fd);
+	else if (error == 10)
+		ft_error_permission(head, node, fd);
 	// else if (error == 3)
 	// 	ft_error_export(head, node);
+	else if (error == 126)
+		ft_error_directory(head, node, fd);
 	else if (error == 4)
 		ft_error_args(node);
 	else if (error == 5 || error == 6)
