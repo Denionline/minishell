@@ -11,7 +11,7 @@ int	ft_env(char **env, int by_export)
 		if (!by_export)
 		{
 			j = 0;
-			while (is_var_char(env[i][j]))
+			while (is_var_char(env[i][j], j))
 				j++;
 			if (env[i][j] != '=')
 				continue ;

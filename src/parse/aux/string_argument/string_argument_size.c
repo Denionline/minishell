@@ -7,7 +7,7 @@ static int	variable_size(char *string, char **envp)
 	int		var_size;
 
 	var_size = 1;
-	while (string[var_size] && is_var_char(string[var_size]))
+	while (string[var_size] && is_var_char(string[var_size], var_size))
 		var_size++;
 	name = ft_substr(string, 1, var_size - 1);
 	if (name)

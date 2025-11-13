@@ -63,6 +63,7 @@ FILES			+= signal_handler
 FILES			+= free_all
 FILES			+= new_shlvl
 FILES			+= is_variable_exist
+FILES			+= is_directory
 #parsing
 FILES			+= get_size_double_array
 FILES			+= parse

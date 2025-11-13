@@ -51,7 +51,7 @@ char	*string_argument(t_head *head, char *string, t_arg arg);
 void	string_argument_size(t_arg *arg, char *string, char **envp);
 // parse/aux/string_argument/aux/
 int		is_tohandle_backslash(char *c, char quote);
-int		is_var_char(char c);
+int		is_var_char(char c, int pos);
 // aux/btree/
 void	btree_add_as_first(t_btree **root, t_btree *new_node);
 void	btree_set_file_last_cmd(t_btree **root, t_files **files);
@@ -63,5 +63,6 @@ int		ft_export(t_head *head, t_btree *node);
 int		ft_unset(t_cmd *cmd, t_env *env);
 
 int		is_valid_argument(char *arg, int op, int op_after);
+int		is_directory(char *string);
 
 #endif
