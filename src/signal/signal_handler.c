@@ -1,40 +1,11 @@
 #include "minishell.h"
 
-void	ft_handle_ctrl_c_child(int sig)
-{
-	(void)sig;
-	write(1, "\n", 1);
-}
-
 void	signal_handler(void)
 {
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, ft_handle_ctrl_c);
 	signal(SIGPIPE, SIG_IGN);
 }
-
-// void	signal_handler(t_head *head, int process)
-// {
-// 	(void)*head;
-// 	if (SIGQUIT)
-// 	{
-// 		signal(SIGQUIT, SIG_IGN);
-// 	}
-// 	if (SIGINT)
-// 	{
-// 		if (process == 1)
-// 		{
-// 			signal(SIGINT, SIG_IGN);
-// 			signal(SIGINT, ft_handle_ctrl_c);
-// 			//head->exit_code = 130;
-// 		}
-// 		else if (process == 0)
-// 		{
-// 			signal(SIGINT, SIG_DFL);
-// 			signal(SIGINT, ft_handle_ctrl_c_child);
-// 		}
-// 	}
-// }
 
 void	ft_handle_ctrl_c(int sig)
 {
@@ -46,13 +17,22 @@ void	ft_handle_ctrl_c(int sig)
 	define_exit_code(130, TRUE);
 }
 
-
-
 void	child_signal_handler(void)
 {
-	if (SIGINT)
-	{
-		signal(SIGINT, SIG_IGN);
-		signal(SIGINT, ft_handle_ctrl_c_child);
-	}
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGPIPE, ft_sigpipe_child);
+}
+
+void	ft_ctrl_c_heredoc(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+	close(STDIN_FILENO);
+}
+
+void	ft_sigpipe_child(int sig)
+{
+	(void)sig;
+	define_exit_code(141, TRUE);
 }

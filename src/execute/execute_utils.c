@@ -21,6 +21,12 @@ int	count_cmds(t_btree *node, int j)
 
 void	reset_head(t_head *head)
 {
+	head->files.in.fd = dup(STDIN_FILENO);
+	head->files.out.fd = dup(STDOUT_FILENO);
+	head->n_cmds = count_cmds(head->root, 0);
+	head->pid = malloc(sizeof(pid_t) * head->n_cmds);
+	if (!head->pid)
+		return ;
 	head->index = 0;
 	head->is_parent = -1;
 	head->pipe.pipe_fd[0] = -1;

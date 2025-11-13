@@ -40,10 +40,11 @@ int		ft_cd(t_head *head, t_btree *node);
 int		ft_exit(t_head *head, t_btree *node);
 
 //signals
-//void	signal_handler(t_head *head, int process);
 void    signal_handler(void);
 void	ft_handle_ctrl_c(int sig);
 void	child_signal_handler(void);
+void	ft_ctrl_c_heredoc(int sig);
+void	ft_sigpipe_child(int sig);
 
 //error
 void	ft_error(t_head *head, t_btree *node, int *fd, int error);
