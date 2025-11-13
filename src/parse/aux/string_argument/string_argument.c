@@ -35,7 +35,7 @@ static int	variable(t_arg *arg, char *string, t_head *head)
 	if (!name)
 		return (free(arg->string), 0);
 	if (string[1] == '?')
-		variable = ft_itoa(head->exit_code);
+		variable = ft_itoa(define_exit_code(0, FALSE));
 	else
 		variable = get_var_path(name, head->env.vars);
 	if (!variable)

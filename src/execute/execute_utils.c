@@ -21,6 +21,12 @@ int	count_cmds(t_btree *node, int j)
 
 void	reset_head(t_head *head)
 {
+	head->files.in.fd = dup(STDIN_FILENO);
+	head->files.out.fd = dup(STDOUT_FILENO);
+	head->n_cmds = count_cmds(head->root, 0);
+	head->pid = malloc(sizeof(pid_t) * head->n_cmds);
+	if (!head->pid)
+		return ;
 	head->index = 0;
 	head->is_parent = -1;
 	head->pipe.pipe_fd[0] = -1;
@@ -68,4 +74,13 @@ void	close_all(t_head *head, t_btree *node, int *fd)
 	if (head->pipe.flag == 1)
 		close_fd(fd);
 	close_all_fds(head, node, 0);
+}
+
+int	define_exit_code(int exit_status, int change)
+{
+	static int exit_code;
+
+	if (change == TRUE)
+		exit_code = exit_status;
+	return (exit_code);
 }
