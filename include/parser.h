@@ -63,5 +63,6 @@ int		ft_export(t_head *head, t_btree *node);
 int		ft_unset(t_cmd *cmd, t_env *env);
 
 int		is_valid_argument(char *arg, int op, int op_after);
+int		is_directory(char *string);
 
 #endif
