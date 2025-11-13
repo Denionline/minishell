@@ -41,6 +41,7 @@ int	hierarchy_btree(t_head *head, t_btree *node)
 int	wait_process(t_head *head)
 {
 	int	status;
+	int	exit_status;
 	int	i;
 
 	//signal_handler(head);
@@ -51,10 +52,11 @@ int	wait_process(t_head *head)
 	{
 		waitpid(head->pid[i], &status, 0);
 		if (WIFEXITED(status))
-			head->exit_code = WEXITSTATUS(status);
+			exit_status = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
-			head->exit_code = WTERMSIG(status) + 128;
+			exit_status = WTERMSIG(status) + 128;
 		i++;
 	}
+	head->exit_code = define_exit_code(exit_status, TRUE);
 	return (head->exit_code);
 }

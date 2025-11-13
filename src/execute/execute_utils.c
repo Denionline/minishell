@@ -69,3 +69,12 @@ void	close_all(t_head *head, t_btree *node, int *fd)
 		close_fd(fd);
 	close_all_fds(head, node, 0);
 }
+
+int	define_exit_code(int exit_status, int change)
+{
+	static int exit_code;
+
+	if (change == TRUE)
+		exit_code = exit_status;
+	return (exit_code);
+}
