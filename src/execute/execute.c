@@ -34,6 +34,7 @@ void	parent_process(t_head *head, t_btree *node, int *fd)
 
 void	child_process(t_head *head, t_btree *node, int *fd)
 {
+	child_signal_handler();
 	if (head->pipe.pipe_fd[0] != -1)
 		dup2(head->pipe.pipe_fd[0], STDIN_FILENO);
 	if (head->pipe.flag == 1)

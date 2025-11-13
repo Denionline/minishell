@@ -66,6 +66,7 @@ int	ft_export(t_head *head, t_btree *node)
 	int			lvar;
 	int			i;
 
+	(void)*head;
 	if (n_args == 1)
 		return (ft_env(get_ascii_order(head->env.vars), TRUE));
 	i = 0;

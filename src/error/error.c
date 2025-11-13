@@ -63,18 +63,20 @@ void	ft_error_not_found(t_head *head, t_btree *node, int *fd)
 
 void	ft_error_export(t_head *head, char *arg)
 {
+	(void)*head;
 	ft_putstr_fd("minishell: not a valid identifier: export: ", 2);
 	ft_putendl_fd(arg, 2);
-	head->exit_code = 1;
+	define_exit_code(1, TRUE);
 }
 
 void	ft_syntax_error(t_head *head, int error)
 {
+	(void)*head;
 	if (error == 5)
 		ft_putendl_fd("minishell: syntax error near unexpected token", 2);
 	else if (error == 6)
 		ft_putendl_fd("minishell: quotes unclosed", 2);
-	head->exit_code = 2;
+	define_exit_code(2, TRUE);
 }
 
 void	ft_error_args(t_btree *node)

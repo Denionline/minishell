@@ -4,12 +4,6 @@ void	execute_manager(t_head *head)
 {
 	if (!head->root)
 		return ;
-	head->files.in.fd = dup(STDIN_FILENO);
-	head->files.out.fd = dup(STDOUT_FILENO);
-	head->n_cmds = count_cmds(head->root, 0);
-	head->pid = malloc(sizeof(pid_t) * head->n_cmds);
-	if (!head->pid)
-		return ;
 	reset_head(head);
 	hierarchy_btree(head, head->root);
 	wait_process(head);
@@ -35,26 +29,27 @@ int	hierarchy_btree(t_head *head, t_btree *node)
 	}
 	if (node && node->right && node->right->identifier == COMMAND)
 		process(head, node->right);
-	return (head->exit_code);
+	return (define_exit_code(0, FALSE));
 }
 
 int	wait_process(t_head *head)
 {
 	int	status;
+	int	exit_status;
 	int	i;
 
 	//signal_handler(head);
 	if (head->is_parent == 0)
-		return (head->exit_code);
+		return (define_exit_code(0, FALSE));
 	i = 0;
 	while (i < head->n_cmds)
 	{
 		waitpid(head->pid[i], &status, 0);
 		if (WIFEXITED(status))
-			head->exit_code = WEXITSTATUS(status);
+			exit_status = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
-			head->exit_code = WTERMSIG(status) + 128;
+			exit_status = WTERMSIG(status) + 128;
 		i++;
 	}
-	return (head->exit_code);
+	return (define_exit_code(exit_status, TRUE));
 }
