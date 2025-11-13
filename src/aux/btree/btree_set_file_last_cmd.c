@@ -4,13 +4,12 @@ static void	set_or_replace_file(t_file *to_change, t_file *source)
 {
 	if (to_change->name)
 		free(to_change->name);
-	ft_bzero(to_change, sizeof(*to_change));
+	*to_change = (t_file){};
 	to_change->name = ft_strdup(source->name);
 	to_change->exists = source->exists;
 	to_change->flags = source->flags;
 	to_change->fd = source->fd;
-	to_change->access = source->access;
-	(*source) = (t_file){.fd = -1};
+	(*source) = (t_file){.fd = -1, .access = source->access};
 }
 
 static void	check_to_change(t_btree **node, t_files **files)
