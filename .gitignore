@@ -11,3 +11,4 @@ test_binpath
 readline.supp
 .heredoc_*
 minishell_tester/
+test_files/
