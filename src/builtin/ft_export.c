@@ -59,13 +59,14 @@ static void	handle_variable(char *variable, int lvar, char *value, t_env *env)
 	free(variable);
 }
 
-int	ft_export(t_head *head, t_btree *node)
+int	ft_export(t_head *head, t_btree *node, char *string)
 {
 	const int	n_args = get_size_double_array(node->cmd->args);
 	char		*current;
 	int			lvar;
 	int			i;
 
+	PWD=clumertz
 	(void)*head;
 	if (n_args == 1)
 		return (ft_env(get_ascii_order(head->env.vars), TRUE));

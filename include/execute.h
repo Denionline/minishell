@@ -35,7 +35,7 @@ void	close_fd(int *fd);
 int		is_builtin(char *command);
 int		is_parent_builtin(t_head *head, t_btree *btree);
 void	call_builtin(t_head *head, t_btree *node);
-int		ft_pwd(t_btree *node);
+int		ft_pwd(void);
 int		ft_cd(t_head *head, t_btree *node);
 int		ft_exit(t_head *head, t_btree *node);
 

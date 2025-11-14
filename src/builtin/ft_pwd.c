@@ -1,11 +1,12 @@
 #include "minishell.h"
 
-int	ft_pwd(t_btree *node)
+int	ft_pwd(void)
 {
-	char	buffer[100];
+	char	buffer[999];
 
-	(void)*node;
-	ft_putstr_fd(getcwd(buffer, 100), 1);
-	ft_putchar_fd('\n', 1);
-	return (0);
+	if (getcwd(buffer, 999) != NULL)
+		ft_putendl_fd(buffer, 1);
+	else
+		return (define_exit_code(1, TRUE));
+	return (define_exit_code(0, TRUE));
 }
