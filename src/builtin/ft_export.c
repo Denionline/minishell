@@ -1,41 +1,6 @@
 #include "minishell.h"
 
-static void	swap_vars(char **s1, char **s2)
-{
-	char	*temp;
-
-	temp = *s1;
-	*s1 = *s2;
-	*s2 = temp;
-}
-
-static char	**get_ascii_order(char **vars)
-{
-	char	**ordered;
-	int		v;
-	int		i;
-	int		j;
-
-	ordered = vars;
-	i = 0;
-	while (ordered[i])
-	{
-		j = i + 1;
-		while (ordered[j])
-		{
-			v = 0;
-			while (is_var_char(ordered[j][v], v))
-				v++;
-			if (ft_strncmp(ordered[i], ordered[j], v) > 0)
-				swap_vars(&ordered[i], &ordered[j]);
-			j++;
-		}
-		i++;
-	}
-	return (ordered);
-}
-
-static void	handle_variable(char *variable, int lvar, char *value, t_env *env)
+static void	change_or_set(char *variable, int lvar, char *value, t_env *env)
 {
 	int		pos;
 
@@ -59,33 +24,37 @@ static void	handle_variable(char *variable, int lvar, char *value, t_env *env)
 	free(variable);
 }
 
-int	ft_export(t_head *head, t_btree *node, char *string)
+static int	handle_variable(t_head *head, char *complete_var)
 {
-	const int	n_args = get_size_double_array(node->cmd->args);
-	char		*current;
-	int			lvar;
-	int			i;
+	int	lvar;
 
-	PWD=clumertz
-	(void)*head;
+	lvar = 0;
+	while (is_var_char(complete_var[lvar], lvar))
+		lvar++;
+	if ((complete_var[lvar] == '=' || complete_var[lvar] == '\0') && lvar > 0)
+		change_or_set(
+			ft_substr(complete_var, 0, lvar), lvar, complete_var, &head->env
+		);
+	else
+	{
+		ft_error_export(head, complete_var);
+		return (1);
+	}
+	return (0);
+}
+
+int	ft_export(t_head *head, t_btree *node, char *variable_to_change)
+{
+	int	n_args;
+	int	i;
+	
+	if (variable_to_change)
+		return (handle_variable(head, variable_to_change));
+	n_args = get_size_double_array(node->cmd->args);
 	if (n_args == 1)
 		return (ft_env(get_ascii_order(head->env.vars), TRUE));
 	i = 0;
 	while (++i < n_args)
-	{
-		current = node->cmd->args[n_args - i];
-		lvar = 0;
-		while (is_var_char(current[lvar], lvar))
-			lvar++;
-		if ((current[lvar] == '=' || current[lvar] == '\0') && lvar > 0)
-			handle_variable(
-				ft_substr(current, 0, lvar), lvar, current, &head->env
-			);
-		else
-		{
-			ft_error_export(head, current);
-			continue ;
-		}
-	}
+		handle_variable(head, node->cmd->args[n_args - i]);
 	return (0);
 }

@@ -49,7 +49,7 @@ int	is_parent_builtin(t_head *head, t_btree *node)
 	if (!ft_strncmp("cd", command, ft_strlen("cd")))
 		ok = ft_cd(head, node);
 	if (!ft_strncmp("export", command, ft_strlen("export")))
-		ok = ft_export(head, node);
+		ok = ft_export(head, node, NULL);
 	if (!ft_strncmp("unset", command, ft_strlen("unset")))
 		ok = ft_unset(node->cmd, &head->env);
 	head->is_parent = ok;
