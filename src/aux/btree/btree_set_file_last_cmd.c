@@ -5,7 +5,7 @@ static void	set_or_replace_file(t_file *to_change, t_file *source)
 	if (to_change->name)
 		free(to_change->name);
 	*to_change = (t_file){};
-	to_change->name = ft_strdup(source->name);
+	to_change->name = source->name;
 	to_change->exists = source->exists;
 	to_change->flags = source->flags;
 	to_change->fd = source->fd;
