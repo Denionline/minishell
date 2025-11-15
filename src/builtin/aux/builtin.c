@@ -2,9 +2,8 @@
 
 int	is_builtin(char *command)
 {
-	int	size;
+	const int	size = ft_strlen(command);
 
-	size = ft_strlen(command);
 	if (!ft_strncmp("exit", command, size))
 		return (TRUE);
 	if (!ft_strncmp("pwd", command, size))
@@ -25,9 +24,8 @@ int	is_builtin(char *command)
 void	call_builtin(t_head *head, t_btree *node)
 {
 	const char	*command = node->cmd->args[0];
-	int			size;
+	const int	size = ft_strlen(command);
 
-	size = ft_strlen(command);
 	if (!ft_strncmp("pwd", command, size))
 		ft_pwd();
 	if (!ft_strncmp("env", command, size))
@@ -35,7 +33,7 @@ void	call_builtin(t_head *head, t_btree *node)
 	if (!ft_strncmp("echo", command, size))
 		ft_echo(node->cmd);
 	is_parent_builtin(head, node);
-	free_node(node);
+	free_btree(head->root);
 	free_head(head);
 	exit(0);
 }
