@@ -35,9 +35,9 @@ t_file	heredoc(t_head *head, char *eof)
 	get_lines(head, &heredoc_file, eof);
 	dup2(save_stdin, STDIN_FILENO);
 	close(heredoc_file.fd);
+	heredoc_file.exists = TRUE;
+	heredoc_file.operator = DOUBLE_ARROW_LEFT;
 	if (define_exit_code(0, FALSE) == 130)
 		head->to_stop = TRUE;
-	else
-		heredoc_file.exists = TRUE;
 	return (heredoc_file);
 }

@@ -15,6 +15,7 @@ static int	manage_file(t_file *file, t_head *head, char *string, t_file data)
 				free(file->name);
 			file->name = ft_strdup(string);
 			file->flags = data.flags;
+			file->operator = data.operator;
 			file->exists = TRUE;
 			file->fd = open(string, data.flags, 0644);
 			file->access = file->fd;
