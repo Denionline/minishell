@@ -59,7 +59,7 @@ void	ft_error_not_found(t_head *head, t_btree *node, int *fd)
 	ft_putstr_fd(node->cmd->args[0], 2);
 	ft_putendl_fd(": No such file or directory", 2);
 	free_error(head, node, fd);
-	exit(127);
+	exit(define_exit_code(127, TRUE));
 }
 
 void	ft_error_export(t_head *head, char *arg)

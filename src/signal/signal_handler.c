@@ -29,6 +29,7 @@ void	ft_ctrl_c_heredoc(int sig)
 	(void)sig;
 	write(1, "\n", 1);
 	close(STDIN_FILENO);
+	define_exit_code(130, TRUE);
 }
 
 void	ft_sigpipe_child(int sig)
