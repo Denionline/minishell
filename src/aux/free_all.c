@@ -15,6 +15,8 @@ void	free_db_str(char **db_str)
 
 void	free_node(t_btree *node)
 {
+	if (node->files.in.operator == DOUBLE_ARROW_LEFT)
+		unlink(node->files.in.name);
 	if (node->files.in.exists)
 		free(node->files.in.name);
 	if (node->files.out.exists)
