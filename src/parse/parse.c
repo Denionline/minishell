@@ -72,6 +72,7 @@ void	parse(t_head *head, char *prompt)
 	if (!is_quotes_valid(prompt))
 		return (ft_error(head, NULL, NULL, 5));
 	files = (t_files){.in.fd = -1, .out.fd = -1};
+	head->to_stop = FALSE;
 	i = 0;
 	while (prompt[i])
 	{
@@ -82,7 +83,7 @@ void	parse(t_head *head, char *prompt)
 			next = handle_operator(head, prompt + i, operator, &files);
 		else if (!head->root || is_file_pending(&files))
 			next = handle_command(head, operator, prompt + i, &files);
-		if (next < 0)
+		if (next < 0 || head->to_stop)
 			break ;
 		i += next + head->cmd_size;
 		i += (!head->cmd_size && !operator);
