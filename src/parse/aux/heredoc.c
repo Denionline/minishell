@@ -49,6 +49,6 @@ t_file	heredoc(t_head *head, char *eof)
 	// if (define_exit_code(0, FALSE) == 130)
 	// 	//precisa parar a criacao da arvore aqui - nada continuah
 	// else
-	// 	heredoc_file.exists = TRUE;
+	heredoc_file.exists = TRUE;
 	return (heredoc_file);
 }
