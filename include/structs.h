@@ -55,6 +55,7 @@ typedef struct s_head
 	int		index;
 	int		is_parent;
 	t_pipe	pipe;
+	int		to_stop;
 }	t_head;
 
 #endif

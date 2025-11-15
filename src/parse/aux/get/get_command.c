@@ -25,13 +25,14 @@ static void	handle_args(t_head *head, t_cmd *cmd, char *prompt, t_files *files)
 		{
 			update_args(cmd,
 				string_argument(head, prompt + i,
-					(t_arg){.len = &i, .to_expand = TRUE}
-				)
+					(t_arg){.len = &i, .to_expand = TRUE})
 			);
 			head->cmd_size += i;
 			prompt += i;
 			i = 0 - !op;
 		}
+		if (head->to_stop)
+			break ;
 		i += !op;
 	}
 }
