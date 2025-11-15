@@ -40,7 +40,10 @@ int	ft_cd(t_head *head, t_btree *node)
 	else if (!path)
 		path = get_var_path("HOME", head->env.vars);
 	else if (ft_strncmp(path, "-", ft_strlen(path)) == 0)
+	{
+		free(path);
 		path = get_var_path("OLDPWD",  head->env.vars);
+	}
 	if (path != NULL)
 	{
 		if (chdir(path) == -1)
