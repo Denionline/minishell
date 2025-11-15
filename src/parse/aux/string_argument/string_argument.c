@@ -66,6 +66,7 @@ static char	*argument_verification(t_arg *arg, char *string, t_head *head)
 char	*string_argument(t_head *head, char *string, t_arg arg)
 {
 	char	*string_updated;
+	int		add_quote;
 	int		i;
 
 	string_argument_size(&arg, string, head->env.vars);
@@ -74,7 +75,7 @@ char	*string_argument(t_head *head, char *string, t_arg arg)
 	if (!arg.string)
 		return (NULL);
 	i = 0;
-	while (string[i] && arg.pos <= arg.lstring)
+	while (string[i] && arg.pos < arg.lstring)
 	{
 		string_updated = argument_verification(&arg, string + i, head);
 		if (!string_updated)
@@ -83,8 +84,9 @@ char	*string_argument(t_head *head, char *string, t_arg arg)
 			i = (string_updated - string);
 		i += 1;
 	}
-	arg.string[arg.pos - (arg.string[arg.pos - 1] == arg.quotes.quote)] = '\0';
+	add_quote = (arg.pos > 0 && arg.string[arg.pos - 1] == arg.quotes.quote);
+	arg.string[arg.pos - add_quote] = '\0';
 	if (arg.len && arg.to_expand)
-		*(arg.len) += i + (arg.string[arg.pos - 1] == arg.quotes.quote);
+		*(arg.len) += i + add_quote;
 	return (arg.string);
 }
