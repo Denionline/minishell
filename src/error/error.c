@@ -97,6 +97,15 @@ void	ft_error_no_cd(t_btree *node)
 	define_exit_code(1, TRUE);
 }
 
+void	ft_error_home_oldpwd(t_head *head)
+{
+	if (get_var_path("HOME", head->env.vars) == NULL)
+		ft_putendl_fd("minishell: cd: HOME not set", 2);
+	else if (get_var_path("OLDPWD",  head->env.vars) == NULL)
+		ft_putendl_fd("minishell: cd: OLDPWD not set", 2);
+	define_exit_code(1, TRUE);
+}
+
 void	ft_error(t_head *head, t_btree *node, int *fd, int error)
 {
 	(void)*fd;
@@ -116,4 +125,6 @@ void	ft_error(t_head *head, t_btree *node, int *fd, int error)
 		ft_error_directory(head, node, fd);
 	else if (error == 7)
 		ft_error_not_found(head, node, fd);
+	else if (error == 8)
+		ft_error_home_oldpwd(head);
 }

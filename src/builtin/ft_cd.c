@@ -38,8 +38,15 @@ int	ft_cd(t_head *head, t_btree *node)
 		path = get_var_path("HOME", head->env.vars);
 	else if (ft_strncmp(path, "-", ft_strlen(path)) == 0)
 		path = get_var_path("OLDPWD",  head->env.vars);
-	if (chdir(path) == -1)
-		ft_error(head, node, NULL, 3);
-	set_old_and_pwd(head);
+	if (path != NULL)
+	{
+		if (chdir(path) == -1)
+			ft_error(head, node, NULL, 3);
+		else
+			define_exit_code(0, TRUE);
+		set_old_and_pwd(head);
+	}
+	else
+		ft_error(head, node, NULL, 8);
 	return (0);
 }
