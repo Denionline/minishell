@@ -24,7 +24,7 @@ t_file	heredoc(t_head *head, char *eof)
 	char	*idx;
 	int		save_stdin;
 
-	heredoc_file = (t_file){};
+	heredoc_file = (t_file){.is_there_heredoc = TRUE};
 	idx = ft_itoa(head->n_cmds);
 	heredoc_file.name = ft_strjoin(".heredoc_", idx);
 	free(idx);

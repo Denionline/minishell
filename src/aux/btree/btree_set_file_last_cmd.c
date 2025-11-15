@@ -10,6 +10,7 @@ static void	set_or_replace_file(t_file *to_change, t_file *source)
 	to_change->flags = source->flags;
 	to_change->fd = source->fd;
 	to_change->operator = source->operator;
+	to_change->is_there_heredoc = source->is_there_heredoc;
 	(*source) = (t_file){.fd = -1, .access = source->access};
 }
 

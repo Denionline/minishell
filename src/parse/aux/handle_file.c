@@ -48,12 +48,14 @@ static int	is_file_invalid(t_files *files)
 	{
 		if (files->in.exists)
 		{
+			if (files->in.is_there_heredoc)
+				return (FALSE);
 			if (files->in.access == -1)
 				return (TRUE);
 		}
+		if (files->out.exists && files->out.access == -1)
+			return (TRUE);
 	}
-	if (files && files->out.exists && files->out.access == -1)
-		return (TRUE);
 	return (FALSE);
 }
 
