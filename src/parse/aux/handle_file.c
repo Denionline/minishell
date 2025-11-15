@@ -11,6 +11,8 @@ static int	manage_file(t_file *file, t_head *head, char *string, t_file data)
 			(*file) = heredoc(head, string);
 		else
 		{
+			if (file->name)
+				free(file->name);
 			file->name = ft_strdup(string);
 			file->flags = data.flags;
 			file->exists = TRUE;
