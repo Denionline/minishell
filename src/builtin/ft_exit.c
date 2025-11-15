@@ -55,5 +55,5 @@ int	ft_exit(t_head *head, t_btree *node)
 	close(head->files.out.fd);
 	free_db_str(head->env.vars);
 	free(head);
-	exit(define_exit_code(exit_status, TRUE));
+	exit(define_exit_code(exit_status, TRUE)); 
 }
