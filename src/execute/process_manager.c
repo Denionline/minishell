@@ -4,12 +4,12 @@ void	execute_manager(t_head *head)
 {
 	if (!head->root)
 		return ;
-	// if (define_exit_code(0, FALSE) == 130)
-	// {
-	// 	free_btree(head->root);
-	// 	head->root = NULL;
-	// 	return ;
-	// }
+	if (head->to_stop == TRUE)
+	{
+		free_btree(head->root);
+		head->root = NULL;
+		return ;
+	}
 	reset_head(head);
 	hierarchy_btree(head, head->root);
 	wait_process(head);
