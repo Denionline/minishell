@@ -24,6 +24,7 @@ t_file	heredoc(t_head *head, char *eof)
 	char	*idx;
 	int		save_stdin;
 
+	heredoc_file = (t_file){};
 	idx = ft_itoa(head->n_cmds);
 	heredoc_file.name = ft_strjoin(".heredoc_", idx);
 	free(idx);
@@ -38,6 +39,9 @@ t_file	heredoc(t_head *head, char *eof)
 	heredoc_file.exists = TRUE;
 	heredoc_file.operator = DOUBLE_ARROW_LEFT;
 	if (define_exit_code(0, FALSE) == 130)
+	{
 		head->to_stop = TRUE;
+		free(heredoc_file.name);
+	}
 	return (heredoc_file);
 }
