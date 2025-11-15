@@ -38,9 +38,9 @@ static int	handle_variable(t_head *head, char *complete_var)
 	else
 	{
 		ft_error_export(head, complete_var);
-		return (1);
+		return (define_exit_code(1, TRUE));
 	}
-	return (0);
+	return (define_exit_code(0, TRUE));
 }
 
 int	ft_export(t_head *head, t_btree *node, char *variable_to_change)

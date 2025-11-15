@@ -52,5 +52,5 @@ int	ft_unset(t_cmd *cmd, t_env *env)
 			var_size++;
 		remove_variable(&env, ft_substr(current, 0, var_size));
 	}
-	return (0);
+	return (define_exit_code(0, TRUE));
 }
