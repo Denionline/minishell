@@ -93,7 +93,10 @@ void	ft_error_no_cd(t_btree *node)
 {
 	ft_putstr_fd("minishell: cd: ", 2);
 	ft_putstr_fd(node->cmd->args[1], 2);
-	ft_putendl_fd(": No such file or directory", 2);
+	if (access(node->cmd->args[1], F_OK) == -1)
+		ft_putendl_fd(": No such file or directory", 2);
+	else
+		ft_putendl_fd(": Not a directory", 2);
 	define_exit_code(1, TRUE);
 }
 
