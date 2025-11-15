@@ -28,10 +28,13 @@ int	ft_cd(t_head *head, t_btree *node)
 {
 	char	*path;
 
-	path = node->cmd->args[1];
+	path = NULL;
+	if (node->cmd->args[1])
+		path = ft_strdup(node->cmd->args[1]);
 	if (node->cmd->args[1] && node->cmd->args[2])
 	{
 		ft_error(head, node, NULL, 4);
+		free(path);
 		return (0);
 	}
 	else if (!path)
@@ -43,10 +46,13 @@ int	ft_cd(t_head *head, t_btree *node)
 		if (chdir(path) == -1)
 			ft_error(head, node, NULL, 3);
 		else
+		{
 			define_exit_code(0, TRUE);
-		set_old_and_pwd(head);
+			set_old_and_pwd(head);
+		}
 	}
 	else
 		ft_error(head, node, NULL, 8);
+	free(path);
 	return (0);
 }
