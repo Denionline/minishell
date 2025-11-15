@@ -11,18 +11,17 @@ static int	manage_file(t_file *file, t_head *head, char *string, t_file data)
 			(*file) = heredoc(head, string);
 		else
 		{
-			(*file) = (t_file){
-				.name = ft_strdup(string),
-				.flags = data.flags,
-				.exists = TRUE,
-				.fd = open(string, data.flags, 0644),
-			};
-			(*file).access = (*file).fd;
-			if ((*file).fd != -1)
-				close((*file).fd);
-			(*file).fd = -1;
+			if (file->name)
+				free(file->name);
+			file->name = ft_strdup(string);
+			file->flags = data.flags;
+			file->exists = TRUE;
+			file->fd = open(string, data.flags, 0644);
+			file->access = file->fd;
+			if (file->fd != -1)
+				close(file->fd);
+			file->fd = -1;
 		}
-
 	}
 	complete_size = ft_strlen(string);
 	free(string);
