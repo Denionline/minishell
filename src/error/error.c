@@ -83,6 +83,14 @@ void	ft_error_args(t_btree *node)
 {
 	ft_putstr_fd("minishell: too many arguments: ", 2);
 	ft_putendl_fd(node->cmd->args[0], 2);
+	define_exit_code(1, TRUE);
+}
+
+void	ft_error_no_cd(t_btree *node)
+{
+	ft_putstr_fd("minishell: No such file or directory: cd: ", 2);
+	ft_putendl_fd(node->cmd->args[1], 2);
+	define_exit_code(1, TRUE);
 }
 
 void	ft_error(t_head *head, t_btree *node, int *fd, int error)
@@ -94,8 +102,8 @@ void	ft_error(t_head *head, t_btree *node, int *fd, int error)
 		ft_error_command(head, node, fd);
 	else if (error == 10)
 		ft_error_permission(head, node, fd);
-	// else if (error == 3)
-	// 	ft_error_export(head, node);
+	else if (error == 3)
+	 	ft_error_no_cd(node);
 	else if (error == 4)
 		ft_error_args(node);
 	else if (error == 5 || error == 6)

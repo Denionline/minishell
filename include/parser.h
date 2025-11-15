@@ -59,7 +59,8 @@ void	btree_set_file_last_cmd(t_btree **root, t_files **files);
 // functions/env/
 int		ft_env(char **env, int by_export);
 int		ft_echo(t_cmd *cmd);
-int		ft_export(t_head *head, t_btree *node);
+int		ft_export(t_head *head, t_btree *node, char *string);
+char	**get_ascii_order(char **vars);
 int		ft_unset(t_cmd *cmd, t_env *env);
 
 int		is_valid_argument(char *arg, int op, int op_after);

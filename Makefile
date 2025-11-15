@@ -46,6 +46,7 @@ VPATH			+= src/execute
 VPATH			+= src/signal
 VPATH			+= src/builtin
 VPATH			+= src/builtin/aux
+VPATH			+= src/builtin/aux/get
 VPATH			+= src/error
 
 LIBFT_PATH		= $(INC_PATH)/libft/
@@ -100,6 +101,7 @@ FILES			+= ft_echo
 FILES			+= ft_export
 FILES			+= ft_unset
 FILES			+= ft_exit
+FILES			+= get_ascii_order
 #error
 FILES			+= error
 
