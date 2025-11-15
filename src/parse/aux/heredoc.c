@@ -48,5 +48,7 @@ t_file	heredoc(t_head *head, char *eof)
 	close(heredoc_file.fd);
 	if (define_exit_code(0, FALSE) == 130)
 		head->to_stop = TRUE;
+	else
+		heredoc_file.exists = TRUE;
 	return (heredoc_file);
 }

@@ -5,7 +5,7 @@ void	ft_error_file(t_head *head, t_btree *node, int *fd, int error)
 	if (error == 1 && access(node->files.out.name, W_OK) == -1)
 	{
 			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(node->files.in.name, 2);
+			ft_putstr_fd(node->files.out.name, 2);
 			ft_putendl_fd(": Permission denied", 2);
 	}
 	else if (error == 0)
@@ -93,7 +93,19 @@ void	ft_error_no_cd(t_btree *node)
 {
 	ft_putstr_fd("minishell: cd: ", 2);
 	ft_putstr_fd(node->cmd->args[1], 2);
-	ft_putendl_fd(": No such file or directory", 2);
+	if (access(node->cmd->args[1], F_OK) == -1)
+		ft_putendl_fd(": No such file or directory", 2);
+	else
+		ft_putendl_fd(": Not a directory", 2);
+	define_exit_code(1, TRUE);
+}
+
+void	ft_error_home_oldpwd(t_head *head, t_btree *node)
+{
+	if (node->cmd->args[1] == NULL && get_var_path("HOME", head->env.vars) == NULL)
+		ft_putendl_fd("minishell: cd: HOME not set", 2);
+	else if (get_var_path("OLDPWD",  head->env.vars) == NULL)
+		ft_putendl_fd("minishell: cd: OLDPWD not set", 2);
 	define_exit_code(1, TRUE);
 }
 
@@ -116,4 +128,6 @@ void	ft_error(t_head *head, t_btree *node, int *fd, int error)
 		ft_error_directory(head, node, fd);
 	else if (error == 7)
 		ft_error_not_found(head, node, fd);
+	else if (error == 8)
+		ft_error_home_oldpwd(head, node);
 }
