@@ -149,7 +149,6 @@ clean:
 	@$(RM) $(BUILD_PATH)
 
 fclean: clean
-	@$(RM) .heredoc_*
 	@$(RM) $(NAME)
 
 re: fclean all
