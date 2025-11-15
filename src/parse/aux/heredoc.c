@@ -6,11 +6,7 @@ static void	get_lines(t_head *head, t_file *hdoc, char *eof)
 
 	while (TRUE)
 	{
-		if (SIGINT)
-		{
-			signal(SIGINT, ft_ctrl_c_heredoc);
-			unlink(hdoc->name);
-		}
+		signal(SIGINT, ft_ctrl_c_heredoc);
 		line = readline("> ");
 		if ((!line || !ft_strncmp(line, eof, ft_strlen(eof))))
 			break ;
@@ -18,7 +14,6 @@ static void	get_lines(t_head *head, t_file *hdoc, char *eof)
 		ft_putstr_fd(line, hdoc->fd);
 		ft_putstr_fd("\n", hdoc->fd);
 		free(line);
-
 	}
 	free(line);
 }
