@@ -35,7 +35,7 @@ void	call_builtin(t_head *head, t_btree *node)
 	if (!ft_strncmp("echo", command, size))
 		ft_echo(node->cmd);
 	is_parent_builtin(head, node);
-	free_node(node);
+	free_btree(head->root);
 	free_head(head);
 	exit(0);
 }
