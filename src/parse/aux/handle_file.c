@@ -56,15 +56,18 @@ int	handle_file(t_head *head, t_files *files, char *prompt, int op)
 	char	*string;
 	int		pos;
 
-	data = (t_file){ .flags = get_flags(op) , .exists = !(!files)};
+	data = (t_file){
+		.flags = get_flags(op),
+		.exists = !(!files),
+		.operator = op
+	};
 	if (is_file_invalid(files))
 		data.exists = FALSE;
 	pos = get_operator_size(op);
 	while (ft_isspace(prompt[pos]))
 		pos++;
 	string = string_argument(head, prompt + pos,
-		(t_arg){.len = &pos, .to_expand = FALSE}
-	);
+		(t_arg){.len = &pos, .to_expand = FALSE});
 	if (op == ARROW_LEFT)
 		return (pos + manage_file(&files->in, head, string, data));
 	if (op == DOUBLE_ARROW_LEFT)
