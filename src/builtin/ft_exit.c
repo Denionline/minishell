@@ -6,9 +6,10 @@ int	ft_exit_number(t_btree *node)
 
 	if (ft_isalpha(node->cmd->args[1][0]) == 1)
 	{
-		write(2, "minishell: numeric argument required: exit: ", 44);
-		ft_putendl_fd(node->cmd->args[1], 2);
-		return (2);
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(node->cmd->args[1], 2);
+		ft_putendl_fd(": numeric argument required", 2);
+		return (define_exit_code(2, TRUE));
 	}
 	else
 	{
