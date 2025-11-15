@@ -21,7 +21,7 @@ C_WHITE = \033[0;97m
 NAME			= minishell
 LIBFT			= $(LIBFT_PATH)libft.a
 VALGRINDRC		= ~/.valgrindrc
-READLINESUPP	= .readline.supp
+READLINESUPP	= ~/.readline.supp
 
 # **************************************************************************** #
 #                                   Path's                                     #
@@ -155,7 +155,7 @@ fclean: clean
 re: fclean all
 
 $(VALGRINDRC): $(READLINESUPP)
-	@echo "--suppressions=.readline.supp" > ~/.valgrindrc
+	@echo "--suppressions=$(HOME)/.readline.supp" > $(VALGRINDRC)
 
 $(READLINESUPP):
 	@echo "\
