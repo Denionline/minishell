@@ -29,7 +29,7 @@ int	ft_cd(t_head *head, t_btree *node)
 	char	*path;
 
 	path = node->cmd->args[1];
-	if (node->cmd->args[2])
+	if (node->cmd->args[1] && node->cmd->args[2])
 	{
 		ft_error(head, node, NULL, 4);
 		return (0);
