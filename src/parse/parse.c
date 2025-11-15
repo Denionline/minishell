@@ -1,8 +1,10 @@
 
 #include "minishell.h"
 
-static int	is_file_pending(t_files *files)
+static int	is_file_pending(t_head *head, t_files *files)
 {
+	if (head->to_stop)
+		return (FALSE);
 	if (files->in.exists)
 		return (TRUE);
 	if (files->out.exists)
@@ -41,7 +43,7 @@ static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 	if (is_arrow_operator(op))
 		return (handle_file(head, 0, prompt, op));
 	add_node_on_tree(head, op, prompt + pos, files);
-	if (is_file_pending(files))
+	if (is_file_pending(head, files))
 		btree_set_file_last_cmd(&head->root, &files);
 	return (pos);
 }
@@ -57,7 +59,7 @@ static int	handle_command(t_head *head, int op, char *prompt, t_files *files)
 		return (ft_error(head, NULL, NULL, 5), -1);
 	if (!head->root)
 		add_node_on_tree(head, 0, prompt, files);
-	if (is_file_pending(files))
+	if (is_file_pending(head, files))
 		btree_set_file_last_cmd(&head->root, &files);
 	return (0);
 }
@@ -81,7 +83,7 @@ void	parse(t_head *head, char *prompt)
 		operator = get_operator(prompt + i);
 		if (head->root && operator)
 			next = handle_operator(head, prompt + i, operator, &files);
-		else if (!head->root || is_file_pending(&files))
+		else if (!head->root || is_file_pending(head, &files))
 			next = handle_command(head, operator, prompt + i, &files);
 		if (next < 0 || head->to_stop)
 			break ;

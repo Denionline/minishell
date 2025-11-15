@@ -14,6 +14,7 @@ typedef struct s_file
 	int		exists;
 	int		fd;
 	int		access;
+	int		operator;
 }	t_file;
 
 typedef struct s_files
