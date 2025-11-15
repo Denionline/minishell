@@ -39,5 +39,5 @@ int	ft_echo(t_cmd *cmd)
 	}
 	if (!flag_exists)
 		ft_putchar_fd('\n', 1);
-	return (0);
+	return (define_exit_code(0, TRUE));
 }

@@ -22,5 +22,5 @@ int	ft_env(char **env, int by_export)
 		}
 		ft_putendl_fd(env[i], STDOUT_FILENO);
 	}
-	return (0);
+	return (define_exit_code(0, TRUE));
 }

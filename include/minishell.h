@@ -15,6 +15,7 @@
 # include "parser.h"
 # include "execute.h"
 # include "error.h"
+# include <signal.h>
 
 # define EMPTY				99
 # define COMMAND			42

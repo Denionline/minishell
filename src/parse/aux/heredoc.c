@@ -1,22 +1,12 @@
 #include "minishell.h"
 
-void	stop_heredoc(t_file *hdoc)
-{
-	unlink(hdoc->name);
-	define_exit_code(130, TRUE);
-}
-
 static void	get_lines(t_head *head, t_file *hdoc, char *eof)
 {
 	char	*line;
 
 	while (TRUE)
 	{
-		if (SIGINT)
-		{
-			signal(SIGINT, ft_ctrl_c_heredoc);
-			stop_heredoc(hdoc);
-		}
+		signal(SIGINT, ft_ctrl_c_heredoc);
 		line = readline("> ");
 		if ((!line || !ft_strncmp(line, eof, ft_strlen(eof))))
 			break ;
@@ -24,7 +14,6 @@ static void	get_lines(t_head *head, t_file *hdoc, char *eof)
 		ft_putstr_fd(line, hdoc->fd);
 		ft_putstr_fd("\n", hdoc->fd);
 		free(line);
-
 	}
 	free(line);
 }
