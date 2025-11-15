@@ -9,6 +9,7 @@ static void	set_or_replace_file(t_file *to_change, t_file *source)
 	to_change->exists = source->exists;
 	to_change->flags = source->flags;
 	to_change->fd = source->fd;
+	to_change->operator = source->operator;
 	(*source) = (t_file){.fd = -1, .access = source->access};
 }
 

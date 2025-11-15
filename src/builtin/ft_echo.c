@@ -3,7 +3,15 @@
 static int	is_flag(char *string)
 {
 	const char	*flag = "-n";
-
+	int			i;
+	
+	i = 2;
+	while (string[i])
+	{
+		if (string[i] != 'n')
+			return (FALSE);
+		i++;
+	}
 	if (!ft_strncmp(flag, string, ft_strlen(flag)))
 		return (TRUE);
 	return (FALSE);
