@@ -1,11 +1,5 @@
 #include "minishell.h"
 
-void	stop_heredoc(t_file *hdoc)
-{
-	unlink(hdoc->name);
-	define_exit_code(130, TRUE);
-}
-
 static void	get_lines(t_head *head, t_file *hdoc, char *eof)
 {
 	char	*line;
@@ -15,7 +9,7 @@ static void	get_lines(t_head *head, t_file *hdoc, char *eof)
 		if (SIGINT)
 		{
 			signal(SIGINT, ft_ctrl_c_heredoc);
-			stop_heredoc(hdoc);
+			unlink(hdoc->name);
 		}
 		line = readline("> ");
 		if ((!line || !ft_strncmp(line, eof, ft_strlen(eof))))
