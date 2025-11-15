@@ -56,5 +56,5 @@ int	ft_export(t_head *head, t_btree *node, char *variable_to_change)
 	i = 0;
 	while (++i < n_args)
 		handle_variable(head, node->cmd->args[n_args - i]);
-	return (0);
+	return (define_exit_code(0, TRUE));
 }
