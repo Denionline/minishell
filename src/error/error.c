@@ -5,7 +5,7 @@ void	ft_error_file(t_head *head, t_btree *node, int *fd, int error)
 	if (error == 1 && access(node->files.out.name, W_OK) == -1)
 	{
 			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(node->files.in.name, 2);
+			ft_putstr_fd(node->files.out.name, 2);
 			ft_putendl_fd(": Permission denied", 2);
 	}
 	else if (error == 0)
