@@ -34,6 +34,7 @@ t_file	heredoc(t_head *head, char *eof)
 	save_stdin = dup(STDIN_FILENO);
 	get_lines(head, &heredoc_file, eof);
 	dup2(save_stdin, STDIN_FILENO);
+	close(save_stdin);
 	close(heredoc_file.fd);
 	heredoc_file.exists = TRUE;
 	heredoc_file.operator = DOUBLE_ARROW_LEFT;
