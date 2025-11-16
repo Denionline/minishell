@@ -7,12 +7,12 @@ static int	manage_file(t_file *file, t_head *head, char *string, t_file data)
 
 	if (data.exists)
 	{
+		if (file->name)
+			free(file->name);
 		if (data.flags < 0)
 			(*file) = heredoc(head, string);
 		else
 		{
-			if (file->name)
-				free(file->name);
 			file->name = ft_strdup(string);
 			file->flags = data.flags;
 			file->operator = data.operator;
