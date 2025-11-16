@@ -15,24 +15,16 @@ static void	remove_variable(t_env **env, char *variable_to_remove)
 	old_vars = (*env)->vars;
 	new_vars = ft_calloc((*env)->n_vars + 1, sizeof(char *));
 	if (!new_vars)
-	{
-		free(variable_to_remove);
-		return ;
-	}
+		return (free(variable_to_remove));
 	pos = 0;
-	i = 0;
-	while (old_vars[i])
-	{
+	i = -1;
+	while (old_vars[++i])
 		if (i != pos_var)
 			new_vars[pos++] = old_vars[i];
-		i++;
-	}
 	new_vars[pos] = NULL;
 	free(old_vars[pos_var]);
 	free(old_vars);
 	(*env)->vars = new_vars;
-
-	/* free the substring passed by the caller (ft_substr) */
 	free(variable_to_remove);
 }
 

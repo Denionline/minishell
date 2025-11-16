@@ -4,7 +4,7 @@ static int	is_flag(char *string)
 {
 	const char	*flag = "-n";
 	int			i;
-	
+
 	i = 2;
 	if (!string || !string[0] || !string[1])
 		return (FALSE);

@@ -6,7 +6,7 @@ void	set_old_and_pwd(t_head *head)
 	char	buffer[999];
 	char	*oldpwd;
 	char	*current;
-	
+
 	current = get_var_path("PWD", head->env.vars);
 	if (current)
 	{
@@ -23,6 +23,7 @@ void	set_old_and_pwd(t_head *head)
 		free(pwd);
 	}
 }
+
 char	*cd_get_path(t_head *head, char *path)
 {
 	if (!path)
