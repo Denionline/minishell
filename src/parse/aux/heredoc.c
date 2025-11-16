@@ -8,7 +8,7 @@ static void	get_lines(t_head *head, t_file *hdoc, char *eof)
 	{
 		signal(SIGINT, ft_ctrl_c_heredoc);
 		line = readline("> ");
-		if ((!line || !ft_strncmp(line, eof, ft_strlen(eof))))
+		if ((!line || !ft_strncmp(line, eof, ft_strlen(line))))
 			break ;
 		line = string_argument(head, line, (t_arg){.to_expand = TRUE});
 		ft_putstr_fd(line, hdoc->fd);
