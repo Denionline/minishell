@@ -122,6 +122,7 @@ LIBFT_URL		= https://github.com/Denionline/libft.git
 CC				= cc
 CFLAGS			= -Werror -Wextra -Wall -g
 MAKE			= make --no-print-directory
+MAKERE			= make re --no-print-directory
 RM				= rm -rf
 LIBS			= $(LIBFT)
 
@@ -151,7 +152,7 @@ clean:
 fclean: clean
 	@$(RM) $(NAME)
 
-re: fclean all
+re: fclean make_libft all
 
 $(VALGRINDRC): $(READLINESUPP)
 	@echo "--suppressions=$(HOME)/.readline.supp" > $(VALGRINDRC)
@@ -174,12 +175,15 @@ $(READLINESUPP):
 verify_libft:
 	@if test ! -d "$(LIBFT_PATH)"; then $(MAKE) get_libft; \
 		else printf "libft: $(C_GREEN)✅$(C_STD)\n"; fi
-	@$(MAKE) -C $(LIBFT_PATH)
+	@cd $(LIBFT_PATH); git pull; $(MAKE)
 
 get_libft:
 	@echo "Cloning Libft"
 	@git clone $(LIBFT_URL) $(LIBFT_PATH)
 	@printf "$(C_GREEN)libft$(C_STD) successfully downloaded\n"
+
+make_libft:
+	@$(MAKERE) -C $(LIBFT_PATH)
 
 #valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --trace-children=yes
 # -fsanitize=address,undefined -fno-omit-frame-pointer
