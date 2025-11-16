@@ -81,11 +81,9 @@ void	ft_syntax_error(t_head *head, int error)
 	define_exit_code(2, TRUE);
 }
 
-void	ft_error_args(t_btree *node)
+void	ft_error_args(void)
 {
-	ft_putstr_fd("minishell: cd: ", 2);
-	ft_putstr_fd(node->cmd->args[0], 2);
-	ft_putendl_fd(": too many arguments", 2);
+	ft_putendl_fd("minishell: cd: too many arguments", 2);
 	define_exit_code(1, TRUE);
 }
 
@@ -121,7 +119,7 @@ void	ft_error(t_head *head, t_btree *node, int *fd, int error)
 	else if (error == 3)
 	 	ft_error_no_cd(node);
 	else if (error == 4)
-		ft_error_args(node);
+		ft_error_args();
 	else if (error == 5 || error == 6)
 		ft_syntax_error(head, error);
 	else if (error == 126)
