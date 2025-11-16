@@ -7,12 +7,12 @@ static int	manage_file(t_file *file, t_head *head, char *string, t_file data)
 
 	if (data.exists)
 	{
+		if (file->name)
+			free(file->name);
 		if (data.flags < 0)
 			(*file) = heredoc(head, string);
 		else
 		{
-			if (file->name)
-				free(file->name);
 			file->name = ft_strdup(string);
 			file->flags = data.flags;
 			file->operator = data.operator;
@@ -46,13 +46,8 @@ static int	is_file_invalid(t_files *files)
 {
 	if (files)
 	{
-		if (files->in.exists)
-		{
-			if (files->in.is_there_heredoc)
-				return (FALSE);
-			if (files->in.access == -1)
-				return (TRUE);
-		}
+		if (files->in.exists && files->in.access == -1)
+			return (TRUE);
 		if (files->out.exists && files->out.access == -1)
 			return (TRUE);
 	}
