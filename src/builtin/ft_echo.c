@@ -6,6 +6,8 @@ static int	is_flag(char *string)
 	int			i;
 	
 	i = 2;
+	if (!string || !string[0] || !string[1])
+		return (FALSE);
 	while (string[i])
 	{
 		if (string[i] != 'n')

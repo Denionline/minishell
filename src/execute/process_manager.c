@@ -2,6 +2,7 @@
 
 void	execute_manager(t_head *head)
 {
+	signal(SIGINT, SIG_IGN);
 	if (!head->root)
 		return ;
 	if (head->to_stop == TRUE)

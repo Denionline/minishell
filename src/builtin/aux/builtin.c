@@ -48,7 +48,7 @@ int	is_parent_builtin(t_head *head, t_btree *node)
 	if (node->cmd->args == NULL)
 	{
 		head->is_parent = 0;
-		return (0);
+		return (define_exit_code(0, TRUE));
 	}
 	command = node->cmd->args[0];
 	size = ft_strlen(command);
