@@ -23,6 +23,17 @@ void	set_old_and_pwd(t_head *head)
 		free(pwd);
 	}
 }
+char	*cd_get_path(t_head *head, char *path)
+{
+	if (!path)
+		path = get_var_path("HOME", head->env.vars);
+	else if (ft_strncmp(path, "-", ft_strlen(path)) == 0)
+	{
+		free(path);
+		path = get_var_path("OLDPWD",  head->env.vars);
+	}
+	return (path);
+}
 
 int	ft_cd(t_head *head, t_btree *node)
 {
@@ -34,16 +45,9 @@ int	ft_cd(t_head *head, t_btree *node)
 	if (node->cmd->args[1] && node->cmd->args[2])
 	{
 		ft_error(head, node, NULL, 4);
-		free(path);
-		return (0);
+		return (free(path), 0);
 	}
-	else if (!path)
-		path = get_var_path("HOME", head->env.vars);
-	else if (ft_strncmp(path, "-", ft_strlen(path)) == 0)
-	{
-		free(path);
-		path = get_var_path("OLDPWD",  head->env.vars);
-	}
+	path = cd_get_path(head, path);
 	if (path != NULL)
 	{
 		if (chdir(path) == -1)
