@@ -175,7 +175,7 @@ $(READLINESUPP):
 verify_libft:
 	@if test ! -d "$(LIBFT_PATH)"; then $(MAKE) get_libft; \
 		else printf "libft: $(C_GREEN)✅$(C_STD)\n"; fi
-	@cd $(LIBFT_PATH); git pull; $(MAKE)
+	@cd $(LIBFT_PATH); git pull; $(MAKE); cd ../../
 
 get_libft:
 	@echo "Cloning Libft"
