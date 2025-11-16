@@ -15,6 +15,7 @@ typedef struct s_file
 	int		fd;
 	int		access;
 	int		operator;
+	int		is_there_heredoc;
 }	t_file;
 
 typedef struct s_files
