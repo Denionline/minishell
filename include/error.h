@@ -1,8 +1,7 @@
-
 #ifndef ERROR_H
 # define ERROR_H
 
-#include "minishell.h"
+# include "minishell.h"
 
 void	ft_error_file(t_head *head, t_btree *node, int *fd, int error);
 void	ft_error_command(t_head *head, t_btree *node, int *fd);

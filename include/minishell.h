@@ -17,6 +17,14 @@
 # include "error.h"
 # include <signal.h>
 
+# define RL(x) "\001" x "\002"
+
+# define RESET   RL("\033[0m")
+# define BOLD   RL("\033[1m")
+
+# define C_GREEN   RL("\033[1;32m")
+# define C_MAGENTA RL("\033[1;35m")
+
 # define EMPTY				99
 # define COMMAND			42
 # define AND				11

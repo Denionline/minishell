@@ -14,6 +14,8 @@ static void	print_operator(t_btree *node)
 
 static void	print_command(t_btree *node)
 {
+	int	i;
+
 	if (node->identifier == EMPTY)
 		printf("(empty node)");
 	if (node->cmd->path)
@@ -22,9 +24,11 @@ static void	print_command(t_btree *node)
 	}
 	if (node->cmd->args)
 	{
-		for (int i = 0; node->cmd->args[i]; i++)
+		i = 0;
+		while (node->cmd->args[i])
 		{
 			printf("arg[%d]: %s ", i, node->cmd->args[i]);
+			i++;
 		}
 	}
 	if (node->files.out.exists)

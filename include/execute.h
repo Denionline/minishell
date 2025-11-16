@@ -21,7 +21,7 @@ int		count_cmds(t_btree *node, int j);
 void	reset_head(t_head *head);
 void	close_all_fds(t_head *head, t_btree *node, int process);
 void	close_all(t_head *head, t_btree *node, int *fd);
-int	    define_exit_code(int exit_status, int change);
+int		define_exit_code(int exit_status, int change);
 
 //free
 void	free_error(t_head *head, t_btree *node, int *fd);
@@ -40,7 +40,7 @@ int		ft_cd(t_head *head, t_btree *node);
 int		ft_exit(t_head *head, t_btree *node);
 
 //signals
-void    signal_handler(void);
+void	signal_handler(void);
 void	ft_handle_ctrl_c(int sig);
 void	child_signal_handler(void);
 void	ft_ctrl_c_heredoc(int sig);

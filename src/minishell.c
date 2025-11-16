@@ -4,10 +4,10 @@ int	minishell(t_head *head)
 {
 	char	*prompt;
 
-	while (1)
+	while (TRUE)
 	{
 		signal_handler();
-		prompt = readline("\001\033[1;92m\002minishell\001\033[1;94m\002> \001\033[0;39m\002");
+		prompt = readline(BOLD C_GREEN"minishell"C_MAGENTA"> "RESET);
 		if (!prompt)
 			ft_exit(head, NULL);
 		if (!(*prompt))
@@ -15,7 +15,6 @@ int	minishell(t_head *head)
 		add_history(prompt);
 		parse(head, prompt);
 		execute_manager(head);
-		//print(head);
 	}
 	return (0);
 }
