@@ -3,11 +3,13 @@
 int	minishell(t_head *head)
 {
 	char	*prompt;
+	char	prompt_prefix[10000];
 
 	while (TRUE)
 	{
 		signal_handler();
-		prompt = readline(BOLD C_GREEN"minishell"C_MAGENTA"> "RESET);
+		get_prompt_prefix(prompt_prefix);
+		prompt = readline(prompt_prefix);
 		if (!prompt)
 			ft_exit(head, NULL);
 		if (!(*prompt))
