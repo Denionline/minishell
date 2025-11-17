@@ -6,6 +6,7 @@
 # include <stdio.h>
 # include <errno.h>
 # include <unistd.h>
+# include <limits.h>
 # include <dirent.h>
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -22,14 +23,23 @@
 # define RESET      RL("\033[0m")
 # define BOLD       RL("\033[1m")
 
-#define BLACK       RL("\033[30m")
-#define RED         RL("\033[31m")
-#define GREEN       RL("\033[32m")
-#define YELLOW      RL("\033[33m")
-#define BLUE        RL("\033[34m")
-#define MAGENTA     RL("\033[35m")
-#define CYAN        RL("\033[36m")
-#define WHITE       RL("\033[37m")
+# define BLACK       RL("\033[30m")
+# define RED         RL("\033[31m")
+# define GREEN       RL("\033[32m")
+# define YELLOW      RL("\033[33m")
+# define BLUE        RL("\033[34m")
+# define MAGENTA     RL("\033[35m")
+# define CYAN        RL("\033[36m")
+# define WHITE       RL("\033[37m")
+
+# define LGRAY       RL("\033[90m")
+# define LRED        RL("\033[91m")
+# define LGREEN      RL("\033[92m")
+# define LYELLOW     RL("\033[93m")
+# define LBLUE       RL("\033[94m")
+# define LMAGENTA    RL("\033[95m")
+# define LCYAN       RL("\033[96m")
+# define LWHITE      RL("\033[97m")
 
 # define EMPTY				99
 # define COMMAND			42
@@ -43,7 +53,7 @@
 
 void	initializer(t_head **head, int argc, char *argv[], char *envp[]);
 int		minishell(t_head *head);
-void	get_prompt_prefix(char buffer[999]);
+void	prompt_prefix(char buffer[9999]);
 
 // aux/get/
 int		get_size_double_array(char **array);

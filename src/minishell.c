@@ -2,14 +2,14 @@
 
 int	minishell(t_head *head)
 {
+	char	preprompt[9999];
 	char	*prompt;
-	char	prompt_prefix[10000];
 
 	while (TRUE)
 	{
 		signal_handler();
-		get_prompt_prefix(prompt_prefix);
-		prompt = readline(prompt_prefix);
+		prompt_prefix(preprompt);
+		prompt = readline(preprompt);
 		if (!prompt)
 			ft_exit(head, NULL);
 		if (!(*prompt))

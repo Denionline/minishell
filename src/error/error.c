@@ -19,11 +19,6 @@ static void	print_error(char *prearg, char *arg, char *error_msg)
 	ft_putstr_fd("\n", 2);
 }
 
-// static handle_error(t_head *head, t_btree *node, int *fd)
-// {
-
-// }
-
 void	ft_error_file(t_head *head, t_btree *node, int *fd, int error)
 {
 	if (error == 1 && access(node->files.out.name, W_OK) == -1)
