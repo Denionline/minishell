@@ -38,7 +38,8 @@ static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 	if (!is_valid_argument(prompt + pos, op, get_operator(prompt + pos)))
 	{
 		head->to_stop = TRUE;
-		return (ft_error(head, NULL, NULL, 5), -1);
+		ft_error(head, (t_error){.id = 5});
+		return (-1);
 	}
 	if (is_arrow_operator(op))
 		return (handle_file(head, 0, prompt, op));
@@ -58,7 +59,8 @@ static int	handle_command(t_head *head, int op, char *prompt, t_files *files)
 	if (!is_valid_argument(prompt + pos, op, get_operator(prompt + pos)))
 	{
 		head->to_stop = TRUE;
-		return (ft_error(head, NULL, NULL, 5), -1);
+		ft_error(head, (t_error){.id = 5});
+		return (-1);
 	}
 	if (!head->root)
 		add_node_on_tree(head, 0, prompt, files);
@@ -75,7 +77,7 @@ void	parse(t_head *head, char *prompt)
 	int		i;
 	
 	if (!is_quotes_valid(prompt))
-		return (ft_error(head, NULL, NULL, 5));
+		return (ft_error(head, (t_error){.id = 5}));
 	files = (t_files){.in.fd = -1, .out.fd = -1};
 	head->to_stop = FALSE;
 	i = 0;

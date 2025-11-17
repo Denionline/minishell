@@ -2,11 +2,7 @@
 
 static void	print_operator(t_btree *node)
 {
-	if (node->identifier == AND)
-		printf("&&\n");
-	else if (node->identifier == OR)
-		printf("||\n");
-	else if (node->identifier == PIPE)
+	if (node->identifier == PIPE)
 		printf("|\n");
 	else
 		printf("(unknown)\n");
@@ -16,8 +12,6 @@ static void	print_command(t_btree *node)
 {
 	int	i;
 
-	if (node->identifier == EMPTY)
-		printf("(empty node)");
 	if (node->cmd->path)
 	{
 		printf("path: %s and args: ", node->cmd->path);
@@ -44,7 +38,7 @@ static void	run_tree(t_btree *token)
 		return ;
 	if (token->left)
 		run_tree(token->left);
-	if (token->identifier == COMMAND || token->identifier == EMPTY)
+	if (token->identifier == COMMAND)
 		print_command(token);
 	else
 		print_operator(token);

@@ -1,125 +1,141 @@
 #include "minishell.h"
 
-static void	print_error(char *prearg, char *arg, char *error_msg)
+static void	print_error(t_msg msg)
 {
-	if (!error_msg)
+	if (!msg.error_description)
 		return ;
 	ft_putstr_fd("minishell: ", 2);
-	if (prearg)
+	if (msg.where)
 	{
-		ft_putstr_fd(prearg, 2);
+		ft_putstr_fd(msg.where, 2);
 		ft_putstr_fd(": ", 2);
 	}
-	if (arg)
+	if (msg.argument)
 	{
-		ft_putstr_fd(arg, 2);
+		ft_putstr_fd(msg.argument, 2);
 		ft_putstr_fd(": ", 2);
 	}
-	ft_putstr_fd(error_msg, 2);
+	ft_putstr_fd(msg.error_description, 2);
 	ft_putstr_fd("\n", 2);
 }
 
-void	ft_error_file(t_head *head, t_btree *node, int *fd, int error)
+static int	get_exit_error_code(int error_id)
 {
-	if (error == 1 && access(node->files.out.name, W_OK) == -1)
-		print_error(NULL, node->files.out.name, "Permission denied");
-	else if (error == 0)
+	if (error_id == ERR_CMD)
+		return (127);
+	if (error_id == ERR_PER)
+		return (126);
+	if (error_id == 5)
+		return (2);
+	if (error_id == 6)
+		return (2);
+	if (error_id == 126)
+		return (126);
+	if (error_id == 7)
+		return (127);
+	return (1);
+}
+
+static int	is_to_exit(int error_id)
+{
+	if (error_id == 3)
+		return (FALSE);
+	if (error_id == 4)
+		return (FALSE);
+	if (error_id == 5 || error_id == 6)
+		return (FALSE);
+	if (error_id == 8)
+		return (FALSE);
+	if (error_id == 15)
+		return (FALSE);
+	return (TRUE);
+}
+
+static void	end_error(t_head *head, t_error error)
+{
+	error.exit_code = get_exit_error_code(error.id);
+	if (is_to_exit(error.id))
 	{
-		if (access(node->files.in.name, F_OK) == -1)
-			print_error(NULL, node->files.in.name, "No such file or directory");
-		else if (access(node->files.in.name, R_OK) == -1)
-			print_error(NULL, node->files.in.name, "Permission denied");
+		free_error(head, error.node, error.fds);
+		exit(define_exit_code(error.exit_code, TRUE));
 	}
-	free_error(head, node, fd);
-	exit(define_exit_code(1, TRUE));
+	define_exit_code(error.exit_code, TRUE);
 }
 
-void	ft_error_command(t_head *head, t_btree *node, int *fd)
+static char	*get_error_description(t_head *head, t_error *error)
 {
-	print_error(NULL, node->cmd->args[0], "command not found");
-	free_error(head, node, fd);
-	exit(define_exit_code(127, TRUE));
-}
-void	ft_error_directory(t_head *head, t_btree *node, int *fd)
-{
-	print_error(NULL, node->cmd->args[0], "Is a directory");
-	free_error(head, node, fd);
-	exit(define_exit_code(126, TRUE));
-}
-
-void	ft_error_permission(t_head *head, t_btree *node, int *fd)
-{
-	print_error(NULL, node->cmd->args[0], "Permission denied");
-	free_error(head, node, fd);
-	exit(define_exit_code(126, TRUE));
-}
-
-void	ft_error_not_found(t_head *head, t_btree *node, int *fd)
-{
-	print_error(NULL, node->cmd->args[0], "No such file or directory");
-	free_error(head, node, fd);
-	exit(define_exit_code(127, TRUE));
-}
-
-void	ft_error_export(t_head *head, char *arg)
-{
-	(void)*head;
-	print_error("export", arg, "not a valid identifier");
-	define_exit_code(1, TRUE);
-}
-
-void	ft_syntax_error(t_head *head, int error)
-{
-	(void)*head;
-	if (error == 5)
-		print_error(NULL, NULL, "syntax error near unexpected token");
-	else if (error == 6)
-		print_error(NULL, NULL, "quotes unclosed");
-	define_exit_code(2, TRUE);
+	if (error->id == 0 || error->id == 1)
+	{
+		if (error->id == 0 && access(error->msg.argument, F_OK) == -1)
+			return ("No such file or directory");
+		return ("Permission denied");
+	}
+	if (error->id == 2)
+		return ("command not found");
+	if (error->id == 10)
+		return ("Permission denied");
+	if (error->id == 3)
+	{
+		if (access(error->msg.argument, F_OK) == -1)
+			return ("No such file or directory");
+		return ("Not a directory");
+	}
+	if (error->id == 4)
+		return ("too many arguments");
+	if (error->id == 5)
+		return ("syntax error near unexpected token");
+	if (error->id == 6)
+		return ("quotes unclosed");
+	if (error->id == 126)
+		return ("Is a directory");
+	if (error->id == 7)
+		return ("No such file or directory");
+	if (error->id == 8)
+	{
+		if (!error->msg.argument && is_variable_exist("HOME", head->env.vars) < 0)
+			return ("HOME not set");
+		if (is_variable_exist("OLDPWD", head->env.vars) < 0)
+			return ("OLDPWD not set");
+	}
+	if (error->id == 15)
+		return ("not a valid identifier");
+	return (NULL);
 }
 
-void	ft_error_args(void)
+static void	handle_error_info(t_head *head, t_error *error)
 {
-	print_error("cd", NULL, "too many arguments");
-	define_exit_code(1, TRUE);
-}
-
-void	ft_error_no_cd(t_btree *node)
-{
-	if (access(node->cmd->args[1], F_OK) == -1)
-		print_error("cd", node->cmd->args[1], "No such file or directory");
+	if (error->string)
+		error->msg.argument = error->string;
 	else
-		print_error("cd", node->cmd->args[1], "Not a directory");
-	define_exit_code(1, TRUE);
+	{
+		if (error->id == 3 || error->id == 8)
+		{
+			error->msg.where = error->node->cmd->args[0];
+			error->msg.argument = error->node->cmd->args[1];
+		}
+		else if (error->id == 1)
+			error->msg.argument = error->node->files.out.name;
+		else if (error->id == 0)
+			error->msg.argument = error->node->files.in.name;
+		else
+			error->msg.argument = error->node->cmd->args[0];
+	}
+	error->msg.error_description = get_error_description(head, error);
 }
 
-void	ft_error_home_oldpwd(t_head *head, t_btree *node)
+void	ft_error(t_head *head, t_error error)
 {
-	if (node->cmd->args[1] == NULL && get_var_path("HOME", head->env.vars) == NULL)
-		print_error("cd", NULL, "HOME not set");
-	else if (get_var_path("OLDPWD",  head->env.vars) == NULL)
-		print_error("cd", NULL, "OLDPWD not set");
-	define_exit_code(1, TRUE);
+	handle_error_info(head, &error);
+	print_error(error.msg);
+	end_error(head, error);
 }
 
-void	ft_error(t_head *head, t_btree *node, int *fd, int error)
-{
-	if (error == 0 || error == 1)
-		ft_error_file(head, node, fd, error);
-	else if (error == 2)
-		ft_error_command(head, node, fd);
-	else if (error == 10)
-		ft_error_permission(head, node, fd);
-	else if (error == 3)
-	 	ft_error_no_cd(node);
-	else if (error == 4)
-		ft_error_args();
-	else if (error == 5 || error == 6)
-		ft_syntax_error(head, error);
-	else if (error == 126)
-		ft_error_directory(head, node, fd);
-	else if (error == 7)
-		ft_error_not_found(head, node, fd);
-	else if (error == 8)
-		ft_error_home_oldpwd(head, node);
-}
+	// 2	= ERR_CMD
+	// 10	= ERR_PER
+	// 3	= ERR_CD
+	// 4	= ERR_TOO_MANY_ARGS
+	// 5 6	= ERR_SYNTAX_ERROR
+	// 126	= ERR_DIRECTORY
+	// 7	= ERR_NOT_FOUND
+	// 8	= ERR_HOME_OLDPWD
+	// 15	= ERR_EXPORT

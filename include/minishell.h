@@ -41,15 +41,15 @@
 # define LCYAN       RL("\033[96m")
 # define LWHITE      RL("\033[97m")
 
-# define EMPTY				99
-# define COMMAND			42
-# define AND				11
-# define OR					10
-# define PIPE				101
-# define ARROW_LEFT			33
-# define DOUBLE_ARROW_LEFT	333
-# define ARROW_RIGHT		44
-# define DOUBLE_ARROW_RIGHT	444
+enum identifiers
+{
+	COMMAND,
+	PIPE,
+	ARROW_LEFT,
+	DOUBLE_ARROW_LEFT,
+	ARROW_RIGHT,
+	DOUBLE_ARROW_RIGHT,
+};
 
 void	initializer(t_head **head, int argc, char *argv[], char *envp[]);
 int		minishell(t_head *head);

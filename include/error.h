@@ -3,11 +3,37 @@
 
 # include "minishell.h"
 
-void	ft_error_file(t_head *head, t_btree *node, int *fd, int error);
-void	ft_error_command(t_head *head, t_btree *node, int *fd);
-void	ft_error_export(t_head *head, char *arg);
-void	ft_syntax_error(t_head *head, int error);
-void	ft_error_args(void);
-void	ft_error(t_head *head, t_btree *node, int *fd, int error);
+enum erro_identifier
+{
+	ERR_REDIR_IN,
+	ERR_REDIR_OUT,
+	ERR_CMD,
+	ERR_PER,
+	ERR_CD,
+	ERR_EXPORT,
+	ERR_TOO_MANY_ARGS,
+	ERR_SYNTAX_ERROR,
+	ERR_DIRECTORY,
+	ERR_NOT_FOUND,
+	ERR_HOME_OLDPWD,
+};
+
+typedef struct s_msg {
+	char	*where;
+	char	*argument;
+	char	*error_description;
+}	t_msg;
+
+typedef struct s_error
+{
+	int		id;
+	int		exit_code;
+	char	*string;
+	t_btree	*node;
+	int		*fds;
+	t_msg	msg;
+}	t_error;
+
+void	ft_error(t_head *head, t_error error);
 
 #endif

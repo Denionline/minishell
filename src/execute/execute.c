@@ -6,16 +6,17 @@ void	redirect(t_head *head, t_btree *node, int *fd)
 	{
 		node->files.in.fd = open(node->files.in.name, node->files.in.flags);
 		if (node->files.in.fd == -1)
-			ft_error(head, node, fd, 0);
+			ft_error(head, (t_error){.id = 0, .node = node, .fds = fd});
 		dup2(node->files.in.fd, STDIN_FILENO);
 		close(node->files.in.fd);
 	}
 	if (node->files.out.exists)
 	{
-		node->files.out.fd = open(node->files.out.name,
-				node->files.out.flags, 0664);
+		node->files.out.fd = open(
+			node->files.out.name, node->files.out.flags, 0664
+		);
 		if (node->files.out.fd == -1)
-			ft_error(head, node, fd, 1);
+			ft_error(head, (t_error){.id = 1, .node = node, .fds = fd});
 		dup2(node->files.out.fd, STDOUT_FILENO);
 		close(node->files.out.fd);
 	}
@@ -45,16 +46,16 @@ void	child_process(t_head *head, t_btree *node, int *fd)
 	if (node->files.in.exists || node->files.out.exists)
 		redirect(head, node, fd);
 	if (node->cmd->path && !ft_strncmp("dir", node->cmd->path, 4))
-		ft_error(head, node, fd, 126);
+		ft_error(head, (t_error){.id = 126, .node = node, .fds = fd});
 	if ((node->cmd->args[0][0] == '/' || node->cmd->args[0][1] == '/'))
 	{
 		if (access(node->cmd->args[0], F_OK))
-			ft_error(head, node, fd, 7);
+			ft_error(head, (t_error){.id = 7, .node = node, .fds = fd});
 		else if (access(node->cmd->args[0], X_OK))
-			ft_error(head, node, fd, 10);
+			ft_error(head, (t_error){.id = ERR_PER, .node = node, .fds = fd});
 	}
 	if (!node->cmd->path)
-		ft_error(head, node, fd, 2);
+		ft_error(head, (t_error){.id = ERR_CMD, .node = node, .fds = fd});
 	close_all_fds(head, node, 0);
 	ft_execute(head, node);
 }

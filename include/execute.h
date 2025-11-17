@@ -47,8 +47,7 @@ void	ft_ctrl_c_heredoc(int sig);
 void	ft_sigpipe_child(int sig);
 
 //error
-void	ft_error(t_head *head, t_btree *node, int *fd, int error);
-void	ft_error_file(t_head *head, t_btree *node, int *fd, int error);
-void	ft_error_command(t_head *head, t_btree *node, int *fd);
+// void	ft_error_file(t_mhead *head, t_btree *node, int *fd, int error);
+// void	ft_error_command(t_head *head, t_btree *node, int *fd);
 
 #endif

@@ -26,8 +26,7 @@ int	ft_args_error(t_head *head, t_btree *node)
 {
 	if (node->cmd->args[2])
 	{
-		(void)*head;
-		ft_error(NULL, node, NULL, 4);
+		ft_error(head, (t_error){.id = 4, .node = node});
 		define_exit_code(1, TRUE);
 		return (1);
 	}
