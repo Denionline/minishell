@@ -36,7 +36,13 @@ static int	handle_variable(t_head *head, char *complete_var)
 			ft_substr(complete_var, 0, lvar), lvar, complete_var, &head->env
 		);
 	else
-		ft_error(head, (t_error){.id = ERR_EXPORT, .string = complete_var});
+		ft_error(head,
+			(t_error){
+				.id = ERR_EXPORT,
+				.string = complete_var,
+				.msg.where = "export"
+			}
+		);
 	return (0);
 }
 
