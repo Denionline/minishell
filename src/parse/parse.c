@@ -19,6 +19,8 @@ static void	add_node_on_tree(t_head *head, int op, char *str, t_files *files)
 
 	head->n_cmds += 1;
 	cmd = get_command(head, str, files);
+	if (!cmd)
+		return ;
 	node_command = btree_create(COMMAND, cmd, NULL, NULL);
 	if (op)
 		btree_add_as_first(&head->root,
@@ -35,7 +37,7 @@ static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 	pos = get_operator_size(op);
 	while (ft_isspace(prompt[pos]))
 		pos++;
-	if (!is_valid_argument(prompt + pos, op, get_operator(prompt + pos)))
+	if (!is_valid_argument(head, prompt + pos, op, get_operator(prompt + pos)))
 	{
 		head->to_stop = TRUE;
 		ft_error(head, (t_error){.id = ERR_SYNTAX_ERROR});
@@ -56,7 +58,7 @@ static int	handle_command(t_head *head, int op, char *prompt, t_files *files)
 	pos = get_operator_size(op);
 	while (ft_isspace(prompt[pos]))
 		pos++;
-	if (!is_valid_argument(prompt + pos, op, get_operator(prompt + pos)))
+	if (!is_valid_argument(head, prompt + pos, op, get_operator(prompt + pos)))
 	{
 		head->to_stop = TRUE;
 		ft_error(head, (t_error){.id = ERR_SYNTAX_ERROR});

@@ -2,6 +2,8 @@
 
 static void	update_args(t_cmd *cmd, char *new_arg)
 {
+	if (!new_arg)
+		return ;
 	if (cmd->args_len && !(*new_arg))
 		return (free(new_arg));
 	cmd->args_len += 1;
@@ -46,7 +48,11 @@ t_cmd	*get_command(t_head *head, char *prompt, t_files *files)
 		return (NULL);
 	handle_args(head, command, prompt, files);
 	command->path = NULL;
-	if (command->args)
-		command->path = get_valid_path(&head->env, command->args[0]);
+	if (!command->args)
+	{
+		free(command);
+		return (NULL);
+	}
+	command->path = get_valid_path(&head->env, command->args[0]);
 	return (command);
 }
