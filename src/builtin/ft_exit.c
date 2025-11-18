@@ -75,6 +75,7 @@ int	ft_exit(t_head *head, t_btree *node)
 				return (0);
 			else
 				exit_status = ft_exit_number(node);
+			define_exit_code((int)exit_status, TRUE);
 		}
 		close_all(head, node, NULL);
 		free_node(node);
@@ -83,5 +84,5 @@ int	ft_exit(t_head *head, t_btree *node)
 	close(head->files.out.fd);
 	free_db_str(head->env.vars);
 	free(head);
-	exit(define_exit_code((int)exit_status, TRUE)); 
+	exit(define_exit_code(0, FALSE)); 
 }
