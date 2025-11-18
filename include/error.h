@@ -50,4 +50,9 @@ typedef struct s_error
 
 void	ft_error(t_head *head, t_error error);
 
+int		is_to_exit(int error_id);
+void	print_error(t_msg msg);
+int		get_exit_error_code(int error_id);
+char	*get_error_description(t_head *head, t_error *error);
+
 #endif

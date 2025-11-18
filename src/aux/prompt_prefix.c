@@ -10,7 +10,7 @@ static char	*get_arrow_color(int exit_code)
 
 void	prompt_prefix(char buffer[9999])
 {
-	const char	*s1 = (BOLD LCYAN "minishell");
+	const char	*s1 = (BOLD LGREEN "minishell");
 	const char	*arrow = (get_arrow_color(define_exit_code(0, FALSE)));
 	const char	*s2 = (YELLOW "(" LMAGENTA);
 	const char	*s3 = (YELLOW ") > " RESET);

@@ -48,6 +48,8 @@ VPATH			+= src/builtin
 VPATH			+= src/builtin/aux
 VPATH			+= src/builtin/aux/get
 VPATH			+= src/error
+VPATH			+= src/error/aux
+VPATH			+= src/error/aux/get
 
 LIBFT_PATH		= $(INC_PATH)/libft/
 
@@ -105,6 +107,10 @@ FILES			+= ft_exit
 FILES			+= get_ascii_order
 #error
 FILES			+= error
+FILES			+= is_to_exit
+FILES			+= print_error
+FILES			+= get_exit_error_code
+FILES			+= get_error_description
 
 SRCS			= $(addprefix ./, $(addsuffix .c, $(FILES)))
 OBJS			= $(addprefix $(BUILD_PATH), $(addsuffix .o, $(FILES)))
