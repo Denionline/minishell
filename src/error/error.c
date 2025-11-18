@@ -1,131 +1,127 @@
 #include "minishell.h"
 
-void	ft_error_file(t_head *head, t_btree *node, int *fd, int error)
+static void	print_error(t_msg msg)
 {
-	if (error == 1 && access(node->files.out.name, W_OK) == -1)
+	if (!msg.error_description)
+		return ;
+	ft_putstr_fd("minishell: ", 2);
+	if (msg.where)
 	{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(node->files.out.name, 2);
-			ft_putendl_fd(": Permission denied", 2);
+		ft_putstr_fd(msg.where, 2);
+		ft_putstr_fd(": ", 2);
 	}
-	else if (error == 0)
+	if (msg.argument)
 	{
-		if (access(node->files.in.name, F_OK) == -1)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(node->files.in.name, 2);
-			ft_putendl_fd(": No such file or directory", 2);
-		}
-		else if (access(node->files.in.name, R_OK) == -1)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(node->files.in.name, 2);
-			ft_putendl_fd(": Permission denied", 2);
-		}
+		ft_putstr_fd(msg.argument, 2);
+		ft_putstr_fd(": ", 2);
 	}
-	free_error(head, node, fd);
-	exit(define_exit_code(1, TRUE));
+	ft_putstr_fd(msg.error_description, 2);
+	ft_putstr_fd("\n", 2);
 }
 
-void	ft_error_command(t_head *head, t_btree *node, int *fd)
+static int	get_exit_error_code(int error_id)
 {
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(node->cmd->args[0], 2);
-	ft_putendl_fd(": command not found", 2);
-	free_error(head, node, fd);
-	exit(define_exit_code(127, TRUE));
-}
-void	ft_error_directory(t_head *head, t_btree *node, int *fd)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(node->cmd->args[0], 2);
-	ft_putendl_fd(": Is a directory", 2);
-	free_error(head, node, fd);
-	exit(define_exit_code(126, TRUE));
+	if (error_id == ERR_CMD || error_id == ERR_NOT_FOUND)
+		return (127);
+	if (error_id == ERR_PER || error_id == ERR_DIRECTORY)
+		return (126);
+	if (error_id == ERR_SYNTAX_ERROR || error_id == ERR_QUOTES_ERROR)
+		return (2);
+	return (1);
 }
 
-void	ft_error_permission(t_head *head, t_btree *node, int *fd)
+static int	is_to_exit(int error_id)
 {
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(node->cmd->args[0], 2);
-	ft_putendl_fd(": Permission denied", 2);
-	free_error(head, node, fd);
-	exit(define_exit_code(126, TRUE));
+	if (error_id == ERR_CD)
+		return (FALSE);
+	if (error_id == ERR_TOO_MANY_ARGS)
+		return (FALSE);
+	if (error_id == ERR_SYNTAX_ERROR)
+		return (FALSE);
+	if (error_id == ERR_QUOTES_ERROR)
+		return (FALSE);
+	if (error_id == ERR_HOME_OLDPWD)
+		return (FALSE);
+	if (error_id == ERR_EXPORT)
+		return (FALSE);
+	return (TRUE);
 }
 
-void	ft_error_not_found(t_head *head, t_btree *node, int *fd)
+static void	end_error(t_head *head, t_error error)
 {
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(node->cmd->args[0], 2);
-	ft_putendl_fd(": No such file or directory", 2);
-	free_error(head, node, fd);
-	exit(define_exit_code(127, TRUE));
+	error.exit_code = get_exit_error_code(error.id);
+	if (is_to_exit(error.id))
+	{
+		free_error(head, error.node, error.fds);
+		exit(define_exit_code(error.exit_code, TRUE));
+	}
+	define_exit_code(error.exit_code, TRUE);
 }
 
-void	ft_error_export(t_head *head, char *arg)
+static char	*get_error_description(t_head *head, t_error *error)
 {
-	(void)*head;
-	ft_putstr_fd("minishell: export: ", 2);
-	ft_putstr_fd(arg, 2);
-	ft_putendl_fd(": not a valid identifier", 2);
-	define_exit_code(1, TRUE);
+	if (error->id == ERR_REDIR_IN || error->id == ERR_REDIR_OUT)
+	{
+		if (error->id == 0 && access(error->msg.argument, F_OK) == -1)
+			return ("No such file or directory");
+		return ("Permission denied");
+	}
+	if (error->id == ERR_CMD)
+		return ("command not found");
+	if (error->id == ERR_PER)
+		return ("Permission denied");
+	if (error->id == ERR_CD)
+	{
+		if (access(error->msg.argument, F_OK) == -1)
+			return ("No such file or directory");
+		return ("Not a directory");
+	}
+	if (error->id == ERR_TOO_MANY_ARGS)
+		return ("too many arguments");
+	if (error->id == ERR_SYNTAX_ERROR)
+		return ("syntax error near unexpected token");
+	if (error->id == ERR_QUOTES_ERROR)
+		return ("quotes unclosed");
+	if (error->id == ERR_DIRECTORY)
+		return ("Is a directory");
+	if (error->id == ERR_NOT_FOUND)
+		return ("No such file or directory");
+	if (error->id == ERR_HOME_OLDPWD)
+	{
+		if (!error->msg.argument && is_variable_exist("HOME", head->env.vars) < 0)
+			return ("HOME not set");
+		if (is_variable_exist("OLDPWD", head->env.vars) < 0)
+			return ("OLDPWD not set");
+	}
+	if (error->id == ERR_EXPORT)
+		return ("not a valid identifier");
+	return (NULL);
 }
 
-void	ft_syntax_error(t_head *head, int error)
+static void	handle_error_info(t_head *head, t_error *error)
 {
-	(void)*head;
-	if (error == 5)
-		ft_putendl_fd("minishell: syntax error near unexpected token", 2);
-	else if (error == 6)
-		ft_putendl_fd("minishell: quotes unclosed", 2);
-	define_exit_code(2, TRUE);
+	if (error->string)
+		error->msg.argument = error->string;
+	else if (error->node)
+	{
+		if (error->id == ERR_CD || error->id == ERR_HOME_OLDPWD)
+		{
+			error->msg.where = error->node->cmd->args[0];
+			error->msg.argument = error->node->cmd->args[1];
+		}
+		else if (error->id == ERR_REDIR_OUT)
+			error->msg.argument = error->node->files.out.name;
+		else if (error->id == ERR_REDIR_IN)
+			error->msg.argument = error->node->files.in.name;
+		else
+			error->msg.argument = error->node->cmd->args[0];
+	}
+	error->msg.error_description = get_error_description(head, error);
 }
 
-void	ft_error_args(void)
+void	ft_error(t_head *head, t_error error)
 {
-	ft_putendl_fd("minishell: cd: too many arguments", 2);
-	define_exit_code(1, TRUE);
-}
-
-void	ft_error_no_cd(t_btree *node)
-{
-	ft_putstr_fd("minishell: cd: ", 2);
-	ft_putstr_fd(node->cmd->args[1], 2);
-	if (access(node->cmd->args[1], F_OK) == -1)
-		ft_putendl_fd(": No such file or directory", 2);
-	else
-		ft_putendl_fd(": Not a directory", 2);
-	define_exit_code(1, TRUE);
-}
-
-void	ft_error_home_oldpwd(t_head *head, t_btree *node)
-{
-	if (node->cmd->args[1] == NULL && get_var_path("HOME", head->env.vars) == NULL)
-		ft_putendl_fd("minishell: cd: HOME not set", 2);
-	else if (get_var_path("OLDPWD",  head->env.vars) == NULL)
-		ft_putendl_fd("minishell: cd: OLDPWD not set", 2);
-	define_exit_code(1, TRUE);
-}
-
-void	ft_error(t_head *head, t_btree *node, int *fd, int error)
-{
-	(void)*fd;
-	if (error == 0 || error == 1)
-		ft_error_file(head, node, fd, error);
-	else if (error == 2)
-		ft_error_command(head, node, fd);
-	else if (error == 10)
-		ft_error_permission(head, node, fd);
-	else if (error == 3)
-	 	ft_error_no_cd(node);
-	else if (error == 4)
-		ft_error_args();
-	else if (error == 5 || error == 6)
-		ft_syntax_error(head, error);
-	else if (error == 126)
-		ft_error_directory(head, node, fd);
-	else if (error == 7)
-		ft_error_not_found(head, node, fd);
-	else if (error == 8)
-		ft_error_home_oldpwd(head, node);
+	handle_error_info(head, &error);
+	print_error(error.msg);
+	end_error(head, error);
 }

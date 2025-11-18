@@ -6,6 +6,7 @@
 # include <stdio.h>
 # include <errno.h>
 # include <unistd.h>
+# include <limits.h>
 # include <dirent.h>
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -17,18 +18,42 @@
 # include "error.h"
 # include <signal.h>
 
-# define EMPTY				99
-# define COMMAND			42
-# define AND				11
-# define OR					10
-# define PIPE				101
-# define ARROW_LEFT			33
-# define DOUBLE_ARROW_LEFT	333
-# define ARROW_RIGHT		44
-# define DOUBLE_ARROW_RIGHT	444
+# define RL(x) "\001" x "\002"
+
+# define RESET       RL("\033[0m")
+# define BOLD        RL("\033[1m")
+
+# define BLACK       RL("\033[30m")
+# define RED         RL("\033[31m")
+# define GREEN       RL("\033[32m")
+# define YELLOW      RL("\033[33m")
+# define BLUE        RL("\033[34m")
+# define MAGENTA     RL("\033[35m")
+# define CYAN        RL("\033[36m")
+# define WHITE       RL("\033[37m")
+
+# define LGRAY       RL("\033[90m")
+# define LRED        RL("\033[91m")
+# define LGREEN      RL("\033[92m")
+# define LYELLOW     RL("\033[93m")
+# define LBLUE       RL("\033[94m")
+# define LMAGENTA    RL("\033[95m")
+# define LCYAN       RL("\033[96m")
+# define LWHITE      RL("\033[97m")
+
+enum identifiers
+{
+	COMMAND,
+	PIPE,
+	ARROW_LEFT,
+	DOUBLE_ARROW_LEFT,
+	ARROW_RIGHT,
+	DOUBLE_ARROW_RIGHT,
+};
 
 void	initializer(t_head **head, int argc, char *argv[], char *envp[]);
 int		minishell(t_head *head);
+void	prompt_prefix(char buffer[9999]);
 
 // aux/get/
 int		get_size_double_array(char **array);

@@ -26,8 +26,7 @@ int	ft_args_error(t_head *head, t_btree *node)
 {
 	if (node->cmd->args[2])
 	{
-		(void)*head;
-		ft_error(NULL, node, NULL, 4);
+		ft_error(head, (t_error){.id = ERR_TOO_MANY_ARGS, .node = node});
 		define_exit_code(1, TRUE);
 		return (1);
 	}
@@ -55,5 +54,5 @@ int	ft_exit(t_head *head, t_btree *node)
 	close(head->files.out.fd);
 	free_db_str(head->env.vars);
 	free(head);
-	exit(define_exit_code(exit_status, TRUE)); 
+	exit(define_exit_code(exit_status, TRUE));
 }

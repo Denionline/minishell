@@ -1,10 +1,9 @@
-
 #include "minishell.h"
 
 int	is_directory(char *string)
 {
 	DIR	*dir;
-	
+
 	if (ft_strchr(string, '/'))
 	{
 		dir = opendir(string);

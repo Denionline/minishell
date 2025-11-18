@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 static void	swap_vars(char **s1, char **s2)

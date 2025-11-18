@@ -4,10 +4,6 @@ int	get_operator_size(int operator)
 {
 	if (operator == 0)
 		return (0);
-	if (operator == AND)
-		return (2);
-	if (operator == OR)
-		return (2);
 	if (operator == DOUBLE_ARROW_LEFT)
 		return (2);
 	if (operator == DOUBLE_ARROW_RIGHT)
@@ -30,21 +26,15 @@ int	is_arrow_operator(int operator)
 
 int	get_operator(char *value)
 {
-	if (!ft_strncmp("&&", value, 2))
-		return (AND);
-	if (!ft_strncmp("|", value, 1))
-	{
-		if (!ft_strncmp("||", value, 2))
-			return (OR);
+	if (value[0] == '|')
 		return (PIPE);
-	}
-	if (!ft_strncmp("<<", value, 2))
+	if (value[0] == '<' && value[1] == '<')
 		return (DOUBLE_ARROW_LEFT);
-	if (!ft_strncmp(">>", value, 2))
+	if (value[0] == '>' && value[1] == '>')
 		return (DOUBLE_ARROW_RIGHT);
-	if (!ft_strncmp("<", value, 1))
+	if (value[0] == '<')
 		return (ARROW_LEFT);
-	if (!ft_strncmp(">", value, 1))
+	if (value[0] == '>')
 		return (ARROW_RIGHT);
 	return (0);
 }

@@ -37,8 +37,9 @@ static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 		pos++;
 	if (!is_valid_argument(prompt + pos, op, get_operator(prompt + pos)))
 	{
-		ft_error(head, NULL, NULL, 5);
-		//precisa ter uma saida dessa funcao, pra voltar ao prompt
+		head->to_stop = TRUE;
+		ft_error(head, (t_error){.id = ERR_SYNTAX_ERROR});
+		return (-1);
 	}
 	if (is_arrow_operator(op))
 		return (handle_file(head, 0, prompt, op));
@@ -56,7 +57,11 @@ static int	handle_command(t_head *head, int op, char *prompt, t_files *files)
 	while (ft_isspace(prompt[pos]))
 		pos++;
 	if (!is_valid_argument(prompt + pos, op, get_operator(prompt + pos)))
-		return (ft_error(head, NULL, NULL, 5), -1);
+	{
+		head->to_stop = TRUE;
+		ft_error(head, (t_error){.id = ERR_SYNTAX_ERROR});
+		return (-1);
+	}
 	if (!head->root)
 		add_node_on_tree(head, 0, prompt, files);
 	if (is_file_pending(head, files))
@@ -70,9 +75,9 @@ void	parse(t_head *head, char *prompt)
 	int		operator;
 	int		next;
 	int		i;
-	
+
 	if (!is_quotes_valid(prompt))
-		return (ft_error(head, NULL, NULL, 5));
+		return (ft_error(head, (t_error){.id = ERR_QUOTES_ERROR}));
 	files = (t_files){.in.fd = -1, .out.fd = -1};
 	head->to_stop = FALSE;
 	i = 0;

@@ -27,34 +27,42 @@ static char	**get_paths(t_env *env)
 	return (paths);
 }
 
-char	*get_valid_path(t_env *env, char *command)
+static char	*get_complete_path(char *current_path, char *command)
 {
 	char	*complete_path;
 	char	*path_bar;
+
+	path_bar = ft_strjoin(current_path, "/");
+	complete_path = ft_strjoin(path_bar, command);
+	free(path_bar);
+	if (!access(complete_path, F_OK | X_OK))
+		return (complete_path);
+	free(complete_path);
+	return (NULL);
+}
+
+char	*get_valid_path(t_env *env, char *command)
+{
+	char	*valid_path;
 	char	**paths;
 	int		i;
 
 	if (!command)
 		return (NULL);
-	complete_path = is_path_already(command);
-	if (complete_path)
-		return (complete_path);
+	valid_path = is_path_already(command);
+	if (valid_path)
+		return (valid_path);
 	paths = get_paths(env);
 	if (!paths)
 		return (NULL);
-	i = -1;
-	while (paths[++i])
+	i = 0;
+	while (paths[i])
 	{
-		path_bar = ft_strjoin(paths[i], "/");
-		complete_path = ft_strjoin(path_bar, command);
-		free(path_bar);
-		if (!access(complete_path, F_OK | X_OK))
-		{
-			free_db_str(paths);
-			return (complete_path);
-		}
-		free(complete_path);
+		valid_path = get_complete_path(paths[i], command);
+		if (valid_path)
+			break ;
+		i++;
 	}
 	free_db_str(paths);
-	return (NULL);
+	return (valid_path);
 }

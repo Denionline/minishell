@@ -58,6 +58,7 @@ LIBFT_PATH		= $(INC_PATH)/libft/
 FILES			+= main
 FILES			+= initializer
 FILES			+= minishell
+FILES			+= prompt_prefix
 FILES			+= print
 FILES			+= end
 FILES			+= signal_handler
@@ -104,7 +105,6 @@ FILES			+= ft_exit
 FILES			+= get_ascii_order
 #error
 FILES			+= error
-
 
 SRCS			= $(addprefix ./, $(addsuffix .c, $(FILES)))
 OBJS			= $(addprefix $(BUILD_PATH), $(addsuffix .o, $(FILES)))
