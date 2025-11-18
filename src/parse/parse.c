@@ -75,7 +75,7 @@ void	parse(t_head *head, char *prompt)
 	int		operator;
 	int		next;
 	int		i;
-	
+
 	if (!is_quotes_valid(prompt))
 		return (ft_error(head, (t_error){.id = ERR_QUOTES_ERROR}));
 	files = (t_files){.in.fd = -1, .out.fd = -1};

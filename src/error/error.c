@@ -102,7 +102,7 @@ static void	handle_error_info(t_head *head, t_error *error)
 {
 	if (error->string)
 		error->msg.argument = error->string;
-	else
+	else if (error->node)
 	{
 		if (error->id == ERR_CD || error->id == ERR_HOME_OLDPWD)
 		{
