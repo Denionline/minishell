@@ -20,6 +20,7 @@ typedef struct s_arg
 	int			pos;
 	int			i;
 	int			new_len;
+	int			was_expanded;
 	int			*len;
 	int			to_expand;
 }	t_arg;
