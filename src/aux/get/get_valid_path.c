@@ -47,7 +47,7 @@ char	*get_valid_path(t_env *env, char *command)
 	char	**paths;
 	int		i;
 
-	if (!command)
+	if (!command || !*command)
 		return (NULL);
 	valid_path = is_path_already(command);
 	if (valid_path)
