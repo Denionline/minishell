@@ -2,7 +2,7 @@
 
 static void	update_args(t_cmd *cmd, char *new_arg)
 {
-	if (!(*new_arg))
+	if (cmd->args_len && !(*new_arg))
 		return (free(new_arg));
 	cmd->args_len += 1;
 	cmd->args = get_realloc_args(cmd->args, cmd->args_len, new_arg);

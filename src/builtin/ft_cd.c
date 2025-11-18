@@ -28,7 +28,7 @@ char	*cd_get_path(t_head *head, char *path)
 {
 	if (!path)
 		path = get_var_path("HOME", head->env.vars);
-	else if (ft_strncmp(path, "-", ft_strlen(path)) == 0)
+	else if (is_strmatch(path, "-"))
 	{
 		free(path);
 		path = get_var_path("OLDPWD",  head->env.vars);

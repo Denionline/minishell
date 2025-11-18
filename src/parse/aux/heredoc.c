@@ -2,14 +2,13 @@
 
 static void	get_lines(t_head *head, t_file *hdoc, char *eof)
 {
-	const int	leof = ft_strlen(eof);
-	char		*line;
+	char	*line;
 
 	while (TRUE)
 	{
 		signal(SIGINT, ft_ctrl_c_heredoc);
 		line = readline("> ");
-		if ((!line || !ft_strncmp(line, eof, leof)))
+		if (!line || is_strmatch(line, eof))
 			break ;
 		line = string_argument(head, line, (t_arg){.to_expand = TRUE});
 		ft_putstr_fd(line, hdoc->fd);

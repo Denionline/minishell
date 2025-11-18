@@ -45,7 +45,7 @@ void	child_process(t_head *head, t_btree *node, int *fd)
 	}
 	if (node->files.in.exists || node->files.out.exists)
 		redirect(head, node, fd);
-	if (node->cmd->path && !ft_strncmp("dir", node->cmd->path, 4))
+	if (node->cmd->path && is_strmatch(node->cmd->path, "dir"))
 		ft_error(head, (t_error){.id = ERR_DIRECTORY, .node = node, .fds = fd});
 	if ((node->cmd->args[0][0] == '/' || node->cmd->args[0][1] == '/'))
 	{
@@ -90,8 +90,7 @@ void	process(t_head *head, t_btree *node)
 
 void	ft_execute(t_head *head, t_btree *node)
 {
-	if (ft_strncmp("built-in", node->cmd->path,
-			ft_strlen(node->cmd->path)) == 0)
+	if (is_strmatch(node->cmd->path, "built-in"))
 		call_builtin(head, node);
 	else if (execve(node->cmd->path, node->cmd->args, head->env.vars) == -1)
 		free_btree(head->root);
