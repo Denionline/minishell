@@ -1,5 +1,18 @@
 #include "minishell.h"
 
+int	confirm_llong(char *number)
+{
+	if (n == LLONG_MAX)
+	{
+		if (!ft_strncmp(number, "9223372036854775807", 19) || !ft_strncmp(number, "+9223372036854775807", 20))
+			return (TRUE);
+		else if (!ft_strncmp(number, "-9223372036854775808", 20))
+			return (TRUE);
+		else
+			return (FALSE);
+	}
+}
+
 int	ft_exit_number(t_btree *node)
 {
 	int	n;
@@ -13,7 +26,9 @@ int	ft_exit_number(t_btree *node)
 	}
 	else
 	{
-		n = ft_atoi(node->cmd->args[1]);
+		n = ft_atoll(node->cmd->args[1]);
+		if ((n == LLONG_MAX || n = LLONG_MIN) && confirm_llong(node->cmd->args[1]))
+			
 		if (n > 255)
 			n = n % 256;
 		else if (n < 0)
