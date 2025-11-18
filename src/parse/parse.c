@@ -38,7 +38,7 @@ static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 	if (!is_valid_argument(prompt + pos, op, get_operator(prompt + pos)))
 	{
 		head->to_stop = TRUE;
-		ft_error(head, (t_error){.id = 5});
+		ft_error(head, (t_error){.id = ERR_SYNTAX_ERROR});
 		return (-1);
 	}
 	if (is_arrow_operator(op))
@@ -59,7 +59,7 @@ static int	handle_command(t_head *head, int op, char *prompt, t_files *files)
 	if (!is_valid_argument(prompt + pos, op, get_operator(prompt + pos)))
 	{
 		head->to_stop = TRUE;
-		ft_error(head, (t_error){.id = 5});
+		ft_error(head, (t_error){.id = ERR_SYNTAX_ERROR});
 		return (-1);
 	}
 	if (!head->root)
@@ -77,7 +77,7 @@ void	parse(t_head *head, char *prompt)
 	int		i;
 	
 	if (!is_quotes_valid(prompt))
-		return (ft_error(head, (t_error){.id = 5}));
+		return (ft_error(head, (t_error){.id = ERR_QUOTES_ERROR}));
 	files = (t_files){.in.fd = -1, .out.fd = -1};
 	head->to_stop = FALSE;
 	i = 0;

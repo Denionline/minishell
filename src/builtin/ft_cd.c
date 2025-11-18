@@ -45,14 +45,14 @@ int	ft_cd(t_head *head, t_btree *node)
 		path = ft_strdup(node->cmd->args[1]);
 	if (node->cmd->args[1] && node->cmd->args[2])
 	{
-		ft_error(head, (t_error){.id = 4, .node = node});
+		ft_error(head, (t_error){.id = ERR_TOO_MANY_ARGS, .node = node});
 		return (free(path), 0);
 	}
 	path = cd_get_path(head, path);
 	if (path != NULL)
 	{
 		if (chdir(path) == -1)
-			ft_error(head, (t_error){.id = 3, .node = node});
+			ft_error(head, (t_error){.id = ERR_CD, .node = node});
 		else
 		{
 			define_exit_code(0, TRUE);
@@ -60,7 +60,7 @@ int	ft_cd(t_head *head, t_btree *node)
 		}
 	}
 	else
-		ft_error(head, (t_error){.id = 8, .node = node});
+		ft_error(head, (t_error){.id = ERR_HOME_OLDPWD, .node = node});
 	free(path);
 	return (0);
 }

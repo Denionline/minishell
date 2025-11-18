@@ -21,32 +21,28 @@ static void	print_error(t_msg msg)
 
 static int	get_exit_error_code(int error_id)
 {
-	if (error_id == ERR_CMD)
+	if (error_id == ERR_CMD || error_id == ERR_NOT_FOUND)
 		return (127);
-	if (error_id == ERR_PER)
+	if (error_id == ERR_PER || error_id == ERR_DIRECTORY)
 		return (126);
-	if (error_id == 5)
+	if (error_id == ERR_SYNTAX_ERROR || error_id == ERR_QUOTES_ERROR)
 		return (2);
-	if (error_id == 6)
-		return (2);
-	if (error_id == 126)
-		return (126);
-	if (error_id == 7)
-		return (127);
 	return (1);
 }
 
 static int	is_to_exit(int error_id)
 {
-	if (error_id == 3)
+	if (error_id == ERR_CD)
 		return (FALSE);
-	if (error_id == 4)
+	if (error_id == ERR_TOO_MANY_ARGS)
 		return (FALSE);
-	if (error_id == 5 || error_id == 6)
+	if (error_id == ERR_SYNTAX_ERROR)
 		return (FALSE);
-	if (error_id == 8)
+	if (error_id == ERR_QUOTES_ERROR)
 		return (FALSE);
-	if (error_id == 15)
+	if (error_id == ERR_HOME_OLDPWD)
+		return (FALSE);
+	if (error_id == ERR_EXPORT)
 		return (FALSE);
 	return (TRUE);
 }
@@ -64,40 +60,40 @@ static void	end_error(t_head *head, t_error error)
 
 static char	*get_error_description(t_head *head, t_error *error)
 {
-	if (error->id == 0 || error->id == 1)
+	if (error->id == ERR_REDIR_IN || error->id == ERR_REDIR_OUT)
 	{
 		if (error->id == 0 && access(error->msg.argument, F_OK) == -1)
 			return ("No such file or directory");
 		return ("Permission denied");
 	}
-	if (error->id == 2)
+	if (error->id == ERR_CMD)
 		return ("command not found");
-	if (error->id == 10)
+	if (error->id == ERR_PER)
 		return ("Permission denied");
-	if (error->id == 3)
+	if (error->id == ERR_CD)
 	{
 		if (access(error->msg.argument, F_OK) == -1)
 			return ("No such file or directory");
 		return ("Not a directory");
 	}
-	if (error->id == 4)
+	if (error->id == ERR_TOO_MANY_ARGS)
 		return ("too many arguments");
-	if (error->id == 5)
+	if (error->id == ERR_SYNTAX_ERROR)
 		return ("syntax error near unexpected token");
-	if (error->id == 6)
+	if (error->id == ERR_QUOTES_ERROR)
 		return ("quotes unclosed");
-	if (error->id == 126)
+	if (error->id == ERR_DIRECTORY)
 		return ("Is a directory");
-	if (error->id == 7)
+	if (error->id == ERR_NOT_FOUND)
 		return ("No such file or directory");
-	if (error->id == 8)
+	if (error->id == ERR_HOME_OLDPWD)
 	{
 		if (!error->msg.argument && is_variable_exist("HOME", head->env.vars) < 0)
 			return ("HOME not set");
 		if (is_variable_exist("OLDPWD", head->env.vars) < 0)
 			return ("OLDPWD not set");
 	}
-	if (error->id == 15)
+	if (error->id == ERR_EXPORT)
 		return ("not a valid identifier");
 	return (NULL);
 }
@@ -108,14 +104,14 @@ static void	handle_error_info(t_head *head, t_error *error)
 		error->msg.argument = error->string;
 	else
 	{
-		if (error->id == 3 || error->id == 8)
+		if (error->id == ERR_CD || error->id == ERR_HOME_OLDPWD)
 		{
 			error->msg.where = error->node->cmd->args[0];
 			error->msg.argument = error->node->cmd->args[1];
 		}
-		else if (error->id == 1)
+		else if (error->id == ERR_REDIR_OUT)
 			error->msg.argument = error->node->files.out.name;
-		else if (error->id == 0)
+		else if (error->id == ERR_REDIR_IN)
 			error->msg.argument = error->node->files.in.name;
 		else
 			error->msg.argument = error->node->cmd->args[0];
@@ -129,13 +125,3 @@ void	ft_error(t_head *head, t_error error)
 	print_error(error.msg);
 	end_error(head, error);
 }
-
-	// 2	= ERR_CMD
-	// 10	= ERR_PER
-	// 3	= ERR_CD
-	// 4	= ERR_TOO_MANY_ARGS
-	// 5 6	= ERR_SYNTAX_ERROR
-	// 126	= ERR_DIRECTORY
-	// 7	= ERR_NOT_FOUND
-	// 8	= ERR_HOME_OLDPWD
-	// 15	= ERR_EXPORT

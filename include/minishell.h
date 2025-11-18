@@ -20,8 +20,8 @@
 
 # define RL(x) "\001" x "\002"
 
-# define RESET      RL("\033[0m")
-# define BOLD       RL("\033[1m")
+# define RESET       RL("\033[0m")
+# define BOLD        RL("\033[1m")
 
 # define BLACK       RL("\033[30m")
 # define RED         RL("\033[31m")

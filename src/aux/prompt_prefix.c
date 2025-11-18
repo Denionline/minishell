@@ -35,4 +35,5 @@ void	prompt_prefix(char buffer[9999])
 	i = 0;
 	while (s3[i])
 		buffer[pos++] = s3[i++];
+	buffer[pos] = '\0';
 }
