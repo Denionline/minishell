@@ -96,3 +96,5 @@ void	parse(t_head *head, char *prompt)
 		i += (!head->cmd_size && !operator);
 	}
 }
+
+// "bana 'oi\"a'a  "

@@ -50,9 +50,12 @@ static char	*argument_verification(t_arg *arg, char *string, t_head *head)
 {
 	if (is_tohandle_backslash(string, arg->quotes.quote))
 		string++;
-	if (*string == '\'' || *string == '\"')
-		if (verify_quotes(&arg->quotes, *string, !arg->len))
-			return (string);
+	else
+	{
+		if (*string == '\'' || *string == '\"')
+			if (verify_quotes(&arg->quotes, *string, !arg->len))
+				return (string);
+	}
 	if (is_quote_closed(&arg->quotes) && get_operator(string) && arg->len)
 		return (NULL);
 	if (is_quote_closed(&arg->quotes) && ft_isspace(*string) && arg->len)

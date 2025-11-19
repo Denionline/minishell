@@ -10,8 +10,13 @@ int	is_quotes_valid(char *s)
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == '\'' || s[i] == '\"')
-			verify_quotes(&quotes, s[i], FALSE);
+		if (is_tohandle_backslash(s + i, quotes.quote))
+			i++;
+		else
+		{
+			if (s[i] == '\'' || s[i] == '\"')
+				verify_quotes(&quotes, s[i], FALSE);
+		}
 		i++;
 	}
 	if ((quotes.s % 2) == 0 && (quotes.d% 2) == 0)
