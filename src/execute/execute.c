@@ -54,7 +54,7 @@ void	child_process(t_head *head, t_btree *node, int *fd)
 		else if (access(node->cmd->args[0], X_OK))
 			ft_error(head, (t_error){.id = ERR_PER, .node = node, .fds = fd});
 	}
-	if (!node->cmd->path)
+	if (!node->cmd->path && !node->files.in.exists)
 		ft_error(head, (t_error){.id = ERR_CMD, .node = node, .fds = fd});
 	close_all_fds(head, node, 0);
 	ft_execute(head, node);
@@ -90,8 +90,15 @@ void	process(t_head *head, t_btree *node)
 
 void	ft_execute(t_head *head, t_btree *node)
 {
-	if (is_strmatch(node->cmd->path, "built-in"))
-		call_builtin(head, node);
-	else if (execve(node->cmd->path, node->cmd->args, head->env.vars) == -1)
-		free_btree(head->root);
+	if (node->cmd->args)
+	{
+		if (is_strmatch(node->cmd->path, "built-in"))
+			call_builtin(head, node);
+		else if (execve(node->cmd->path, node->cmd->args, head->env.vars) == -1)
+			define_exit_code(errno, TRUE);
+	}
+	free_btree(head->root);
+	free_head(head);
+	exit(define_exit_code(0, FALSE));
+	
 }
