@@ -26,6 +26,7 @@ static int	variable(t_arg *arg, char *string, t_head *head)
 	int		var_size;
 	int		i;
 
+	arg->was_expanded = TRUE;
 	var_size = 1;
 	while (string[var_size] && is_var_char(string[var_size], var_size))
 		var_size++;
@@ -44,6 +45,16 @@ static int	variable(t_arg *arg, char *string, t_head *head)
 	while (variable[i])
 		arg->string[arg->pos++] = variable[i++];
 	return (free(name), free(variable), var_size);
+}
+
+static char	*get_string_verified(t_arg *arg)
+{
+	if (!(*arg->string) && arg->was_expanded)
+	{
+		free(arg->string);
+		return (NULL);
+	}
+	return (arg->string);
 }
 
 static char	*argument_verification(t_arg *arg, char *string, t_head *head)
@@ -88,5 +99,5 @@ char	*string_argument(t_head *head, char *string, t_arg arg)
 	arg.string[arg.pos - add_quote] = '\0';
 	if (arg.len && arg.to_expand)
 		*(arg.len) += i + add_quote;
-	return (arg.string);
+	return (get_string_verified(&arg));
 }
