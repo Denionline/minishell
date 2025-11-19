@@ -19,18 +19,16 @@ static void	handle_args(t_head *head, t_cmd *cmd, char *prompt, t_files *files)
 	while (prompt[i])
 	{
 		op = get_operator(prompt + i);
-		if (is_arrow_operator(op))
+		if (is_arrow_operator(op) && !head->to_stop)
 			i += handle_file(head, files, prompt + i, op);
 		else if (op || head->to_stop)
 			break ;
 		else if (!ft_isspace(prompt[i]) && (!i || ft_isspace(prompt[i - 1])))
+		{
 			update_args(cmd,
 				string_argument(head, prompt + i,
-					(t_arg){.len = &i, .to_expand = TRUE}
-				)
+					(t_arg){.len = &i, .to_expand = TRUE})
 			);
-		if (i > 0)
-		{
 			head->cmd_size += i;
 			prompt += i;
 			i = 0 - !op;
