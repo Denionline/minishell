@@ -28,7 +28,7 @@ static void	handle_error_info(t_head *head, t_error *error)
 			error->msg.argument = error->node->files.out.name;
 		else if (error->id == ERR_REDIR_IN)
 			error->msg.argument = error->node->files.in.name;
-		else
+		else if (error->node->cmd->args)
 			error->msg.argument = error->node->cmd->args[0];
 	}
 	error->msg.error_description = get_error_description(head, error);
