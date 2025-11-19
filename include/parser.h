@@ -20,6 +20,7 @@ typedef struct s_arg
 	int			pos;
 	int			i;
 	int			new_len;
+	int			was_expanded;
 	int			*len;
 	int			to_expand;
 }	t_arg;
@@ -63,7 +64,7 @@ int		ft_export(t_head *head, t_btree *node, char *string);
 char	**get_ascii_order(char **vars);
 int		ft_unset(t_cmd *cmd, t_env *env);
 
-int		is_valid_argument(char *arg, int op, int op_after);
+int		is_valid_argument(t_head *head, char *arg, int op, int op_after);
 int		is_directory(char *string);
 
 #endif

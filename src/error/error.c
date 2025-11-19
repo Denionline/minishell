@@ -17,11 +17,13 @@ static void	handle_error_info(t_head *head, t_error *error)
 		error->msg.argument = error->string;
 	else if (error->node)
 	{
-		if (error->id == ERR_CD || error->id == ERR_HOME_OLDPWD)
+		if (error->id == ERR_CD)
 		{
 			error->msg.where = error->node->cmd->args[0];
 			error->msg.argument = error->node->cmd->args[1];
 		}
+		else if (error->id == ERR_HOME_OLDPWD)
+			error->msg.where = error->node->cmd->args[0];
 		else if (error->id == ERR_REDIR_OUT)
 			error->msg.argument = error->node->files.out.name;
 		else if (error->id == ERR_REDIR_IN)

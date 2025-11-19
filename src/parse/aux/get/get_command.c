@@ -2,6 +2,8 @@
 
 static void	update_args(t_cmd *cmd, char *new_arg)
 {
+	if (!new_arg)
+		return ;
 	if (cmd->args_len && !(*new_arg))
 		return (free(new_arg));
 	cmd->args_len += 1;
@@ -17,9 +19,9 @@ static void	handle_args(t_head *head, t_cmd *cmd, char *prompt, t_files *files)
 	while (prompt[i])
 	{
 		op = get_operator(prompt + i);
-		if (is_arrow_operator(op))
+		if (is_arrow_operator(op) && !head->to_stop)
 			i += handle_file(head, files, prompt + i, op);
-		else if (op)
+		else if (op || head->to_stop)
 			break ;
 		else if (!ft_isspace(prompt[i]) && (!i || ft_isspace(prompt[i - 1])))
 		{
@@ -31,8 +33,6 @@ static void	handle_args(t_head *head, t_cmd *cmd, char *prompt, t_files *files)
 			prompt += i;
 			i = 0 - !op;
 		}
-		if (head->to_stop)
-			break ;
 		i += !op;
 	}
 }
