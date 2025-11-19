@@ -28,7 +28,6 @@ int	ft_args_error(t_head *head, t_btree *node)
 {
 	if (node->cmd->args[2])
 	{
-		ft_putendl_fd("exit", 2);
 		ft_error(head, (t_error){.id = ERR_TOO_MANY_ARGS, .node = node});
 		define_exit_code(1, TRUE);
 		return (1);
@@ -65,6 +64,7 @@ int	ft_exit(t_head *head, t_btree *node)
 	long long	exit_status;
 
 	exit_status = 0;
+	ft_putendl_fd("exit", 1);
 	if (node)
 	{
 		if (node->cmd->args[1])
@@ -80,7 +80,6 @@ int	ft_exit(t_head *head, t_btree *node)
 		close_all(head, node, NULL);
 		free_node(node);
 	}
-	ft_putendl_fd("exit", 1);
 	close(head->files.in.fd);
 	close(head->files.out.fd);
 	free_db_str(head->env.vars);

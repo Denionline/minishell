@@ -32,6 +32,7 @@ char	*cd_get_path(t_head *head, char *path)
 	{
 		free(path);
 		path = get_var_path("OLDPWD",  head->env.vars);
+		ft_putendl_fd(path, 1);
 	}
 	return (path);
 }
