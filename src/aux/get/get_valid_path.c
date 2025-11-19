@@ -6,7 +6,7 @@ static char	*is_path_already(char *command)
 		return (ft_strdup("dir"));
 	if ((command[0] == '/' || command[1] == '/') && !access(command, F_OK))
 		return (ft_strdup(command));
-	if (is_builtin(command))
+	if (get_builtin(command))
 		return (ft_strdup("built-in"));
 	return (NULL);
 }

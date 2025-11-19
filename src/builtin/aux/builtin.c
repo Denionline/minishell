@@ -1,22 +1,22 @@
 #include "minishell.h"
 
-int	is_builtin(char *command)
+int	get_builtin(char *command)
 {
 	if (is_strmatch(command, "exit"))
-		return (TRUE);
-	if (is_strmatch(command, "pwd"))
-		return (TRUE);
+		return (PARENT_BUILTIN);
 	if (is_strmatch(command, "cd"))
-		return (TRUE);
-	if (is_strmatch(command, "env"))
-		return (TRUE);
+		return (PARENT_BUILTIN);
 	if (is_strmatch(command, "export"))
-		return (TRUE);
+		return (PARENT_BUILTIN);
 	if (is_strmatch(command, "unset"))
-		return (TRUE);
+		return (PARENT_BUILTIN);
 	if (is_strmatch(command, "echo"))
-		return (TRUE);
-	return (FALSE);
+		return (CHILD_BUILTIN);
+	if (is_strmatch(command, "pwd"))
+		return (CHILD_BUILTIN);
+	if (is_strmatch(command, "env"))
+		return (CHILD_BUILTIN);
+	return (0);
 }
 
 void	call_builtin(t_head *head, t_btree *node)
@@ -49,13 +49,13 @@ int	is_parent_builtin(t_head *head, t_btree *node)
 	}
 	command = node->cmd->args[0];
 	if (is_strmatch(command, "exit") && head->n_cmds == 1)
-		ok = ft_exit(head, node);
+		ft_exit(head, node);
 	if (is_strmatch(command, "cd"))
-		ok = ft_cd(head, node);
+		ft_cd(head, node);
 	if (is_strmatch(command, "export"))
-		ok = ft_export(head, node, NULL);
+		ft_export(head, node, NULL);
 	if (is_strmatch(command, "unset"))
-		ok = ft_unset(node->cmd, &head->env);
+		ft_unset(node->cmd, &head->env);
 	head->is_parent = ok;
 	return (ok);
 }

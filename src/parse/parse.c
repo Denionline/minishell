@@ -14,20 +14,20 @@ static int	is_file_pending(t_head *head, t_files *files)
 
 static void	add_node_on_tree(t_head *head, int op, char *str, t_files *files)
 {
-	t_btree	*node_command;
+	t_btree	*node_cmd;
 	t_cmd	*cmd;
 
 	head->n_cmds += 1;
 	cmd = get_command(head, str, files);
-	if (!cmd)
-		return ;
-	node_command = btree_create(COMMAND, cmd, NULL, NULL);
-	if (op)
+	node_cmd = btree_create(COMMAND, cmd, NULL, NULL);
+	if (op && !is_arrow_operator(op))
 		btree_add_as_first(&head->root,
-			btree_create(op, NULL, NULL, node_command)
+			btree_create(op, NULL, NULL, node_cmd)
 		);
 	else
-		btree_add_as_first(&head->root, node_command);
+		btree_add_as_first(&head->root,
+			node_cmd
+		);
 }
 
 static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)

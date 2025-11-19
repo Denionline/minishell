@@ -47,7 +47,7 @@ void	child_process(t_head *head, t_btree *node, int *fd)
 		redirect(head, node, fd);
 	if (node->cmd->path && is_strmatch(node->cmd->path, "dir"))
 		ft_error(head, (t_error){.id = ERR_DIRECTORY, .node = node, .fds = fd});
-	if ((node->cmd->args[0][0] == '/' || node->cmd->args[0][1] == '/'))
+	if (node->cmd->args && (node->cmd->args[0][0] == '/' || node->cmd->args[0][1] == '/'))
 	{
 		if (access(node->cmd->args[0], F_OK))
 			ft_error(head, (t_error){.id = ERR_NOT_FOUND, .node = node, .fds = fd});
@@ -65,8 +65,8 @@ void	process(t_head *head, t_btree *node)
 	int		fd[2];
 	pid_t	pid;
 
-	if (head->n_cmds == 1 && is_parent_builtin(head, node) == 0)
-		return ;
+	if (head->n_cmds == 1 && get_builtin(node->cmd->args[0]) == PARENT_BUILTIN)
+		return (call_builtin(head, node));
 	if (head->n_cmds > 1 && head->index < (head->n_cmds -1))
 		head->pipe.flag = 1;
 	else

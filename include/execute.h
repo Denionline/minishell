@@ -4,6 +4,12 @@
 # include "minishell.h"
 # include <fcntl.h>
 
+enum builtin_types
+{
+	PARENT_BUILTIN,
+	CHILD_BUILTIN,
+};
+
 //process manager
 void	execute_manager(t_head *head);
 int		hierarchy_btree(t_head *head, t_btree *node);
@@ -32,7 +38,7 @@ void	free_db_str(char **db_str);
 void	close_fd(int *fd);
 
 //built-ins
-int		is_builtin(char *command);
+int		get_builtin(char *command);
 int		is_parent_builtin(t_head *head, t_btree *btree);
 void	call_builtin(t_head *head, t_btree *node);
 int		ft_pwd(void);
