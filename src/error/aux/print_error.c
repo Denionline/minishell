@@ -12,7 +12,10 @@ void	print_error(t_msg msg)
 	}
 	if (msg.argument)
 	{
-		ft_putstr_fd(msg.argument, 2);
+		if (!(*msg.argument))
+			ft_putstr_fd("''", 2);
+		else
+			ft_putstr_fd(msg.argument, 2);
 		ft_putstr_fd(": ", 2);
 	}
 	ft_putstr_fd(msg.error_description, 2);

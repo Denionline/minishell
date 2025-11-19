@@ -50,7 +50,10 @@ static int	variable(t_arg *arg, char *string, t_head *head)
 static char	*get_string_verified(t_arg *arg)
 {
 	if (!(*arg->string) && arg->was_expanded)
+	{
+		free(arg->string);
 		return (NULL);
+	}
 	return (arg->string);
 }
 
