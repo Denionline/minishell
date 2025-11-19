@@ -47,7 +47,7 @@ void	child_process(t_head *head, t_btree *node, int *fd)
 		redirect(head, node, fd);
 	if (node->cmd->path && is_strmatch(node->cmd->path, "dir"))
 		ft_error(head, (t_error){.id = ERR_DIRECTORY, .node = node, .fds = fd});
-	if ((node->cmd->args[0][0] == '/' || node->cmd->args[0][1] == '/'))
+	if (node->cmd->args && (node->cmd->args[0][0] == '/' || node->cmd->args[0][1] == '/'))
 	{
 		if (access(node->cmd->args[0], F_OK))
 			ft_error(head, (t_error){.id = ERR_NOT_FOUND, .node = node, .fds = fd});
