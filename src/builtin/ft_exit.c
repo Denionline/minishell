@@ -80,9 +80,12 @@ int	ft_exit(t_head *head, t_btree *node)
 		close_all(head, node, NULL);
 		free_node(node);
 	}
-	close(head->files.in.fd);
-	close(head->files.out.fd);
+	//close(head->files.in.fd);
+	//close(head->files.out.fd);
 	free_db_str(head->env.vars);
 	free(head);
+	close(0);
+	close(1);
+	close(2);
 	exit(define_exit_code(0, FALSE)); 
 }
