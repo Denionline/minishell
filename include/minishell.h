@@ -43,7 +43,7 @@
 
 enum identifiers
 {
-	COMMAND,
+	COMMAND = 1,
 	PIPE,
 	ARROW_LEFT,
 	DOUBLE_ARROW_LEFT,
