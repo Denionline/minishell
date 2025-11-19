@@ -18,7 +18,7 @@
 
 enum erro_identifier
 {
-	ERR_REDIR_IN,
+	ERR_REDIR_IN = 1,
 	ERR_REDIR_OUT,
 	ERR_CMD,
 	ERR_PER,
