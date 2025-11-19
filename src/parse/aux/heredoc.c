@@ -4,6 +4,7 @@ static void	get_lines(t_head *head, t_file *hdoc, char *eof)
 {
 	char	*line;
 
+	hdoc->is_there_heredoc = TRUE;
 	while (TRUE)
 	{
 		signal(SIGINT, ft_ctrl_c_heredoc);

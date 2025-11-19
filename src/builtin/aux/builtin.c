@@ -42,10 +42,14 @@ int	is_parent_builtin(t_head *head, t_btree *node)
 	int		ok;
 
 	ok = 1;
-	if (node->cmd->args == NULL)
+	if (!node->cmd->args)
 	{
-		head->is_parent = 0;
-		return (define_exit_code(0, TRUE));
+		if (!node->files.in.exists && !node->files.out.exists)
+		{
+			head->is_parent = 0;
+			return (define_exit_code(0, TRUE));
+		}
+		return (ok);
 	}
 	command = node->cmd->args[0];
 	if (is_strmatch(command, "exit") && head->n_cmds == 1)
