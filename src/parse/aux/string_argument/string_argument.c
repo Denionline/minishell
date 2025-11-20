@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 12:10:41 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 12:10:51 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/20 14:27:58 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	variable(t_arg *arg, char *string, t_head *head)
 	var_size = 1;
 	while (string[var_size] && is_var_char(string[var_size], var_size))
 		var_size++;
-	if (string[1] == '?' )
+	if (string[1] == '?' || ft_isdigit(string[1]))
 		var_size = 2;
 	name = ft_substr(string, 1, var_size - 1);
 	if (!name)
