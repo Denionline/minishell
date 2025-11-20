@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_manager.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:21:58 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 12:25:28 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:17:16 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
