@@ -1,4 +1,3 @@
-	
 # **************************************************************************** #
 #                                    Colors                                    #
 # **************************************************************************** #
@@ -33,7 +32,6 @@ BUILD_PATH		= .build/
 VPATH			+= ./
 VPATH			+= src/
 VPATH			+= src/aux
-VPATH			+= src/aux/env
 VPATH			+= src/aux/get
 VPATH			+= src/aux/btree
 VPATH			+= src/parse
@@ -41,8 +39,8 @@ VPATH			+= src/parse/aux
 VPATH			+= src/parse/aux/get
 VPATH			+= src/parse/aux/string_argument
 VPATH			+= src/parse/aux/string_argument/aux
-VPATH			+= src/verify
 VPATH			+= src/execute
+VPATH			+= src/execute/aux
 VPATH			+= src/signal
 VPATH			+= src/builtin
 VPATH			+= src/builtin/aux
@@ -61,8 +59,6 @@ FILES			+= main
 FILES			+= initializer
 FILES			+= minishell
 FILES			+= prompt_prefix
-FILES			+= print
-FILES			+= end
 FILES			+= signal_handler
 FILES			+= free_all
 FILES			+= new_shlvl
@@ -85,10 +81,9 @@ FILES			+= quotes
 FILES			+= get_realloc_args
 FILES			+= is_valid_argument
 FILES			+= is_quotes_valid
+FILES			+= is_str_alpha
 #binary_tree
 FILES			+= btree_create
-FILES			+= btree_add_last_left
-FILES			+= btree_add_last_right
 FILES			+= btree_add_as_first
 FILES			+= btree_set_file_last_cmd
 #execute
@@ -96,6 +91,7 @@ FILES			+= process_manager
 FILES			+= execute
 FILES			+= execute_utils
 FILES			+= builtin
+FILES			+= count_cmds
 #built-in
 FILES			+= ft_pwd
 FILES			+= ft_cd

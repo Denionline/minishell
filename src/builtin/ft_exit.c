@@ -1,22 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/20 11:42:35 by dximenes          #+#    #+#             */
+/*   Updated: 2025/11/20 12:18:14 by dximenes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int	is_str_alpha(char *string)
+static int	confirm_llong(char *number)
 {
-	int	i;
-
-	i = 0;
-	while (string[i])
-	{
-		if (ft_isalpha(string[i]) == 1)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-int	confirm_llong(char *number)
-{
-	if (!ft_strncmp(number, "9223372036854775807", 19) || 
-			!ft_strncmp(number, "+9223372036854775807", 20))
+	if (!ft_strncmp(number, "9223372036854775807", 19)
+		|| !ft_strncmp(number, "+9223372036854775807", 20))
 		return (TRUE);
 	else if (!ft_strncmp(number, "-9223372036854775808", 20))
 		return (TRUE);
@@ -24,17 +23,18 @@ int	confirm_llong(char *number)
 		return (FALSE);
 }
 
-int	ft_args_error(t_head *head, t_btree *node)
+static int	ft_args_error(t_head *head, t_btree *node)
 {
 	if (node->cmd->args[2])
 	{
-		ft_error(head, (t_error){.id = ERR_TOO_MANY_ARGS, .node = node});
+		ft_error(head, (t_error){.id = ERR_MAX_ARGS, .node = node});
 		define_exit_code(1, TRUE);
 		return (1);
 	}
 	return (0);
 }
-int	error_num_required(t_btree *node)
+
+static int	error_num_required(t_btree *node)
 {
 	ft_putstr_fd("minishell: exit: ", 2);
 	ft_putstr_fd(node->cmd->args[1], 2);
@@ -42,7 +42,7 @@ int	error_num_required(t_btree *node)
 	return (define_exit_code(2, TRUE));
 }
 
-int	ft_exit_number(t_btree *node)
+static int	ft_exit_number(t_btree *node)
 {
 	long long	n;
 
@@ -84,5 +84,5 @@ int	ft_exit(t_head *head, t_btree *node)
 	close(head->files.out.fd);
 	free_db_str(head->env.vars);
 	free(head);
-	exit(define_exit_code(0, FALSE)); 
+	exit(define_exit_code(0, FALSE));
 }

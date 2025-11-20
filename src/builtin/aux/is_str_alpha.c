@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   is_str_alpha.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/20 11:21:51 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 11:21:51 by dximenes         ###   ########.fr       */
+/*   Created: 2025/11/20 11:42:22 by dximenes          #+#    #+#             */
+/*   Updated: 2025/11/20 11:43:04 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	minishell(t_head *head)
+int	is_str_alpha(char *string)
 {
-	char	preprompt[9999];
-	char	*prompt;
+	int	i;
 
-	while (TRUE)
+	i = 0;
+	while (string[i])
 	{
-		signal_handler();
-		prompt_prefix(preprompt);
-		prompt = readline(preprompt);
-		if (!prompt)
-			ft_exit(head, NULL);
-		if (!(*prompt))
-			continue ;
-		add_history(prompt);
-		parse(head, prompt);
-		execute_manager(head);
+		if (ft_isalpha(string[i]) == 1)
+			return (TRUE);
+		i++;
 	}
-	return (0);
+	return (FALSE);
 }

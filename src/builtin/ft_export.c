@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/20 11:22:48 by dximenes          #+#    #+#             */
+/*   Updated: 2025/11/20 12:15:46 by dximenes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	change_or_set(char *variable, int lvar, char *value, t_env *env)
 {
-	int		pos;
+	int	pos;
 
 	pos = is_variable_exist(variable, env->vars);
 	if (pos >= 0)
@@ -15,11 +27,9 @@ static void	change_or_set(char *variable, int lvar, char *value, t_env *env)
 	}
 	else
 	{
-		env->vars = get_realloc_args(
-			env->vars,
-			++env->n_vars,
-			ft_strdup(value)
-		);
+		env->vars = get_realloc_args(env->vars, ++env->n_vars,
+				ft_strdup(value)
+				);
 	}
 	free(variable);
 }
@@ -33,16 +43,17 @@ static int	handle_variable(t_head *head, char *complete_var)
 		lvar++;
 	if ((complete_var[lvar] == '=' || complete_var[lvar] == '\0') && lvar > 0)
 		change_or_set(
-			ft_substr(complete_var, 0, lvar), lvar, complete_var, &head->env
-		);
+			ft_substr(complete_var, 0, lvar),
+			lvar,
+			complete_var,
+			&head->env
+			);
 	else
-		ft_error(head,
-			(t_error){
-				.id = ERR_EXPORT,
-				.string = complete_var,
-				.msg.where = "export"
-			}
-		);
+		ft_error(head, (t_error){
+			.id = ERR_EXPORT,
+			.string = complete_var,
+			.msg.where = "export"}
+			);
 	return (0);
 }
 
@@ -50,7 +61,7 @@ int	ft_export(t_head *head, t_btree *node, char *variable_to_change)
 {
 	int	n_args;
 	int	i;
-	
+
 	if (variable_to_change)
 		return (handle_variable(head, variable_to_change));
 	n_args = get_size_double_array(node->cmd->args);

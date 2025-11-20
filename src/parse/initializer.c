@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   initializer.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/20 11:20:25 by dximenes          #+#    #+#             */
+/*   Updated: 2025/11/20 11:21:57 by dximenes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	envp_size(char **envp)
@@ -33,7 +45,7 @@ void	initializer(t_head **head, int argc, char *argv[], char *envp[])
 	(void)argv;
 	(*head) = ft_calloc(1, sizeof(t_head));
 	if (!(*head))
-		end(*head, errno, "head");
+		ft_error(NULL, (t_error){.id = ERR_MALLOC});
 	ft_bzero(*head, sizeof(**head));
 	copy_envp(&(*head)->env, envp);
 	new_shlvl((*head)->env.vars);

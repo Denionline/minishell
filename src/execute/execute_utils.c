@@ -1,23 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/20 11:21:44 by dximenes          #+#    #+#             */
+/*   Updated: 2025/11/20 12:25:17 by dximenes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-
-int	count_cmds(t_btree *node, int j)
-{
-	static int	i;
-
-	if (!node)
-		return (0);
-	i = j;
-	if (node->identifier == COMMAND)
-		i += 1;
-	else if (node->identifier != COMMAND)
-	{
-		if (node->left)
-			count_cmds(node->left, i);
-		if (node->right)
-			count_cmds(node->right, i);
-	}
-	return (i);
-}
 
 void	reset_head(t_head *head)
 {
@@ -78,7 +71,7 @@ void	close_all(t_head *head, t_btree *node, int *fd)
 
 int	define_exit_code(int exit_status, int change)
 {
-	static int exit_code;
+	static int	exit_code;
 
 	if (change == TRUE)
 		exit_code = exit_status;

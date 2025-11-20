@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_command.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/20 10:32:45 by dximenes          #+#    #+#             */
+/*   Updated: 2025/11/20 12:27:41 by dximenes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	update_args(t_cmd *cmd, char *new_arg)
@@ -28,7 +40,7 @@ static void	handle_args(t_head *head, t_cmd *cmd, char *prompt, t_files *files)
 			update_args(cmd,
 				string_argument(head, prompt + i,
 					(t_arg){.len = &i, .to_expand = TRUE})
-			);
+				);
 			head->cmd_size += i;
 			prompt += i;
 			i = 0 - !op;

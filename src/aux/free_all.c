@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_all.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/20 11:22:04 by dximenes          #+#    #+#             */
+/*   Updated: 2025/11/20 11:22:05 by dximenes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	free_db_str(char **db_str)
@@ -15,7 +27,7 @@ void	free_db_str(char **db_str)
 
 void	free_node(t_btree *node)
 {
-	if (node->files.in.is_there_heredoc)
+	if (node->files.in.operator == DOUBLE_ARROW_LEFT)
 		unlink(node->files.in.name);
 	if (node->files.in.exists)
 		free(node->files.in.name);
