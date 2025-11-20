@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 12:11:17 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 12:28:05 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:17:52 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

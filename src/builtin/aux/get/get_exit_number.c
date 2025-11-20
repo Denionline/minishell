@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_exit_number.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:33:20 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 11:34:57 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:15:45 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
