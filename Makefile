@@ -187,5 +187,3 @@ get_libft:
 make_libft:
 	@$(MAKERE) -C $(LIBFT_PATH)
 
-#valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --trace-children=yes
-# -fsanitize=address,undefined -fno-omit-frame-pointer
