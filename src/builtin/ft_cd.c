@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:22:55 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 15:49:21 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/20 16:56:20 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	*cd_get_path(t_head *head, char *path)
 	else if (is_strmatch(path, "-"))
 	{
 		free(path);
-		path = get_var_path("OLDPWD",  head->env.vars);
+		path = get_var_path("OLDPWD", head->env.vars);
 		ft_putendl_fd(path, 1);
 	}
 	return (path);
