@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 12:10:14 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 12:10:14 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/20 15:45:18 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	get_operator(char *value)
 {
 	if (value[0] == '|')
 		return (PIPE);
+	if (value[0] == '&')
+		return (ANDPERCENT);
 	if (value[0] == '<' && value[1] == '<')
 		return (DOUBLE_ARROW_LEFT);
 	if (value[0] == '>' && value[1] == '>')

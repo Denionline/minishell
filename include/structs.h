@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:09:17 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 12:20:24 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/20 15:44:46 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ enum e_node_identifier
 {
 	COMMAND = 1,
 	PIPE,
+	ANDPERCENT,
 	ARROW_LEFT,
 	DOUBLE_ARROW_LEFT,
 	ARROW_RIGHT,
