@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 12:10:41 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 16:55:12 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:40:39 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@ static int	is_to_handle_variable(t_arg *arg, char *s, char **envp, int expand)
 		return (FALSE);
 	if (s[0] == '$' && arg->quotes.quote != '\'')
 	{
+		if (s[1] == '\"' || s[1] == '\'')
+		{
+			if (s[1] == '\"' && s[2] == '\"')
+				return (TRUE);
+			if (s[1] == '\'' && s[2] == '\'')
+				return (TRUE);
+			if (!s[2] || ft_isspace(s[2]))
+				return (FALSE);
+		}
 		if (s[1] == '?')
 			return (TRUE);
 		if (!s[1])
@@ -39,9 +48,7 @@ static int	variable(t_arg *arg, char *string, t_head *head)
 	int		i;
 
 	arg->was_expanded = TRUE;
-	var_size = 1;
-	while (string[var_size] && is_var_char(string[var_size], var_size))
-		var_size++;
+	var_size = get_variable_size(string);
 	if (string[1] == '?' || ft_isdigit(string[1]))
 		var_size = 2;
 	name = ft_substr(string, 1, var_size - 1);
