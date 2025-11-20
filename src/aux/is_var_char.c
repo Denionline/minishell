@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:22:10 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 19:34:49 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/20 21:36:26 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ int	get_variable_size(char *string)
 	int	len;
 
 	if (string[1] == '\"' && string[2] == '\"')
-		return (2);
+		return (3);
 	if (string[1] == '\'' && string[2] == '\'')
-		return (2);
+		return (3);
 	len = 1;
 	while (string[len] && is_var_char(string[len], len))
 		len++;
