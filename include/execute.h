@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 10:56:43 by clumertz          #+#    #+#             */
-/*   Updated: 2025/11/20 12:24:56 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:18:38 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	process(t_head *head, t_btree *node);
 void	ft_execute(t_head *head, t_btree *node);
 
 // execute_utils.c
-int		count_cmds(t_btree *node, int j);
 void	reset_head(t_head *head);
 void	close_all_fds(t_head *head, t_btree *node, int process);
 void	close_all(t_head *head, t_btree *node, int *fd);

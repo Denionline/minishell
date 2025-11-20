@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   count_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 12:22:32 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 12:22:45 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:16:59 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
