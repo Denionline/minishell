@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 10:32:16 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 11:22:06 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/20 18:00:40 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,18 @@ void	prompt_prefix(char buffer[9999])
 	int			pos;
 	int			i;
 
-	getcwd(cwd, sizeof(cwd));
 	pos = 0;
 	putstrbuff(BOLD LGREEN "minishell", buffer, &pos);
 	i = 0;
 	while (arrow[i])
 		buffer[pos++] = arrow[i++];
 	putstrbuff(YELLOW "(" LMAGENTA, buffer, &pos);
-	i = 0;
-	while (cwd[i])
-		buffer[pos++] = cwd[i++];
+	if (getcwd(cwd, sizeof(cwd)))
+	{
+		i = 0;
+		while (cwd[i])
+			buffer[pos++] = cwd[i++];
+	}
 	putstrbuff(YELLOW ") > " RESET, buffer, &pos);
 	buffer[pos] = '\0';
 }
