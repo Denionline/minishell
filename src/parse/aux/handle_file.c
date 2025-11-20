@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 12:12:17 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 12:27:03 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/20 20:57:50 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	handle_file(t_head *head, t_files *files, char *prompt, int op)
 	while (ft_isspace(prompt[pos]))
 		pos++;
 	string = string_argument(head, prompt + pos,
-			(t_arg){.len = &pos, .to_expand = FALSE});
+			(t_arg){.len = &pos, .to_expand = (op != DOUBLE_ARROW_LEFT)});
 	if (op == ARROW_LEFT)
 		return (pos + manage_file(&files->in, head, string, data));
 	if (op == DOUBLE_ARROW_LEFT)
