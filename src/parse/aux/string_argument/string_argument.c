@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 12:10:41 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 14:27:58 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/20 14:47:32 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ static int	is_to_handle_variable(t_arg *arg, char *s, char **envp, int expand)
 		if (s[1] == '?')
 			return (TRUE);
 		if (!s[1])
-			return (FALSE);
-		if (!is_var_char(s[1], 0))
 			return (FALSE);
 		return (TRUE);
 	}
