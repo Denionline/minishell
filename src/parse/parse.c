@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/20 10:32:40 by dximenes          #+#    #+#             */
+/*   Updated: 2025/11/20 12:25:56 by dximenes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -23,17 +34,17 @@ static void	add_node_on_tree(t_head *head, int op, char *str, t_files *files)
 	if (op && !is_arrow_operator(op))
 		btree_add_as_first(&head->root,
 			btree_create(op, NULL, NULL, node_cmd)
-		);
+			);
 	else
 		btree_add_as_first(&head->root,
 			node_cmd
-		);
+			);
 }
 
 static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 {
 	int	pos;
-	
+
 	pos = get_operator_size(op);
 	while (ft_isspace(prompt[pos]))
 		pos++;
@@ -98,3 +109,5 @@ void	parse(t_head *head, char *prompt)
 		i += (!head->cmd_size && !operator);
 	}
 }
+
+// "bana 'oi\"a'a  "

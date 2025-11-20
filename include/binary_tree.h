@@ -1,34 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   binary_tree.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/20 11:21:51 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 11:21:51 by dximenes         ###   ########.fr       */
+/*   Created: 2025/11/20 10:43:18 by dximenes          #+#    #+#             */
+/*   Updated: 2025/11/20 12:35:58 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef BINARY_TREE_H
+# define BINARY_TREE_H
 
-int	minishell(t_head *head)
-{
-	char	preprompt[9999];
-	char	*prompt;
+# include "minishell.h"
 
-	while (TRUE)
-	{
-		signal_handler();
-		prompt_prefix(preprompt);
-		prompt = readline(preprompt);
-		if (!prompt)
-			ft_exit(head, NULL);
-		if (!(*prompt))
-			continue ;
-		add_history(prompt);
-		parse(head, prompt);
-		execute_manager(head);
-	}
-	return (0);
-}
+t_btree	*btree_create(int id, t_cmd *cmd, t_btree *left, t_btree *right);
+void	btree_add_as_first(t_btree **root, t_btree *new_node);
+void	btree_set_file_last_cmd(t_btree **root, t_files **files);
+
+#endif

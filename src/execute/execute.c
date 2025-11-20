@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/20 11:22:01 by dximenes          #+#    #+#             */
+/*   Updated: 2025/11/20 12:21:48 by dximenes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	redirect(t_head *head, t_btree *node, int *fd)
@@ -6,17 +18,19 @@ void	redirect(t_head *head, t_btree *node, int *fd)
 	{
 		node->files.in.fd = open(node->files.in.name, node->files.in.flags);
 		if (node->files.in.fd == -1)
-			ft_error(head, (t_error){.id = ERR_REDIR_IN, .node = node, .fds = fd});
+			ft_error(head,
+				(t_error){.id = ERR_REDIR_IN, .node = node, .fds = fd});
 		dup2(node->files.in.fd, STDIN_FILENO);
 		close(node->files.in.fd);
 	}
 	if (node->files.out.exists)
 	{
 		node->files.out.fd = open(
-			node->files.out.name, node->files.out.flags, 0664
-		);
+				node->files.out.name, node->files.out.flags, 0664
+				);
 		if (node->files.out.fd == -1)
-			ft_error(head, (t_error){.id = ERR_REDIR_OUT, .node = node, .fds = fd});
+			ft_error(head,
+				(t_error){.id = ERR_REDIR_OUT, .node = node, .fds = fd});
 		dup2(node->files.out.fd, STDOUT_FILENO);
 		close(node->files.out.fd);
 	}
@@ -46,11 +60,13 @@ void	child_process(t_head *head, t_btree *node, int *fd)
 	if (node->files.in.exists || node->files.out.exists)
 		redirect(head, node, fd);
 	if (node->cmd->path && is_strmatch(node->cmd->path, "dir"))
-		ft_error(head, (t_error){.id = ERR_DIRECTORY, .node = node, .fds = fd});
-	if (node->cmd->args && (node->cmd->args[0][0] == '/' || node->cmd->args[0][1] == '/'))
+		ft_error(head, (t_error){.id = ERR_DIR, .node = node, .fds = fd});
+	if (node->cmd->args
+		&& (node->cmd->args[0][0] == '/' || node->cmd->args[0][1] == '/'))
 	{
 		if (access(node->cmd->args[0], F_OK))
-			ft_error(head, (t_error){.id = ERR_NOT_FOUND, .node = node, .fds = fd});
+			ft_error(head,
+				(t_error){.id = ERR_NOT_FOUND, .node = node, .fds = fd});
 		else if (access(node->cmd->args[0], X_OK))
 			ft_error(head, (t_error){.id = ERR_PER, .node = node, .fds = fd});
 	}
@@ -100,5 +116,4 @@ void	ft_execute(t_head *head, t_btree *node)
 	free_btree(head->root);
 	free_head(head);
 	exit(define_exit_code(0, FALSE));
-	
 }

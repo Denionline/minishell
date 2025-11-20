@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   is_quotes_valid.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/20 11:21:51 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 11:21:51 by dximenes         ###   ########.fr       */
+/*   Created: 2025/11/20 14:15:56 by dximenes          #+#    #+#             */
+/*   Updated: 2025/11/20 14:50:17 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	minishell(t_head *head)
+int	is_quotes_valid(char *s)
 {
-	char	preprompt[9999];
-	char	*prompt;
+	t_quotes	quotes;
+	int			i;
 
-	while (TRUE)
+	quotes = (t_quotes){};
+	i = 0;
+	while (s[i])
 	{
-		signal_handler();
-		prompt_prefix(preprompt);
-		prompt = readline(preprompt);
-		if (!prompt)
-			ft_exit(head, NULL);
-		if (!(*prompt))
-			continue ;
-		add_history(prompt);
-		parse(head, prompt);
-		execute_manager(head);
+		if (is_tohandle_backslash(s + i, quotes.quote))
+			i++;
+		else
+		{
+			if (s[i] == '\'' || s[i] == '\"')
+				verify_quotes(&quotes, s[i], FALSE);
+		}
+		i++;
 	}
-	return (0);
+	if ((quotes.s % 2) == 0 && (quotes.d % 2) == 0)
+		return (TRUE);
+	return (FALSE);
 }

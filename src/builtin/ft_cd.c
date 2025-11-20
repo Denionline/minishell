@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/20 11:22:55 by dximenes          #+#    #+#             */
+/*   Updated: 2025/11/20 16:56:20 by dximenes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void	set_old_and_pwd(t_head *head)
+static void	set_old_and_pwd(t_head *head)
 {
 	char	*pwd;
 	char	buffer[999];
@@ -24,14 +36,14 @@ void	set_old_and_pwd(t_head *head)
 	}
 }
 
-char	*cd_get_path(t_head *head, char *path)
+static char	*cd_get_path(t_head *head, char *path)
 {
 	if (!path)
 		path = get_var_path("HOME", head->env.vars);
 	else if (is_strmatch(path, "-"))
 	{
 		free(path);
-		path = get_var_path("OLDPWD",  head->env.vars);
+		path = get_var_path("OLDPWD", head->env.vars);
 		ft_putendl_fd(path, 1);
 	}
 	return (path);
@@ -46,7 +58,7 @@ int	ft_cd(t_head *head, t_btree *node)
 		path = ft_strdup(node->cmd->args[1]);
 	if (node->cmd->args[1] && node->cmd->args[2])
 	{
-		ft_error(head, (t_error){.id = ERR_TOO_MANY_ARGS, .node = node});
+		ft_error(head, (t_error){.id = ERR_MAX_ARGS, .node = node});
 		return (free(path), 0);
 	}
 	path = cd_get_path(head, path);

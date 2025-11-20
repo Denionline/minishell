@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   is_variable_exist.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/20 11:21:51 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 11:21:51 by dximenes         ###   ########.fr       */
+/*   Created: 2025/11/20 11:22:09 by dximenes          #+#    #+#             */
+/*   Updated: 2025/11/20 11:22:10 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	minishell(t_head *head)
+int	is_variable_exist(char *variable, char **vars)
 {
-	char	preprompt[9999];
-	char	*prompt;
+	const int	lvariable = ft_strlen(variable);
+	int			pos;
 
-	while (TRUE)
+	pos = -1;
+	while (vars[++pos])
 	{
-		signal_handler();
-		prompt_prefix(preprompt);
-		prompt = readline(preprompt);
-		if (!prompt)
-			ft_exit(head, NULL);
-		if (!(*prompt))
-			continue ;
-		add_history(prompt);
-		parse(head, prompt);
-		execute_manager(head);
+		if (!ft_strncmp(variable, vars[pos], lvariable))
+		{
+			if (vars[pos][lvariable] == '=' || vars[pos][lvariable] == '\0')
+				return (pos);
+		}
 	}
-	return (0);
+	return (-1);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   process_manager.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/20 11:21:58 by dximenes          #+#    #+#             */
+/*   Updated: 2025/11/20 12:25:28 by dximenes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	execute_manager(t_head *head)
@@ -45,7 +57,6 @@ int	wait_process(t_head *head)
 	int	exit_status;
 	int	i;
 
-	//signal_handler(head);
 	if (head->is_parent == 0)
 		return (define_exit_code(0, FALSE));
 	i = 0;

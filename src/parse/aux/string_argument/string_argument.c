@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   string_argument.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/20 12:10:41 by dximenes          #+#    #+#             */
+/*   Updated: 2025/11/20 16:55:12 by dximenes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	is_to_handle_variable(t_arg *arg, char *s, char **envp, int expand)
@@ -12,7 +24,7 @@ static int	is_to_handle_variable(t_arg *arg, char *s, char **envp, int expand)
 			return (TRUE);
 		if (!s[1])
 			return (FALSE);
-		if (!is_var_char(s[1], 0))
+		if (!is_var_char(s[1], 0) && !ft_isdigit(s[1]))
 			return (FALSE);
 		return (TRUE);
 	}
@@ -30,7 +42,7 @@ static int	variable(t_arg *arg, char *string, t_head *head)
 	var_size = 1;
 	while (string[var_size] && is_var_char(string[var_size], var_size))
 		var_size++;
-	if (string[1] == '?' )
+	if (string[1] == '?' || ft_isdigit(string[1]))
 		var_size = 2;
 	name = ft_substr(string, 1, var_size - 1);
 	if (!name)
@@ -61,9 +73,12 @@ static char	*argument_verification(t_arg *arg, char *string, t_head *head)
 {
 	if (is_tohandle_backslash(string, arg->quotes.quote))
 		string++;
-	if (*string == '\'' || *string == '\"')
-		if (verify_quotes(&arg->quotes, *string, !arg->len))
-			return (string);
+	else
+	{
+		if (*string == '\'' || *string == '\"')
+			if (verify_quotes(&arg->quotes, *string, !arg->len))
+				return (string);
+	}
 	if (is_quote_closed(&arg->quotes) && get_operator(string) && arg->len)
 		return (NULL);
 	if (is_quote_closed(&arg->quotes) && ft_isspace(*string) && arg->len)

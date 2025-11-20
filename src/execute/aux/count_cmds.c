@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   count_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/20 11:21:51 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 11:21:51 by dximenes         ###   ########.fr       */
+/*   Created: 2025/11/20 12:22:32 by dximenes          #+#    #+#             */
+/*   Updated: 2025/11/20 12:22:45 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	minishell(t_head *head)
+int	count_cmds(t_btree *node, int j)
 {
-	char	preprompt[9999];
-	char	*prompt;
+	static int	i;
 
-	while (TRUE)
+	if (!node)
+		return (0);
+	i = j;
+	if (node->identifier == COMMAND)
+		i += 1;
+	else if (node->identifier != COMMAND)
 	{
-		signal_handler();
-		prompt_prefix(preprompt);
-		prompt = readline(preprompt);
-		if (!prompt)
-			ft_exit(head, NULL);
-		if (!(*prompt))
-			continue ;
-		add_history(prompt);
-		parse(head, prompt);
-		execute_manager(head);
+		if (node->left)
+			count_cmds(node->left, i);
+		if (node->right)
+			count_cmds(node->right, i);
 	}
-	return (0);
+	return (i);
 }
