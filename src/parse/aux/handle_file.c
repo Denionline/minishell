@@ -6,16 +6,14 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 12:12:17 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 20:57:50 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/20 21:20:13 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	manage_file(t_file *file, t_head *head, char *string, t_file data)
+static void	manage_file(t_file *file, t_head *head, char *string, t_file data)
 {
-	int	complete_size;
-
 	if (data.exists)
 	{
 		if (file->name)
@@ -35,9 +33,7 @@ static int	manage_file(t_file *file, t_head *head, char *string, t_file data)
 			file->fd = -1;
 		}
 	}
-	complete_size = ft_strlen(string);
 	free(string);
-	return (complete_size);
 }
 
 static int	get_flags(int op)
@@ -84,12 +80,12 @@ int	handle_file(t_head *head, t_files *files, char *prompt, int op)
 	string = string_argument(head, prompt + pos,
 			(t_arg){.len = &pos, .to_expand = (op != DOUBLE_ARROW_LEFT)});
 	if (op == ARROW_LEFT)
-		return (pos + manage_file(&files->in, head, string, data));
+		manage_file(&files->in, head, string, data);
 	if (op == DOUBLE_ARROW_LEFT)
-		return (pos + manage_file(&files->in, head, string, data));
+		manage_file(&files->in, head, string, data);
 	if (op == ARROW_RIGHT)
-		return (pos + manage_file(&files->out, head, string, data));
+		manage_file(&files->out, head, string, data);
 	if (op == DOUBLE_ARROW_RIGHT)
-		return (pos + manage_file(&files->out, head, string, data));
+		manage_file(&files->out, head, string, data);
 	return (pos);
 }
