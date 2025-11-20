@@ -2,12 +2,10 @@
 
 static char	*verify_variables_to_get(t_head *head, t_error *error)
 {
+	if (error->id == ERR_REDIR_IN && access(error->msg.argument, F_OK) == -1)
+		return ("No such file or directory");
 	if (error->id == ERR_REDIR_IN || error->id == ERR_REDIR_OUT)
-	{
-		if (error->id == 0 && access(error->msg.argument, F_OK) == -1)
-			return ("No such file or directory");
 		return ("Permission denied");
-	}
 	if (error->id == ERR_CD)
 	{
 		if (access(error->msg.argument, F_OK) == -1)
@@ -16,7 +14,9 @@ static char	*verify_variables_to_get(t_head *head, t_error *error)
 	}
 	if (error->id == ERR_HOME_OLDPWD)
 	{
-		if (!error->msg.argument && is_variable_exist("HOME", head->env.vars) < 0)
+		if (!error->msg.argument && is_variable_exist(
+			"HOME", head->env.vars
+		) < 0)
 			return ("HOME not set");
 		if (is_variable_exist("OLDPWD", head->env.vars) < 0)
 			return ("OLDPWD not set");

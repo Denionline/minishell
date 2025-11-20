@@ -3,19 +3,6 @@
 
 # include "minishell.h"
 
-// 0	= ERR_REDIR_IN
-// 1	= ERR_REDIR_OUT
-// 2	= ERR_CMD
-// 10	= ERR_PER
-// 3	= ERR_CD
-// 4	= ERR_TOO_MANY_ARGS
-// 5	= ERR_SYNTAX_ERROR
-// 6	= ERR_QUOTES_ERROR
-// 126	= ERR_DIRECTORY
-// 7	= ERR_NOT_FOUND
-// 8	= ERR_HOME_OLDPWD
-// 15	= ERR_EXPORT
-
 enum erro_identifier
 {
 	ERR_REDIR_IN = 1,
