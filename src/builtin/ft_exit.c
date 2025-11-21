@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:42:35 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 19:15:22 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/11/21 14:24:16 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static int	ft_args_error(t_head *head, t_btree *node)
 	if (node->cmd->args[2])
 	{
 		ft_error(head, (t_error){.id = ERR_MAX_ARGS, .node = node});
-		define_exit_code(1, TRUE);
 		return (1);
 	}
 	return (0);
