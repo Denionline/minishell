@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:22:01 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 19:17:07 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/11/21 14:06:25 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,11 @@ void	ft_execute(t_head *head, t_btree *node)
 	{
 		if (is_strmatch(node->cmd->path, "built-in"))
 			call_builtin(head, node);
-		else if (execve(node->cmd->path, node->cmd->args, head->env.vars) == -1)
-			define_exit_code(errno, TRUE);
+		if (node->cmd->path)
+		{
+			if (execve(node->cmd->path, node->cmd->args, head->env.vars) == -1)
+				define_exit_code(errno, TRUE);
+		}
 	}
 	free_btree(head->root);
 	free_head(head);
