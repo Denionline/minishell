@@ -6,11 +6,28 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 12:09:57 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 12:09:57 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/21 17:51:24 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*get_random_name(void)
+{
+	char	string[20];
+	int		fd;
+
+	fd = open("/dev/urandom", O_RDONLY);
+	if (fd < 0)
+		return (NULL);
+	read(fd, string, 19);
+	close(fd);
+	string[0] = '.';
+	string[1] = '\'';
+	string[18] = '\'';
+	string[19] = '\0';
+	return (ft_strdup(string));
+}
 
 static void	get_lines(t_head *head, t_file *hdoc, char *eof)
 {
@@ -34,24 +51,20 @@ static void	get_lines(t_head *head, t_file *hdoc, char *eof)
 t_file	heredoc(t_head *head, char *eof)
 {
 	t_file	heredoc_file;
-	char	*idx;
 	int		save_stdin;
 
-	heredoc_file = (t_file){};
-	idx = ft_itoa(head->n_cmds);
-	heredoc_file.name = ft_strjoin(".heredoc_", idx);
-	free(idx);
-	heredoc_file.flags = O_CREAT | O_RDWR;
+	heredoc_file = (t_file){.flags = O_CREAT | O_RDWR};
+	heredoc_file.name = get_random_name();
 	heredoc_file.fd = open(heredoc_file.name, heredoc_file.flags, 0644);
 	if (heredoc_file.fd == -1)
 		return (free(heredoc_file.name), (t_file){.exists = FALSE});
 	save_stdin = dup(STDIN_FILENO);
+	define_exit_code(0, TRUE);
 	get_lines(head, &heredoc_file, eof);
+	signal_handler();
 	dup2(save_stdin, STDIN_FILENO);
 	close(save_stdin);
 	close(heredoc_file.fd);
-	heredoc_file.exists = TRUE;
-	heredoc_file.operator = DOUBLE_ARROW_LEFT;
 	if (define_exit_code(0, FALSE) == 130)
 	{
 		head->to_stop = TRUE;

@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 12:12:17 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 21:20:13 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/21 17:55:48 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,25 @@ static void	manage_file(t_file *file, t_head *head, char *string, t_file data)
 	if (data.exists)
 	{
 		if (file->name)
+		{
+			if (data.flags < 0)
+				unlink(file->name);
 			free(file->name);
+		}
 		if (data.flags < 0)
 			(*file) = heredoc(head, string);
 		else
 		{
 			file->name = ft_strdup(string);
 			file->flags = data.flags;
-			file->operator = data.operator;
-			file->exists = TRUE;
 			file->fd = open(string, data.flags, 0644);
-			file->access = file->fd;
-			if (file->fd != -1)
-				close(file->fd);
-			file->fd = -1;
 		}
+		file->exists = TRUE;
+		file->access = file->fd;
+		if (file->fd != -1)
+			close(file->fd);
+		file->fd = -1;
+		file->operator = data.operator;
 	}
 	free(string);
 }
