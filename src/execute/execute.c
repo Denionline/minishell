@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:22:01 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/21 14:06:25 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/21 14:38:36 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	child_process(t_head *head, t_btree *node, int *fd)
 		else if (access(node->cmd->args[0], X_OK))
 			ft_error(head, (t_error){.id = ERR_PER, .node = node, .fds = fd});
 	}
-	if (!node->cmd->path && !node->files.in.exists)
+	if (!node->cmd->path && !node->files.in.exists && !node->files.out.exists)
 		ft_error(head, (t_error){.id = ERR_CMD, .node = node, .fds = fd});
 	close_all_fds(head, node, 0);
 	ft_execute(head, node);
