@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:22:01 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/21 14:38:36 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/21 18:03:58 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,5 +118,5 @@ void	ft_execute(t_head *head, t_btree *node)
 	}
 	free_btree(head->root);
 	free_head(head);
-	exit(define_exit_code(0, FALSE));
+	exit(define_exit_code(0, TRUE));
 }
