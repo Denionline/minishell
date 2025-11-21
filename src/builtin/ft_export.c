@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:22:48 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/21 13:50:49 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/21 18:37:46 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,18 @@ static void	change_or_set(char *variable, int lvar, char *value, t_env *env)
 	pos = is_variable_exist(variable, env->vars);
 	if (pos >= 0)
 	{
+		temp = env->vars[pos];
 		if (value[lvar] == '=')
-		{
-			free(env->vars[pos]);
 			env->vars[pos] = ft_strdup(value);
-		}
 		else if (value[lvar] == '+' && value[lvar + 1] == '=')
-		{
-			temp = env->vars[pos];
 			env->vars[pos] = ft_strjoin(temp, value + lvar + 2);
-			free(temp);
-		}
 	}
 	else
 	{
-		env->vars = get_realloc_args(env->vars, ++env->n_vars,
-				ft_strdup(value)
-				);
+		temp = ft_strjoin(variable, value + lvar + (value[lvar] == '+'));
+		env->vars = get_realloc_args(env->vars, ++env->n_vars, ft_strdup(temp));
 	}
+	free(temp);
 	free(variable);
 }
 
