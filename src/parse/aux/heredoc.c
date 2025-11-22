@@ -6,26 +6,26 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 12:09:57 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/21 17:51:24 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/22 10:22:54 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*get_random_name(void)
+static char	*get_random_name(int size)
 {
-	char	string[20];
+	char	string[size];
 	int		fd;
 
 	fd = open("/dev/urandom", O_RDONLY);
 	if (fd < 0)
 		return (NULL);
-	read(fd, string, 19);
+	read(fd, string, size);
 	close(fd);
 	string[0] = '.';
 	string[1] = '\'';
-	string[18] = '\'';
-	string[19] = '\0';
+	string[size - 2] = '\'';
+	string[size - 1] = '\0';
 	return (ft_strdup(string));
 }
 
@@ -38,7 +38,7 @@ static void	get_lines(t_head *head, t_file *hdoc, char *eof)
 	{
 		signal(SIGINT, ft_ctrl_c_heredoc);
 		line = readline("> ");
-		if (!line || is_strmatch(line, eof))
+		if (!line || is_strmatch(line, eof) || (!(*line) && !(*eof)))
 			break ;
 		line = string_argument(head, line, (t_arg){.to_expand = TRUE});
 		ft_putstr_fd(line, hdoc->fd);
@@ -54,7 +54,7 @@ t_file	heredoc(t_head *head, char *eof)
 	int		save_stdin;
 
 	heredoc_file = (t_file){.flags = O_CREAT | O_RDWR};
-	heredoc_file.name = get_random_name();
+	heredoc_file.name = get_random_name(20);
 	heredoc_file.fd = open(heredoc_file.name, heredoc_file.flags, 0644);
 	if (heredoc_file.fd == -1)
 		return (free(heredoc_file.name), (t_file){.exists = FALSE});
@@ -68,6 +68,7 @@ t_file	heredoc(t_head *head, char *eof)
 	if (define_exit_code(0, FALSE) == 130)
 	{
 		head->to_stop = TRUE;
+		unlink(heredoc_file.name);
 		free(heredoc_file.name);
 	}
 	return (heredoc_file);
