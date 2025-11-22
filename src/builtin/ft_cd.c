@@ -6,7 +6,7 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:22:55 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 19:15:16 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/11/22 12:33:02 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ static char	*cd_get_path(t_head *head, char *path)
 	{
 		free(path);
 		path = get_var_path("OLDPWD", head->env.vars);
-		ft_putendl_fd(path, 1);
+		if (path)
+			ft_putendl_fd(path, 1);
 	}
 	return (path);
 }
