@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 12:09:57 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/22 12:50:29 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/22 13:03:40 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,12 @@ static char	*get_random_name(int size)
 	close(fd);
 	i = 0;
 	string[i++] = '.';
-	string[i++] = '\"';
 	while (i < size)
 	{
 		if (!ft_isprint(string[i]))
 			string[i] = 'o';
 		i += 1;
 	}
-	string[size - 2] = '\"';
 	string[size - 1] = '\0';
 	return (ft_strdup(string));
 }
