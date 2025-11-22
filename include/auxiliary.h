@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 10:41:44 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 11:34:34 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:26:26 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int		is_quotes_valid(char *s);
 int		is_variable_exist(char *variable, char **vars);
 int		is_directory(char *string);
 int		is_var_char(char c, int pos);
+int		get_variable_size(char *string);
 
 // get
 char	*get_valid_path(t_env *env, char *command);

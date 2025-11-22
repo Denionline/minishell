@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:22:48 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 12:15:46 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/21 18:37:46 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,36 @@
 
 static void	change_or_set(char *variable, int lvar, char *value, t_env *env)
 {
-	int	pos;
+	char	*temp;
+	int		pos;
 
 	pos = is_variable_exist(variable, env->vars);
 	if (pos >= 0)
 	{
+		temp = env->vars[pos];
 		if (value[lvar] == '=')
-		{
-			free(env->vars[pos]);
 			env->vars[pos] = ft_strdup(value);
-		}
+		else if (value[lvar] == '+' && value[lvar + 1] == '=')
+			env->vars[pos] = ft_strjoin(temp, value + lvar + 2);
 	}
 	else
 	{
-		env->vars = get_realloc_args(env->vars, ++env->n_vars,
-				ft_strdup(value)
-				);
+		temp = ft_strjoin(variable, value + lvar + (value[lvar] == '+'));
+		env->vars = get_realloc_args(env->vars, ++env->n_vars, ft_strdup(temp));
 	}
+	free(temp);
 	free(variable);
+}
+
+static int	is_char_valid_to_export(char c)
+{
+	if (c == '=')
+		return (TRUE);
+	if (c == '+')
+		return (TRUE);
+	if (c == '\0')
+		return (TRUE);
+	return (FALSE);
 }
 
 static int	handle_variable(t_head *head, char *complete_var)
@@ -41,7 +53,7 @@ static int	handle_variable(t_head *head, char *complete_var)
 	lvar = 0;
 	while (is_var_char(complete_var[lvar], lvar))
 		lvar++;
-	if ((complete_var[lvar] == '=' || complete_var[lvar] == '\0') && lvar > 0)
+	if (is_char_valid_to_export(complete_var[lvar]) && lvar > 0)
 		change_or_set(
 			ft_substr(complete_var, 0, lvar),
 			lvar,

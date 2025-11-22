@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:22:01 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 19:17:07 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/11/21 18:03:58 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	child_process(t_head *head, t_btree *node, int *fd)
 		else if (access(node->cmd->args[0], X_OK))
 			ft_error(head, (t_error){.id = ERR_PER, .node = node, .fds = fd});
 	}
-	if (!node->cmd->path && !node->files.in.exists)
+	if (!node->cmd->path && !node->files.in.exists && !node->files.out.exists)
 		ft_error(head, (t_error){.id = ERR_CMD, .node = node, .fds = fd});
 	close_all_fds(head, node, 0);
 	ft_execute(head, node);
@@ -110,10 +110,13 @@ void	ft_execute(t_head *head, t_btree *node)
 	{
 		if (is_strmatch(node->cmd->path, "built-in"))
 			call_builtin(head, node);
-		else if (execve(node->cmd->path, node->cmd->args, head->env.vars) == -1)
-			define_exit_code(errno, TRUE);
+		if (node->cmd->path)
+		{
+			if (execve(node->cmd->path, node->cmd->args, head->env.vars) == -1)
+				define_exit_code(errno, TRUE);
+		}
 	}
 	free_btree(head->root);
 	free_head(head);
-	exit(define_exit_code(0, FALSE));
+	exit(define_exit_code(0, TRUE));
 }
