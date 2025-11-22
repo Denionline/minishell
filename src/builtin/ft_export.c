@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:22:48 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/21 18:37:46 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/22 15:16:16 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,23 +54,29 @@ static int	handle_variable(t_head *head, char *complete_var)
 	while (is_var_char(complete_var[lvar], lvar))
 		lvar++;
 	if (is_char_valid_to_export(complete_var[lvar]) && lvar > 0)
+	{
 		change_or_set(
 			ft_substr(complete_var, 0, lvar),
 			lvar,
 			complete_var,
 			&head->env
 			);
+		return (0);
+	}
 	else
+	{
 		ft_error(head, (t_error){
 			.id = ERR_EXPORT,
 			.string = complete_var,
 			.msg.where = "export"}
 			);
-	return (0);
+		return (1);
+	}
 }
 
 int	ft_export(t_head *head, t_btree *node, char *variable_to_change)
 {
+	int	error;
 	int	n_args;
 	int	i;
 
@@ -79,8 +85,10 @@ int	ft_export(t_head *head, t_btree *node, char *variable_to_change)
 	n_args = get_size_double_array(node->cmd->args);
 	if (n_args == 1)
 		return (ft_env(get_ascii_order(head->env.vars), TRUE));
+	error = 0;
 	i = 0;
 	while (++i < n_args)
-		handle_variable(head, node->cmd->args[n_args - i]);
+		error += handle_variable(head, node->cmd->args[n_args - i]);
+	define_exit_code(error > 0, TRUE);
 	return (0);
 }

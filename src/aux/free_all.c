@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:22:04 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/22 14:27:33 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/22 15:28:00 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,9 @@ void	free_db_str(char **db_str)
 
 void	free_node(t_btree *node)
 {
-	if (node->files.in.operator == DOUBLE_ARROW_LEFT)
-	{
-		if (access(node->files.in.name, F_OK) > 0)
-			unlink(node->files.in.name);
-	}
+	if (node->files.in.operator == DOUBLE_ARROW_LEFT
+		&& define_exit_code(0, FALSE) != 130)
+		unlink(node->files.in.name);
 	if (node->files.in.exists)
 		free(node->files.in.name);
 	if (node->files.out.exists)
