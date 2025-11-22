@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 12:09:57 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/22 10:22:54 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/22 10:39:35 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	get_lines(t_head *head, t_file *hdoc, char *eof)
 	{
 		signal(SIGINT, ft_ctrl_c_heredoc);
 		line = readline("> ");
-		if (!line || is_strmatch(line, eof) || (!(*line) && !(*eof)))
+		if (!line || is_strmatch(line, eof))
 			break ;
 		line = string_argument(head, line, (t_arg){.to_expand = TRUE});
 		ft_putstr_fd(line, hdoc->fd);
