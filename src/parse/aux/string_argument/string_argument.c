@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 12:10:41 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 19:40:39 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/22 12:55:58 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ char	*string_argument(t_head *head, char *string, t_arg arg)
 	}
 	add_quote = (arg.pos > 0 && arg.string[arg.pos - 1] == arg.quotes.quote);
 	arg.string[arg.pos - add_quote] = '\0';
-	if (arg.len && arg.to_expand)
+	if (arg.len)
 		*(arg.len) += i + add_quote;
 	return (get_string_verified(&arg));
 }

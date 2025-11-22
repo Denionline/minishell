@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 10:32:45 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 18:33:09 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/22 12:50:57 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	handle_args(t_head *head, t_cmd *cmd, char *prompt, t_files *files)
 	while (prompt[i])
 	{
 		op = get_operator(prompt + i);
-		if (!is_valid_argument(head, prompt + i, op,
+		if (op && !is_valid_argument(head, prompt + i, op,
 				get_operator(prompt + i + get_operator_size(op))))
 			break ;
 		else if (is_arrow_operator(op) && !head->to_stop)

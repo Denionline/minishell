@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 10:32:40 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/20 12:25:56 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/22 12:48:29 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	handle_operator(t_head *head, char *prompt, int op, t_files *files)
 		return (-1);
 	}
 	if (is_arrow_operator(op))
-		return (handle_file(head, 0, prompt, op));
+		return (handle_file(head, NULL, prompt, op));
 	add_node_on_tree(head, op, prompt + pos, files);
 	if (is_file_pending(head, files))
 		btree_set_file_last_cmd(&head->root, &files);
@@ -109,5 +109,3 @@ void	parse(t_head *head, char *prompt)
 		i += (!head->cmd_size && !operator);
 	}
 }
-
-// "bana 'oi\"a'a  "

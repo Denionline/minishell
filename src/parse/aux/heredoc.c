@@ -6,7 +6,7 @@
 /*   By: dximenes <dximenes@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 12:09:57 by dximenes          #+#    #+#             */
-/*   Updated: 2025/11/22 10:39:35 by dximenes         ###   ########.fr       */
+/*   Updated: 2025/11/22 13:03:40 by dximenes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,21 @@ static char	*get_random_name(int size)
 {
 	char	string[size];
 	int		fd;
+	int		i;
 
 	fd = open("/dev/urandom", O_RDONLY);
 	if (fd < 0)
 		return (NULL);
 	read(fd, string, size);
 	close(fd);
-	string[0] = '.';
-	string[1] = '\'';
-	string[size - 2] = '\'';
+	i = 0;
+	string[i++] = '.';
+	while (i < size)
+	{
+		if (!ft_isprint(string[i]))
+			string[i] = 'o';
+		i += 1;
+	}
 	string[size - 1] = '\0';
 	return (ft_strdup(string));
 }
@@ -38,7 +44,7 @@ static void	get_lines(t_head *head, t_file *hdoc, char *eof)
 	{
 		signal(SIGINT, ft_ctrl_c_heredoc);
 		line = readline("> ");
-		if (!line || is_strmatch(line, eof))
+		if (!line || is_strmatch(line, eof) || (!(*eof) && !(*line)))
 			break ;
 		line = string_argument(head, line, (t_arg){.to_expand = TRUE});
 		ft_putstr_fd(line, hdoc->fd);
